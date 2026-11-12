@@ -1,96 +1,152 @@
 // js/script.js - PSGNexus AI Client Controller
 
-// 1. Get the HTML elements Laxman created (Update the IDs if Laxman named them differently)
-const chatInput = document.getElementById('chat-input');       // The text box where user types
-const sendButton = document.getElementById('send-btn');        // The send button
-const chatMessages = document.getElementById('chat-messages'); // The div showing the chat bubbles
-const chatForm = document.getElementById('chat-form');         // The chat form
-const fabBtn = document.getElementById('fab-btn');             // The floating launcher button
-const closeBtn = document.getElementById('close-btn');         // The close button
-const resetBtn = document.getElementById('reset-btn');         // The reset conversation button
-const chatWindow = document.getElementById('chat-window');     // The main chat window modal
+const chatInput = document.getElementById('chat-input');
+const sendButton = document.getElementById('send-btn');
+const chatMessages = document.getElementById('chat-messages');
+const chatForm = document.getElementById('chat-form');
+const fabBtn = document.getElementById('fab-btn');
+const closeBtn = document.getElementById('close-btn');
+const resetBtn = document.getElementById('reset-btn');
+const chatWindow = document.getElementById('chat-window');
 
-// 2. Function to add a message bubble to the chat UI
+// Welcome message content
+const WELCOME_MESSAGE = "Hello! I am **PSG Nexus**, your digital campus guide for PSG College of Technology. 👋\n\nHow can I help you today? You can ask about:\n* **Academic Programmes** (UG / PG)\n* **Admissions & Eligibility**\n* **Placements & Top Recruiters**\n* **Departments & Faculty**\n* **Campus Facilities & Events**";
+
+// Determine API endpoint dynamically
+function getApiEndpoints() {
+    const endpoints = [];
+    if (window.location.protocol.startsWith('http')) {
+        // If served from Express or another local server
+        endpoints.push(`${window.location.origin}/api/chat`);
+    }
+    // Default local server ports
+    endpoints.push('http://localhost:5000/api/chat');
+    endpoints.push('http://localhost:3000/api/chat');
+    return [...new Set(endpoints)];
+}
+
+// Convert markdown text to clean HTML
+function formatMarkdown(text) {
+    if (!text || typeof text !== 'string') return '';
+
+    // HTML escape first
+    let escaped = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+    // Markdown bold **text**
+    escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // Markdown links [text](url)
+    escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">$1</a>');
+
+    // Bullet lists: line starting with * or -
+    const lines = escaped.split('\n');
+    let inList = false;
+    const processedLines = [];
+
+    for (let line of lines) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+            if (!inList) {
+                inList = true;
+                processedLines.push('<ul style="margin: 6px 0; padding-left: 20px; list-style-type: disc;">');
+            }
+            processedLines.push(`<li style="margin: 3px 0;">${trimmed.substring(2)}</li>`);
+        } else {
+            if (inList) {
+                inList = false;
+                processedLines.push('</ul>');
+            }
+            processedLines.push(line);
+        }
+    }
+    if (inList) {
+        processedLines.push('</ul>');
+    }
+
+    return processedLines.join('<br>').replace(/<\/ul><br>/g, '</ul>').replace(/<br><ul/g, '<ul');
+}
+
+// Function to add a message bubble to the chat UI
 function appendMessage(text, sender) {
     if (!chatMessages) return;
     const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', sender); // 'user' or 'bot' class for styling
-    
-    // Render clean text or formatted markdown if coming from AI
-    if (typeof text === 'string' && (text.includes('**') || text.includes('\n'))) {
-        messageDiv.innerHTML = text
-            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\n/g, '<br>');
+    messageDiv.classList.add('message', sender);
+
+    if (sender === 'bot') {
+        messageDiv.innerHTML = formatMarkdown(text);
     } else {
         messageDiv.innerText = text;
     }
 
     chatMessages.appendChild(messageDiv);
-    
-    // Auto-scroll to the bottom
-    chatMessages.scrollTop = chatMessages.scrollHeight; 
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 3. The main function that talks to YOUR backend
+let isSending = false;
+
+// The main function that communicates with the backend
 async function handleSend() {
-    if (!chatInput) return;
+    if (!chatInput || isSending) return;
     const userText = chatInput.value.trim();
     if (!userText) return;
+
+    isSending = true;
+    if (sendButton) sendButton.disabled = true;
 
     // Show user message in UI and clear input
     appendMessage(userText, 'user');
     chatInput.value = '';
 
-    // Show a temporary "typing..." message
+    // Show a temporary "thinking..." bubble
     const typingMessage = document.createElement('div');
-    typingMessage.innerText = "PSG Nexus is thinking...";
+    typingMessage.innerHTML = '<em>PSG Nexus is thinking...</em>';
     typingMessage.classList.add('message', 'bot', 'typing');
     chatMessages.appendChild(typingMessage);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    try {
-        // Send the text to YOUR Node.js server!
-        // Automatically checks port 5000, and falls back to port 3000 if needed
-        let response;
+    const endpoints = getApiEndpoints();
+    let replyText = null;
+
+    for (const url of endpoints) {
         try {
-            response = await fetch('http://localhost:5000/api/chat', {
+            console.log(`📡 Connecting to: ${url}`);
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: userText }),
-                signal: AbortSignal.timeout(4000)
+                signal: AbortSignal.timeout(25000) // 25s timeout
             });
-        } catch (err5000) {
-            // Fallback to port 3000
-            response = await fetch('http://localhost:3000/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: userText }),
-                signal: AbortSignal.timeout(4000)
-            });
-        }
 
-        const data = await response.json();
-        
-        // Remove "typing..." and show the real AI response
-        if (typingMessage.parentNode) {
-            chatMessages.removeChild(typingMessage);
+            if (response.ok) {
+                const data = await response.json();
+                replyText = data.response || data.reply;
+                if (replyText) break;
+            }
+        } catch (err) {
+            console.warn(`Connection to ${url} failed:`, err.message);
         }
-        
-        // Supports both data.response and data.reply
-        const replyText = data.response || data.reply || "No response received from campus hub.";
-        appendMessage(replyText, 'bot');
-
-    } catch (error) {
-        console.error("Error:", error);
-        if (typingMessage.parentNode) {
-            chatMessages.removeChild(typingMessage);
-        }
-        appendMessage("Sorry, I'm having trouble connecting to the campus hub.", 'bot');
     }
+
+    // Remove typing bubble
+    if (typingMessage.parentNode) {
+        chatMessages.removeChild(typingMessage);
+    }
+
+    if (replyText) {
+        appendMessage(replyText, 'bot');
+    } else {
+        appendMessage("Sorry, I'm having trouble connecting to the campus hub server. Please ensure the backend server is running (`npm start`) on port 5000.", 'bot');
+    }
+
+    isSending = false;
+    if (sendButton) sendButton.disabled = false;
+    if (chatInput) chatInput.focus();
 }
 
-// 4. Listen for Clicks or Enter Key
+// Listen for Clicks or Enter Key
 if (sendButton) {
     sendButton.addEventListener('click', handleSend);
 }
@@ -111,7 +167,7 @@ if (chatForm) {
     });
 }
 
-// 5. Chat Window Open / Close Window Handlers
+// Chat Window Open / Close Window Handlers
 if (fabBtn && chatWindow) {
     fabBtn.addEventListener('click', function () {
         const isHidden = chatWindow.classList.contains('chat-hidden');
@@ -120,6 +176,12 @@ if (fabBtn && chatWindow) {
             chatWindow.classList.add('chat-visible');
             const dot = fabBtn.querySelector('.bg-red-500, span');
             if (dot) dot.style.display = 'none';
+
+            // Show initial welcome message if empty
+            if (chatMessages && chatMessages.children.length === 0) {
+                appendMessage(WELCOME_MESSAGE, 'bot');
+            }
+
             if (chatInput) setTimeout(() => chatInput.focus(), 300);
             if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
         } else {
@@ -139,11 +201,12 @@ if (closeBtn && chatWindow) {
 if (resetBtn && chatMessages) {
     resetBtn.addEventListener('click', function () {
         chatMessages.innerHTML = '';
-        appendMessage("Hi! I'm the PSGNexus AI. 👋\n\nI can help you with admissions, placements, syllabus, hostel rules, fees, and campus navigation. What do you need?", 'bot');
+        appendMessage(WELCOME_MESSAGE, 'bot');
+        if (chatInput) chatInput.focus();
     });
 }
 
-// 6. Support Clickable Quick Chips
+// Support Clickable Quick Chips
 document.addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('psg-quick-chip')) {
         const chipText = e.target.getAttribute('data-chip') || e.target.innerText;

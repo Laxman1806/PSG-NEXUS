@@ -2,38 +2,77 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static frontend files from workspace root
+app.use(express.static(__dirname));
+
 // Initialize Gemini API
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// We need two models: one for embeddings (searching) and one for generating text
-const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
-const chatModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const geminiApiKey = process.env.GEMINI_API_KEY;
+if (!geminiApiKey) {
+    console.error('❌ Missing GEMINI_API_KEY in environment variables!');
+}
+const genAI = new GoogleGenerativeAI(geminiApiKey);
 
-// Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ Connected to MongoDB Atlas'))
-    .catch(err => console.error('❌ MongoDB Connection Error:', err));
+// Models: gemini-embedding-001 for vector search, gemini-3.1-flash-lite for fast conversational responses
+const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
+const primaryChatModel = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
+const fallbackChatModel = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
-// Define the Schema exactly as Karthi created it in MongoDB
+// Helper to generate text with fallback
+async function generateWithFallback(prompt) {
+    try {
+        const result = await primaryChatModel.generateContent(prompt);
+        return result.response.text();
+    } catch (primaryErr) {
+        console.warn('⚠️ Primary model (gemini-3.1-flash-lite) error, trying fallback (gemini-3.5-flash):', primaryErr.message);
+        const result = await fallbackChatModel.generateContent(prompt);
+        return result.response.text();
+    }
+}
+
+// Connect to MongoDB Atlas (pointing explicitly to psg_chatbot database)
+const mongoUri = process.env.MONGO_URI || '';
+mongoose.connect(mongoUri, {
+    dbName: 'psg_chatbot',
+    serverSelectionTimeoutMS: 5000
+})
+.then(() => console.log('✅ Connected to MongoDB Atlas (database: psg_chatbot)'))
+.catch(err => console.error('❌ MongoDB Connection Error:', err.message));
+
+// Schema definition matching MongoDB Atlas collection: website_chunks
 const chunkSchema = new mongoose.Schema({
     chunkIndex: Number,
     content: String,
-    embedding: [Number], // The 768-element array
+    embedding: [Number], // 768-element vector
     title: String,
+    url: String,
     updatedAt: Date
-}, { collection: 'website_chunks' }); // Ensure it points to the exact collection name
+}, { collection: 'website_chunks' });
 
 const Chunk = mongoose.model('Chunk', chunkSchema);
 
-// The Chatbot Endpoint
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'online',
+        database: mongoose.connection.readyState === 1 ? 'connected' : 'connecting/disconnected',
+        models: {
+            embedding: 'gemini-embedding-001 (768d)',
+            chat: 'gemini-3.1-flash-lite'
+        }
+    });
+});
+
+// Chatbot Endpoint
 app.post('/api/chat', async (req, res) => {
     try {
-        const userQuery = req.body.message;
+        const userQuery = req.body.message ? req.body.message.trim() : '';
         if (!userQuery) {
             return res.status(400).json({ 
                 reply: "Please ask a question.",
@@ -43,76 +82,92 @@ app.post('/api/chat', async (req, res) => {
 
         console.log(`🗣️ User asked: "${userQuery}"`);
 
-        // 1. Convert the user's question into an embedding vector
-        const embeddingResult = await embeddingModel.embedContent(userQuery);
-        const queryVector = embeddingResult.embedding.values;
+        // Check if query is a simple greeting
+        const isGreeting = /^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening)|who\s*are\s*you|what\s*can\s*you\s*do)\b/i.test(userQuery);
 
-        // 2. Perform a Vector Search in MongoDB to find the most relevant chunks
-        // NOTE: For this to work, Karthi must have created a Vector Search Index on the 'embedding' field in Atlas.
-        const searchResults = await Chunk.aggregate([
-            {
-                "$vectorSearch": {
-                    "index": "vector_index", // Name of the index Karthi created in Atlas
-                    "path": "embedding",
-                    "queryVector": queryVector,
-                    "numCandidates": 10,
-                    "limit": 3 // Get the top 3 most relevant chunks
-                }
-            },
-            {
-                "$project": {
-                    "content": 1,
-                    "title": 1,
-                    "score": { "$meta": "vectorSearchScore" }
+        let contextText = "";
+        let searchResults = [];
+
+        try {
+            // 1. Convert user's query into an embedding vector matching the index's 768 dimensions
+            const embeddingResult = await embeddingModel.embedContent({
+                content: { parts: [{ text: userQuery }] },
+                outputDimensionality: 768
+            });
+            const queryVector = embeddingResult.embedding.values;
+
+            // 2. Perform Vector Search on MongoDB Atlas vector_index
+            if (mongoose.connection.readyState === 1) {
+                searchResults = await Chunk.aggregate([
+                    {
+                        "$vectorSearch": {
+                            "index": "vector_index",
+                            "path": "embedding",
+                            "queryVector": queryVector,
+                            "numCandidates": 10,
+                            "limit": 3
+                        }
+                    },
+                    {
+                        "$project": {
+                            "content": 1,
+                            "title": 1,
+                            "url": 1,
+                            "score": { "$meta": "vectorSearchScore" }
+                        }
+                    }
+                ]);
+
+                console.log(`🔍 Retrieved ${searchResults.length} vector search candidates (top score: ${searchResults[0]?.score?.toFixed(3) || 'none'})`);
+
+                if (searchResults.length > 0 && searchResults[0].score >= 0.65) {
+                    contextText = searchResults
+                        .filter(doc => doc.score >= 0.65)
+                        .map(doc => `[Source: ${doc.title || 'PSG Tech Info'}]\n${doc.content}`)
+                        .join('\n\n');
                 }
             }
-        ]);
-
-        // 3. Prepare the context for Gemini
-        let contextText = "";
-        let isContextFound = false;
-
-        // We only use chunks if the similarity score is decent
-        if (searchResults.length > 0 && searchResults[0].score > 0.6) {
-             isContextFound = true;
-             contextText = searchResults.map(doc => ` Information: ${doc.content}`).join('\n\n');
+        } catch (searchError) {
+            console.warn('⚠️ Vector search note:', searchError.message);
+            // Non-fatal: if vector search has issues, Gemini can still answer institutional questions
         }
 
-        // 4. Generate the final response using Gemini
-        if (!isContextFound) {
-            // If nothing matched well in the database, return the default fallback message
-            return res.json({ 
-                reply: "I am still learning and currently do not have information regarding that specific query about PSG Tech.",
-                response: "I am still learning and currently do not have information regarding that specific query about PSG Tech."
-            });
-        }
+        // 3. Formulate Prompt for Gemini
+        const systemPrompt = `You are PSG Nexus, the official intelligent AI campus assistant for PSG College of Technology, Coimbatore.
+You assist students, aspirants, parents, and visitors with accurate information about admissions, academic programmes, departments, campus life, and placements.
 
-        const systemPrompt = `
-        You are PSG Nexus, the official AI assistant for PSG College of Technology.
-        Answer the user's question using ONLY the context provided below.
-        Be polite, concise, and helpful. Do not make up information.
-        
-        Context:
-        ${contextText}
+Behavior Guidelines:
+- Tone: Professional, welcoming, encouraging, and clear.
+- Formatting: Use markdown (bold headings, bullet points) to make responses easy to read.
+- Greetings: If the user says hello or asks who you are, greet them warmly, introduce yourself as PSG Nexus, and highlight what you can assist with.
+- Answering queries: Prioritize the verified context provided below.
+- Accuracy: If information is not in the context or PSG Tech public domain, politely guide the user to official sources (https://www.psgtech.edu).
 
-        User Question: ${userQuery}
-        `;
+${contextText ? `=== VERIFIED PSG TECH KNOWLEDGE BASE CONTEXT ===\n${contextText}\n===============================================` : 'Note: Answer using verified general knowledge about PSG College of Technology, Coimbatore.'}
 
-        const chatResult = await chatModel.generateContent(systemPrompt);
-        const botReply = chatResult.response.text();
+User Question: ${userQuery}
+`;
 
-        res.json({ 
+        // 4. Generate AI response using Gemini
+        const botReply = await generateWithFallback(systemPrompt);
+
+        return res.json({ 
             reply: botReply,
             response: botReply
         });
 
     } catch (error) {
         console.error("❌ Error processing chat:", error);
-        res.status(500).json({ 
-            reply: "I'm sorry, I encountered an internal error while trying to find that information.",
-            response: "I'm sorry, I encountered an internal error while trying to find that information."
+        return res.status(500).json({ 
+            reply: "I apologize, but I encountered an error while retrieving that information. Please try asking again or visit https://www.psgtech.edu.",
+            response: "I apologize, but I encountered an error while retrieving that information. Please try asking again or visit https://www.psgtech.edu."
         });
     }
+});
+
+// Serve index.html for root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
