@@ -356,7 +356,57 @@
             border-color: #0066cc;
             transform: translateY(-1px);
         }
+
+        /* Message styling for js/script.js */
+        .message {
+            margin: 8px 0;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+            max-width: 82%;
+            word-break: break-word;
+            animation: messagePop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .message.user {
+            background: #ffffff;
+            color: #1e293b;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            font-weight: 500;
+        }
+
+        .message.bot {
+            background: linear-gradient(135deg, #06193b 0%, #0a2c66 100%);
+            color: #ffffff;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 4px 14px rgba(6, 25, 59, 0.18);
+            font-weight: 300;
+        }
+
+        .message.bot strong {
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .message.typing {
+            background: #f1f5f9;
+            color: #64748b;
+            font-style: italic;
+            border-radius: 14px;
+            font-size: 13px;
+            box-shadow: none;
+            border: 1px solid #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
     </style>
+
 </head>
 
 
@@ -2671,297 +2721,6 @@ _tg_homeslider.on("changed.owl.carousel", function (event) {
         <span class="absolute top-0 right-0 w-4 h-4 bg-red-500 border-2 border-white rounded-full shadow-sm" style="position: absolute; top: 1px; right: 1px; width: 14px; height: 14px; background: #ef4444; border: 2px solid white; border-radius: 50%;"></span>
     </button>
 
-    <!-- Chatbot Intelligent Logic Script -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var fabBtn = document.getElementById('fab-btn');
-        var closeBtn = document.getElementById('close-btn');
-        var resetBtn = document.getElementById('reset-btn');
-        var chatWindow = document.getElementById('chat-window');
-        var chatForm = document.getElementById('chat-form');
-        var chatInput = document.getElementById('chat-input');
-        var chatMessages = document.getElementById('chat-messages');
-        var typingIndicator = document.getElementById('typing-indicator');
-
-        var isChatOpen = false;
-
-        function toggleChat(forceOpen) {
-            if (typeof forceOpen === 'boolean') {
-                isChatOpen = forceOpen;
-            } else {
-                isChatOpen = !isChatOpen;
-            }
-
-            if (isChatOpen) {
-                chatWindow.classList.remove('chat-hidden');
-                chatWindow.classList.add('chat-visible');
-                var dot = fabBtn ? fabBtn.querySelector('.bg-red-500, span') : null;
-                if (dot) dot.style.display = 'none';
-                setTimeout(function () {
-                    if (chatInput) chatInput.focus();
-                }, 350);
-                scrollToBottom();
-            } else {
-                chatWindow.classList.remove('chat-visible');
-                chatWindow.classList.add('chat-hidden');
-            }
-        }
-
-        if (fabBtn) fabBtn.addEventListener('click', toggleChat);
-        if (closeBtn) closeBtn.addEventListener('click', function () { toggleChat(false); });
-        if (resetBtn) resetBtn.addEventListener('click', function () {
-            chatMessages.innerHTML = '';
-            renderWelcomeMessage();
-        });
-
-        function scrollToBottom() {
-            setTimeout(function () {
-                if (chatMessages) {
-                    chatMessages.scrollTo({
-                        top: chatMessages.scrollHeight,
-                        behavior: 'smooth'
-                    });
-                }
-            }, 50);
-        }
-
-        function setTyping(isTyping) {
-            if (!typingIndicator) return;
-            if (isTyping) {
-                typingIndicator.classList.remove('hidden');
-                scrollToBottom();
-            } else {
-                typingIndicator.classList.add('hidden');
-            }
-        }
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str.replace(/[&<>'"]/g, function (tag) {
-                return {
-                    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-                }[tag] || tag;
-            });
-        }
-
-        function formatMarkdown(text) {
-            if (!text) return '';
-            var formatted = escapeHTML(text);
-            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #93c5fd; font-weight: 600;">$1</strong>');
-            formatted = formatted.replace(/\n• /g, '<br>• ');
-            formatted = formatted.replace(/\n/g, '<br>');
-            return formatted;
-        }
-
-        function appendMessage(sender, text, chips) {
-            var messageDiv = document.createElement('div');
-            messageDiv.className = 'flex items-start gap-3 w-full animate-message-pop';
-
-            if (sender === 'user') {
-                messageDiv.classList.add('justify-end');
-                messageDiv.innerHTML = '<div class="bg-white text-slate-800 font-medium text-[14.5px] py-3.5 px-5 rounded-2xl rounded-tr-sm shadow-sm border border-slate-100 max-w-[80%] leading-relaxed break-words" style="box-shadow: 0 2px 8px rgba(0,0,0,0.06);">' +
-                    escapeHTML(text) +
-                    '</div>';
-            } else {
-                var chipsHtml = '';
-                if (chips && chips.length > 0) {
-                    chipsHtml = '<div style="margin-top: 10px;">' + chips.map(function (chip) {
-                        return '<button type="button" class="psg-quick-chip" data-chip="' + escapeHTML(chip) + '">' + escapeHTML(chip) + '</button>';
-                    }).join('') + '</div>';
-                }
-
-                messageDiv.innerHTML = '<div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex-shrink-0 mt-1 flex items-center justify-center p-1.5 shadow-sm" style="box-shadow: 0 2px 6px rgba(0,0,0,0.08);">' +
-                    '<svg viewBox="0 0 100 100" class="w-full h-full"><path d="M50 10 L85 25 V50 C85 75 50 90 50 90 C50 90 15 75 15 50 V25 Z" fill="none" stroke="#0a2c66" stroke-width="8"/><circle cx="50" cy="45" r="18" fill="#0066cc"/></svg>' +
-                    '</div>' +
-                    '<div class="bg-gradient-to-br from-psg-navy to-psg-blue text-white text-[14.5px] py-3.5 px-4 rounded-2xl rounded-tl-sm shadow-md max-w-[82%] leading-relaxed font-light break-words" style="box-shadow: 0 4px 14px rgba(6,25,59,0.18);">' +
-                    '<div>' + formatMarkdown(text) + '</div>' +
-                    chipsHtml +
-                    '</div>';
-
-                var chipButtons = messageDiv.querySelectorAll('.psg-quick-chip');
-                chipButtons.forEach(function (btn) {
-                    btn.addEventListener('click', function (e) {
-                        var query = e.currentTarget.getAttribute('data-chip');
-                        handleQuery(query);
-                    });
-                });
-            }
-
-            chatMessages.appendChild(messageDiv);
-            scrollToBottom();
-        }
-
-        function renderWelcomeMessage() {
-            var welcomeText = "Hi! I'm the **PSGNexus AI**. 👋\n\nI can help you with admissions, placements, syllabus, CAT marks, hostel rules, fees, and campus navigation. What would you like to know?";
-            var welcomeChips = [
-                "🎓 Admissions & Cutoffs",
-                "💼 Placements & Packages",
-                "📋 75% Attendance Rule",
-                "📊 CAT Marks Weightage",
-                "🏠 Hostel Timings",
-                "📖 Central Library",
-                "📄 Studzone Forms"
-            ];
-            appendMessage('bot', welcomeText, welcomeChips);
-        }
-
-        var campusKnowledge = [
-            {
-                keywords: ["placement", "highest package", "average package", "recruiters", "salary", "jobs", "companies", "recruitment", "lpa"],
-                answer: "🎓 **PSG Tech Placements Overview:**\n• Placement Rate: Over **90%** of eligible students placed annually across top multinational product & core firms.\n• Highest Package: **₹44+ LPA** (International & Product Tier).\n• Average Package: **₹8.5 - ₹12.5 LPA** across Computing, Electrical, and Mechanical streams.\n• Top Recruiters: Microsoft, Google, Amazon, Caterpillar, Bosch, Qualcomm, Goldman Sachs, Cisco, Zoho, TCS, and L&T.\n• Placement Cell: Located on the Ground Floor, D-Block. Email: placement@psgtech.ac.in.",
-                chips: ["Admissions & Cutoffs", "Programmes Offered", "Hostel Timings"]
-            },
-            {
-                keywords: ["attendance", "minimum attendance", "attendance percentage", "condonation", "shortage", "absent", "75%"],
-                answer: "📋 **Autonomous Attendance Regulations:**\n• Minimum Attendance: A student must secure a minimum of **75% attendance** in each course to be eligible to sit for the Autonomous End-Semester Examinations.\n• Condonation: Attendance between **65% and 74%** may be condoned on valid medical grounds with certificates approved by the HoD and Principal.\n• Below 65%: Students securing less than 65% are not permitted to write the end-sem exams and must repeat the course.",
-                chips: ["CAT Marks Weightage", "Grading & Arrears", "Central Library"]
-            },
-            {
-                keywords: ["cat", "ca marks", "continuous assessment", "internal marks", "internal evaluation", "cat test", "test"],
-                answer: "📊 **Continuous Assessment (CA) System:**\n• Weightage: **50 Marks** for Continuous Assessment (CA) and **50 Marks** for the Autonomous End-Semester Examination.\n• CAT Tests: Conducted 3 times per semester (CAT-1, CAT-2, CAT-3). Best 2 of 3 scores are considered.\n• Additional Components: Assignments, tutorials, mini-projects, and seminar presentations are included in the internal score.",
-                chips: ["75% Attendance Rule", "Grading & Arrears", "Syllabus Downloads"]
-            },
-            {
-                keywords: ["hostel", "hostel in time", "hostel timing", "in-time", "warden", "boys hostel", "girls hostel", "mess", "gate pass"],
-                answer: "🏠 **Hostel & Residential Life:**\n• In-Time: Strictly **8:30 PM** (biometric punching is mandatory at hostel turnstiles).\n• Digital Outing Pass: Weekend home travel or late entries require pre-approved digital passes via the Studzone portal.\n• Amenities: High-speed Wi-Fi, solar hot water, steam kitchens, indoor study halls, and laundry services.\n• Chief Warden Office: 0422-4344777 / 0422-4344444.",
-                chips: ["Central Canteen", "Campus Facilities", "Admissions & Cutoffs"]
-            },
-            {
-                keywords: ["admission", "cutoff", "eligibility", "tnea", "tancet", "gate", "mca admission", "b.tech admission", "apply", "intake"],
-                answer: "🏛️ **PSG Tech Admissions & Cutoffs:**\n• B.E. / B.Tech: Admissions are through **TNEA** (Anna University Single Window Counseling) based on 12th standard cutoffs.\n• MCA & MBA: Admissions through **TANCET** counseling conducted by Anna University.\n• M.Tech / M.E.: Admissions via **GATE** or **CEETA-PG** scores.\n• Lateral Entry: Direct 2nd-year B.E. admissions available for diploma holders.\n• Management & NRI Quotas: Applications are processed directly through the Principal's Office (principal@psgtech.edu).",
-                chips: ["Placements & Packages", "Tuition Fees", "Programmes Offered"]
-            },
-            {
-                keywords: ["library", "grd", "books", "library timing", "journals", "ieee", "digital library"],
-                answer: "📖 **Dr. G.R.D. Memorial Central Library:**\n• Collection: Over **2,50,000+ volumes** and 350+ printed national and international journals.\n• Digital Resources: Access to IEEE Xplore, ScienceDirect, ACM Digital Library, SpringerLink, and ASME.\n• Working Hours: Monday to Saturday: **8:00 AM – 10:00 PM** (Sundays: 9:00 AM – 5:00 PM).\n• Borrowing Limits: UG students can borrow up to 6 books; PG students up to 8 books for 14 days (renewable online).",
-                chips: ["75% Attendance Rule", "Campus Facilities", "Central Canteen"]
-            },
-            {
-                keywords: ["grade", "grading", "cgpa", "gpa", "arrear", "revaluation", "grade point"],
-                answer: "📈 **Autonomous Grading & Credit System:**\n• Grades: **O** (10 - Outstanding), **A+** (9 - Excellent), **A** (8 - Very Good), **B+** (7 - Good), **B** (6 - Average), **C** (5 - Satisfactory), **RA** (Re-Appearance / Arrear).\n• GPA Formula: Σ(Course Credits × Grade Points) / Σ(Course Credits).\n• Revaluation: Students can apply for photocopy of answer scripts and revaluation within 7 days of result publication via the COE portal.",
-                chips: ["CAT Marks Weightage", "75% Attendance Rule", "Studzone Forms"]
-            },
-            {
-                keywords: ["course", "programme", "branch", "department", "mca", "btech", "msc", "m.tech"],
-                answer: "🎓 **Programmes Offered at PSG Tech:**\n• Undergraduate: 16 B.E./B.Tech programmes including CSE, IT, AI & Data Science, Robotics, ECE, EEE, Mechanical, Production, and Biotechnology.\n• Postgraduate: MCA (2-Year Master of Computer Applications), MBA, and 17 M.Tech/M.E. specializations.\n• Integrated Programmes: 5-Year Integrated M.Sc in Cyber Security, Data Science, and Software Systems.",
-                chips: ["Admissions & Cutoffs", "Placements & Packages", "Tuition Fees"]
-            },
-            {
-                keywords: ["principal", "head", "prakasan", "who is the principal", "leadership", "trustee"],
-                answer: "🏛️ **Institutional Leadership:**\n• Principal: **Dr. K. Prakasan** is the Principal of PSG College of Technology.\n• Managing Trustee: **Shri L. Gopalakrishnan**, Managing Trustee of PSG & Sons' Charities Trust (established 1926).\n• Principal's Office: Administrative Block, First Floor (Phone: 0422-2572477 / Email: principal@psgtech.edu).",
-                chips: ["Contact & Address", "Admissions & Cutoffs", "Central Library"]
-            },
-            {
-                keywords: ["canteen", "cafeteria", "food", "mess", "coffee", "juice"],
-                answer: "☕ **Dining & Cafeteria Facilities:**\n• Central Canteen: Located near F-Block serving hygienic South Indian, North Indian vegetarian and non-vegetarian meals and snacks.\n• Timings: 7:30 AM to 7:00 PM on all working days.\n• Additional Spots: Campus Cafe, Fresh Fruit Juice Corner, and Coffee kiosks near the Library and Mechanical Block.",
-                chips: ["Hostel Timings", "Campus Facilities", "Central Library"]
-            },
-            {
-                keywords: ["club", "kriya", "fest", "symposium", "rotaract", "ieee club", "cultural"],
-                answer: "🎉 **Campus Life & Student Clubs:**\n• KRIYA: The landmark annual global techno-management festival organized by the Students Union of PSG Tech.\n• Technical Chapters: IEEE Student Branch, ACM Chapter, Computer Society of India (CSI), SAE Collegiate Club, and Robotics Club.\n• Cultural & Social Clubs: Rotaract Club, NSS, NCC (Air & Army Wings), Dramatics Club, Fine Arts Club, and Music Club.",
-                chips: ["Placements & Packages", "Central Library", "Programmes Offered"]
-            },
-            {
-                keywords: ["form", "bonafide", "certificate", "studzone", "leave", "hall ticket", "duplicate"],
-                answer: "📄 **Online Forms & Student Services:**\n• Studzone Portal: Students can access internal assessment marks, fee payment receipts, and semester timetables online.\n• Bonafide Certificate: Apply online for passport, education loan, or scholarship verification.\n• Hostel Gate Pass: Apply for weekend outing or home travel passes.\n• Office: Academic Section, Administrative Block (Ground Floor).",
-                chips: ["75% Attendance Rule", "CAT Marks Weightage", "Hostel Timings"]
-            },
-            {
-                keywords: ["contact", "address", "phone", "email", "reach", "location", "helpdesk"],
-                answer: "📍 **Contact PSG College of Technology:**\n• Address: Post Box No. 1611, Avinashi Road, Peelamedu, Coimbatore - 641004, Tamil Nadu, India.\n• Phone: 0422-2572177, 2572477, 4344777\n• Email: principal@psgtech.edu / academic@psgtech.ac.in\n• Transport: 5 km from Coimbatore International Airport; 7 km from Coimbatore Railway Junction.",
-                chips: ["Admissions & Cutoffs", "Placements & Packages", "Hostel Timings"]
-            },
-            {
-                keywords: ["fee", "fees", "scholarship", "tuition", "concession", "first graduate"],
-                answer: "💰 **Fees & Financial Assistance:**\n• Tuition Fees: Government-aided and self-supporting fee structures as regulated by the Tamil Nadu State Fee Fixation Committee.\n• Scholarships: Government BC/MBC/DNC and SC/ST welfare scholarships, First Graduate Tuition Fee Concession, and AICTE Pragati Scholarships for girls.\n• Institutional Aid: PSG & Sons' Charities Merit-cum-Means Scholarships and PSG Tech Alumni Association (Laudea) awards.",
-                chips: ["Admissions & Cutoffs", "Hostel Timings", "Studzone Forms"]
-            }
-        ];
-
-        function findBestAnswer(query) {
-            var q = query.toLowerCase();
-
-            if (q === 'hi' || q === 'hello' || q === 'hey' || q === 'hai' || q === 'start') {
-                return {
-                    answer: "Hello! Welcome to **PSG Nexus**, your official AI guide for PSG College of Technology. How can I help you today?",
-                    chips: ["Admissions & Cutoffs", "Placements & Packages", "75% Attendance Rule", "Hostel Timings", "Central Library"]
-                };
-            }
-
-            var bestMatch = null;
-            var highestScore = 0;
-
-            campusKnowledge.forEach(function (item) {
-                var score = 0;
-                item.keywords.forEach(function (kw) {
-                    if (q.indexOf(kw) !== -1) {
-                        score += kw.length;
-                    }
-                });
-                if (score > highestScore) {
-                    highestScore = score;
-                    bestMatch = item;
-                }
-            });
-
-            if (bestMatch && highestScore > 0) {
-                return bestMatch;
-            }
-
-            return {
-                answer: "I can help you with anything related to **PSG College of Technology**! You can ask about admissions, TNEA cutoffs, placement statistics, attendance rules, CAT marks, hostel in-times, library facilities, or certificates.",
-                chips: ["Admissions & Cutoffs", "Placements & Packages", "75% Attendance Rule", "Hostel Timings", "Central Library"]
-            };
-        }
-
-        async function handleQuery(text) {
-            var query = text.trim();
-            if (!query) return;
-
-            appendMessage('user', query);
-            if (chatInput) chatInput.value = '';
-
-            setTyping(true);
-
-            var responseFound = false;
-            try {
-                var apiRes = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: query, role: 'student' }),
-                    signal: AbortSignal.timeout(1200)
-                });
-                if (apiRes.ok) {
-                    var apiData = await apiRes.json();
-                    setTyping(false);
-                    appendMessage('bot', apiData.reply, apiData.suggestedQuestions);
-                    responseFound = true;
-                }
-            } catch (e) {
-                // Backend offline or opened as static file://
-            }
-
-            if (!responseFound) {
-                setTimeout(function () {
-                    setTyping(false);
-                    var result = findBestAnswer(query);
-                    appendMessage('bot', result.answer, result.chips);
-                }, 750);
-            }
-        }
-
-        if (chatForm) {
-            chatForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                var text = chatInput.value.trim();
-                if (text) {
-                    handleQuery(text);
-                }
-            });
-        }
-
-        renderWelcomeMessage();
-    });
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
