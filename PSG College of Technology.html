@@ -182,7 +182,183 @@
 }
 
 
-</style></head>
+</style>
+    <!-- =========================================================================
+         PSGNEXUS AI CHATBOT ASSETS (Integrated from samp.html)
+         ========================================================================= -->
+    <!-- Google Font: Outfit for PSGNexus AI -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS with preflight disabled to protect PSG Tech's Bootstrap 3 layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false
+            },
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        psg: {
+                            navy: '#06193b',    /* Deep PSG Tech Navy */
+                            blue: '#0a2c66',    /* Lighter Navy */
+                            accent: '#0066cc',  /* Bright Blue Accent */
+                            light: '#f1f5f9',   /* Soft background */
+                        }
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                        'message-pop': 'messagePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        messagePop: {
+                            '0%': { opacity: '0', transform: 'translateY(15px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth light-theme scrollbar */
+        .chat-scroll::-webkit-scrollbar { width: 5px; }
+        .chat-scroll::-webkit-scrollbar-track { background: transparent; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .chat-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Bouncy chat window opening */
+        #chat-window {
+            position: fixed !important;
+            bottom: 104px !important;
+            right: 24px !important;
+            width: 385px !important;
+            max-width: calc(100vw - 32px) !important;
+            height: 590px !important;
+            max-height: calc(100vh - 120px) !important;
+            z-index: 99999 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            border-radius: 28px !important;
+            overflow: hidden !important;
+            transform-origin: bottom right;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #fab-btn {
+            position: fixed !important;
+            bottom: 24px !important;
+            right: 24px !important;
+            width: 64px !important;
+            height: 64px !important;
+            border-radius: 50% !important;
+            overflow: hidden !important;
+            z-index: 99999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            border: 2px solid #ffffff !important;
+            outline: none !important;
+            background: linear-gradient(135deg, #06193b 0%, #0a2c66 100%) !important;
+            box-shadow: 0 8px 25px rgba(6, 25, 59, 0.3), 0 0 15px rgba(0, 102, 204, 0.35) !important;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        }
+
+        #fab-btn:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 12px 30px rgba(6, 25, 59, 0.45), 0 0 22px rgba(0, 102, 204, 0.55) !important;
+        }
+
+        #fab-btn:active {
+            transform: scale(0.95) !important;
+        }
+
+        .chat-hidden {
+            opacity: 0 !important;
+            transform: scale(0.8) translateY(40px) rotate(2deg) !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+        }
+
+        .chat-visible {
+            opacity: 1 !important;
+            transform: scale(1) translateY(0) rotate(0deg) !important;
+            pointer-events: auto !important;
+            visibility: visible !important;
+        }
+
+        /* Light Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 1);
+        }
+
+        /* Smooth Typing Dots */
+        .dot {
+            animation: bounce 1.3s linear infinite;
+            fill: #0a2c66;
+        }
+        .dot:nth-child(2) { animation-delay: -1.1s; }
+        .dot:nth-child(3) { animation-delay: -0.9s; }
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+
+        /* Scoped Chatbot Isolation so Bootstrap 3 styles don't conflict */
+        #chat-window, #chat-window *, #fab-btn, #fab-btn * {
+            font-family: 'Outfit', sans-serif !important;
+            box-sizing: border-box !important;
+        }
+
+        #chat-window button, #fab-btn {
+            border: none;
+            outline: none;
+        }
+
+        #chat-input:focus {
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15) !important;
+        }
+
+        #typing-indicator.hidden {
+            display: none !important;
+        }
+        #typing-indicator:not(.hidden) {
+            display: flex !important;
+        }
+
+        .psg-quick-chip {
+            display: inline-block;
+            background: #ffffff;
+            color: #0a2c66;
+            border: 1px solid #bfdbfe;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 4px 4px 2px 0;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(6, 25, 59, 0.05);
+            text-decoration: none !important;
+        }
+        .psg-quick-chip:hover {
+            background: #0066cc;
+            color: #ffffff;
+            border-color: #0066cc;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
 
 
 
@@ -2395,4 +2571,397 @@ _tg_homeslider.on("changed.owl.carousel", function (event) {
 });
 
 </script>
-</body></html>
+
+    <!-- =========================================================================
+         PSGNEXUS AI CHATBOT COMPONENT (Merged from samp.html)
+         ========================================================================= -->
+    <!-- Chatbot Window -->
+    <div id="chat-window" class="chat-hidden fixed bottom-28 right-8 w-[380px] h-[600px] max-w-[calc(100vw-4rem)] max-h-[calc(100vh-9rem)] z-50 flex flex-col rounded-[2rem] overflow-hidden glass-panel shadow-[0_20px_50px_-10px_rgba(6,25,59,0.15)]">
+        
+        <!-- Header (PSG Tech Navy) -->
+        <div class="relative p-5 flex items-center justify-between bg-gradient-to-r from-psg-navy to-psg-blue border-b border-psg-accent/20">
+            <div class="flex items-center gap-4">
+                <!-- Custom AI Logo in Header -->
+                <div class="w-11 h-11 rounded-full bg-white border-2 border-white/20 flex items-center justify-center shadow-md p-2">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <path d="M50 10 L85 25 V50 C85 75 50 90 50 90 C50 90 15 75 15 50 V25 Z" fill="none" stroke="#0a2c66" stroke-width="6"/>
+                        <circle cx="50" cy="45" r="14" fill="#0066cc"/>
+                        <circle cx="50" cy="72" r="5" fill="#0a2c66"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-lg flex items-center gap-2" style="margin: 0; line-height: 1.2;">
+                        Nexus AI
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400"></span>
+                        </span>
+                    </h3>
+                    <p class="text-xs text-blue-200 font-medium tracking-wide" style="margin: 2px 0 0 0;">Digital Campus Guide</p>
+                </div>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <button id="reset-btn" title="Restart Conversation" style="background: transparent; border: none; cursor: pointer; color: #bfdbfe; padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M8 16H3v5"/>
+                    </svg>
+                </button>
+                <button id="close-btn" title="Close Chat" class="text-blue-200 hover:text-white hover:bg-white/10 p-2.5 rounded-full transition-all duration-300 hover:rotate-90 focus:outline-none" style="background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-5 space-y-5 chat-scroll bg-gradient-to-b from-transparent to-slate-50">
+            <!-- Messages rendered dynamically -->
+        </div>
+
+        <!-- Typing Indicator (Hidden by default) -->
+        <div id="typing-indicator" class="hidden px-5 pb-4 flex items-center gap-3 animate-message-pop">
+             <div class="w-8 h-8 rounded-full flex-shrink-0"></div> <!-- Spacer -->
+             <div class="bg-white py-3 px-4 rounded-2xl rounded-tl-sm h-11 flex justify-center items-center gap-1.5 border border-slate-100 shadow-sm">
+                <svg width="24" height="12" viewBox="0 0 24 12">
+                    <circle cx="4" cy="6" r="3" class="dot" />
+                    <circle cx="12" cy="6" r="3" class="dot" />
+                    <circle cx="20" cy="6" r="3" class="dot" />
+                </svg>
+             </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100" style="background: rgba(255,255,255,0.92);">
+            <form id="chat-form" class="relative flex items-center group" style="margin: 0;">
+                <input type="text" id="chat-input" placeholder="Ask about PSG Tech (admissions, attendance, fees...)" autocomplete="off"
+                    class="w-full bg-slate-100 text-slate-800 placeholder-slate-400 text-[14.5px] rounded-full py-3.5 pl-5 pr-14 outline-none border border-transparent focus:border-psg-accent/40 focus:bg-white focus:ring-4 focus:ring-psg-accent/10 transition-all duration-300" style="width: 100%; border-radius: 9999px; padding: 12px 50px 12px 18px; border: 1px solid #e2e8f0; background: #f1f5f9; font-size: 14px;">
+                
+                <button type="submit" id="send-btn" class="absolute right-2 bg-psg-accent hover:bg-psg-blue text-white w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-all duration-300 hover:scale-105 active:scale-90 focus:outline-none" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: #0066cc; color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </form>
+            <div style="font-size: 11px; color: #94a3b8; text-align: center; margin-top: 6px; font-weight: 500;">
+                🔒 PSGNexus AI • Connected to Campus Knowledge Hub
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button (FAB) matching PSG Tech -->
+    <button id="fab-btn" title="Chat with PSGNexus AI" class="fixed bottom-8 right-8 w-16 h-16 rounded-full overflow-hidden shadow-[0_8px_25px_rgba(6,25,59,0.3)] animate-float hover:scale-110 active:scale-95 transition-all duration-300 z-50 bg-gradient-to-br from-psg-navy to-psg-blue flex items-center justify-center group focus:outline-none border-2 border-white">
+        
+        <!-- Custom SVG Logo: Academic Shield + AI -->
+        <svg viewBox="0 0 100 100" class="w-9 h-9 relative z-10 group-hover:scale-110 transition-transform duration-500">
+            <!-- Outer Shield (White) -->
+            <path d="M50 5 L90 25 V50 C90 75 50 95 50 95 C50 95 10 75 10 50 V25 Z" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+            <!-- Inner AI Core Structure (Light Blue) -->
+            <circle cx="50" cy="45" r="15" fill="#0066cc"/>
+            <circle cx="30" cy="30" r="4" fill="#ffffff"/>
+            <circle cx="70" cy="30" r="4" fill="#ffffff"/>
+            <circle cx="50" cy="75" r="5" fill="#ffffff"/>
+            <!-- Cybernetic connection lines -->
+            <line x1="50" y1="45" x2="30" y2="30" stroke="#ffffff" stroke-width="2"/>
+            <line x1="50" y1="45" x2="70" y2="30" stroke="#ffffff" stroke-width="2"/>
+            <line x1="50" y1="45" x2="50" y2="75" stroke="#ffffff" stroke-width="2"/>
+        </svg>
+        
+        <!-- Notification Dot -->
+        <span class="absolute top-0 right-0 w-4 h-4 bg-red-500 border-2 border-white rounded-full shadow-sm" style="position: absolute; top: 1px; right: 1px; width: 14px; height: 14px; background: #ef4444; border: 2px solid white; border-radius: 50%;"></span>
+    </button>
+
+    <!-- Chatbot Intelligent Logic Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var fabBtn = document.getElementById('fab-btn');
+        var closeBtn = document.getElementById('close-btn');
+        var resetBtn = document.getElementById('reset-btn');
+        var chatWindow = document.getElementById('chat-window');
+        var chatForm = document.getElementById('chat-form');
+        var chatInput = document.getElementById('chat-input');
+        var chatMessages = document.getElementById('chat-messages');
+        var typingIndicator = document.getElementById('typing-indicator');
+
+        var isChatOpen = false;
+
+        function toggleChat(forceOpen) {
+            if (typeof forceOpen === 'boolean') {
+                isChatOpen = forceOpen;
+            } else {
+                isChatOpen = !isChatOpen;
+            }
+
+            if (isChatOpen) {
+                chatWindow.classList.remove('chat-hidden');
+                chatWindow.classList.add('chat-visible');
+                var dot = fabBtn ? fabBtn.querySelector('.bg-red-500, span') : null;
+                if (dot) dot.style.display = 'none';
+                setTimeout(function () {
+                    if (chatInput) chatInput.focus();
+                }, 350);
+                scrollToBottom();
+            } else {
+                chatWindow.classList.remove('chat-visible');
+                chatWindow.classList.add('chat-hidden');
+            }
+        }
+
+        if (fabBtn) fabBtn.addEventListener('click', toggleChat);
+        if (closeBtn) closeBtn.addEventListener('click', function () { toggleChat(false); });
+        if (resetBtn) resetBtn.addEventListener('click', function () {
+            chatMessages.innerHTML = '';
+            renderWelcomeMessage();
+        });
+
+        function scrollToBottom() {
+            setTimeout(function () {
+                if (chatMessages) {
+                    chatMessages.scrollTo({
+                        top: chatMessages.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 50);
+        }
+
+        function setTyping(isTyping) {
+            if (!typingIndicator) return;
+            if (isTyping) {
+                typingIndicator.classList.remove('hidden');
+                scrollToBottom();
+            } else {
+                typingIndicator.classList.add('hidden');
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, function (tag) {
+                return {
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+                }[tag] || tag;
+            });
+        }
+
+        function formatMarkdown(text) {
+            if (!text) return '';
+            var formatted = escapeHTML(text);
+            formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #93c5fd; font-weight: 600;">$1</strong>');
+            formatted = formatted.replace(/\n• /g, '<br>• ');
+            formatted = formatted.replace(/\n/g, '<br>');
+            return formatted;
+        }
+
+        function appendMessage(sender, text, chips) {
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start gap-3 w-full animate-message-pop';
+
+            if (sender === 'user') {
+                messageDiv.classList.add('justify-end');
+                messageDiv.innerHTML = '<div class="bg-white text-slate-800 font-medium text-[14.5px] py-3.5 px-5 rounded-2xl rounded-tr-sm shadow-sm border border-slate-100 max-w-[80%] leading-relaxed break-words" style="box-shadow: 0 2px 8px rgba(0,0,0,0.06);">' +
+                    escapeHTML(text) +
+                    '</div>';
+            } else {
+                var chipsHtml = '';
+                if (chips && chips.length > 0) {
+                    chipsHtml = '<div style="margin-top: 10px;">' + chips.map(function (chip) {
+                        return '<button type="button" class="psg-quick-chip" data-chip="' + escapeHTML(chip) + '">' + escapeHTML(chip) + '</button>';
+                    }).join('') + '</div>';
+                }
+
+                messageDiv.innerHTML = '<div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex-shrink-0 mt-1 flex items-center justify-center p-1.5 shadow-sm" style="box-shadow: 0 2px 6px rgba(0,0,0,0.08);">' +
+                    '<svg viewBox="0 0 100 100" class="w-full h-full"><path d="M50 10 L85 25 V50 C85 75 50 90 50 90 C50 90 15 75 15 50 V25 Z" fill="none" stroke="#0a2c66" stroke-width="8"/><circle cx="50" cy="45" r="18" fill="#0066cc"/></svg>' +
+                    '</div>' +
+                    '<div class="bg-gradient-to-br from-psg-navy to-psg-blue text-white text-[14.5px] py-3.5 px-4 rounded-2xl rounded-tl-sm shadow-md max-w-[82%] leading-relaxed font-light break-words" style="box-shadow: 0 4px 14px rgba(6,25,59,0.18);">' +
+                    '<div>' + formatMarkdown(text) + '</div>' +
+                    chipsHtml +
+                    '</div>';
+
+                var chipButtons = messageDiv.querySelectorAll('.psg-quick-chip');
+                chipButtons.forEach(function (btn) {
+                    btn.addEventListener('click', function (e) {
+                        var query = e.currentTarget.getAttribute('data-chip');
+                        handleQuery(query);
+                    });
+                });
+            }
+
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function renderWelcomeMessage() {
+            var welcomeText = "Hi! I'm the **PSGNexus AI**. 👋\n\nI can help you with admissions, placements, syllabus, CAT marks, hostel rules, fees, and campus navigation. What would you like to know?";
+            var welcomeChips = [
+                "🎓 Admissions & Cutoffs",
+                "💼 Placements & Packages",
+                "📋 75% Attendance Rule",
+                "📊 CAT Marks Weightage",
+                "🏠 Hostel Timings",
+                "📖 Central Library",
+                "📄 Studzone Forms"
+            ];
+            appendMessage('bot', welcomeText, welcomeChips);
+        }
+
+        var campusKnowledge = [
+            {
+                keywords: ["placement", "highest package", "average package", "recruiters", "salary", "jobs", "companies", "recruitment", "lpa"],
+                answer: "🎓 **PSG Tech Placements Overview:**\n• Placement Rate: Over **90%** of eligible students placed annually across top multinational product & core firms.\n• Highest Package: **₹44+ LPA** (International & Product Tier).\n• Average Package: **₹8.5 - ₹12.5 LPA** across Computing, Electrical, and Mechanical streams.\n• Top Recruiters: Microsoft, Google, Amazon, Caterpillar, Bosch, Qualcomm, Goldman Sachs, Cisco, Zoho, TCS, and L&T.\n• Placement Cell: Located on the Ground Floor, D-Block. Email: placement@psgtech.ac.in.",
+                chips: ["Admissions & Cutoffs", "Programmes Offered", "Hostel Timings"]
+            },
+            {
+                keywords: ["attendance", "minimum attendance", "attendance percentage", "condonation", "shortage", "absent", "75%"],
+                answer: "📋 **Autonomous Attendance Regulations:**\n• Minimum Attendance: A student must secure a minimum of **75% attendance** in each course to be eligible to sit for the Autonomous End-Semester Examinations.\n• Condonation: Attendance between **65% and 74%** may be condoned on valid medical grounds with certificates approved by the HoD and Principal.\n• Below 65%: Students securing less than 65% are not permitted to write the end-sem exams and must repeat the course.",
+                chips: ["CAT Marks Weightage", "Grading & Arrears", "Central Library"]
+            },
+            {
+                keywords: ["cat", "ca marks", "continuous assessment", "internal marks", "internal evaluation", "cat test", "test"],
+                answer: "📊 **Continuous Assessment (CA) System:**\n• Weightage: **50 Marks** for Continuous Assessment (CA) and **50 Marks** for the Autonomous End-Semester Examination.\n• CAT Tests: Conducted 3 times per semester (CAT-1, CAT-2, CAT-3). Best 2 of 3 scores are considered.\n• Additional Components: Assignments, tutorials, mini-projects, and seminar presentations are included in the internal score.",
+                chips: ["75% Attendance Rule", "Grading & Arrears", "Syllabus Downloads"]
+            },
+            {
+                keywords: ["hostel", "hostel in time", "hostel timing", "in-time", "warden", "boys hostel", "girls hostel", "mess", "gate pass"],
+                answer: "🏠 **Hostel & Residential Life:**\n• In-Time: Strictly **8:30 PM** (biometric punching is mandatory at hostel turnstiles).\n• Digital Outing Pass: Weekend home travel or late entries require pre-approved digital passes via the Studzone portal.\n• Amenities: High-speed Wi-Fi, solar hot water, steam kitchens, indoor study halls, and laundry services.\n• Chief Warden Office: 0422-4344777 / 0422-4344444.",
+                chips: ["Central Canteen", "Campus Facilities", "Admissions & Cutoffs"]
+            },
+            {
+                keywords: ["admission", "cutoff", "eligibility", "tnea", "tancet", "gate", "mca admission", "b.tech admission", "apply", "intake"],
+                answer: "🏛️ **PSG Tech Admissions & Cutoffs:**\n• B.E. / B.Tech: Admissions are through **TNEA** (Anna University Single Window Counseling) based on 12th standard cutoffs.\n• MCA & MBA: Admissions through **TANCET** counseling conducted by Anna University.\n• M.Tech / M.E.: Admissions via **GATE** or **CEETA-PG** scores.\n• Lateral Entry: Direct 2nd-year B.E. admissions available for diploma holders.\n• Management & NRI Quotas: Applications are processed directly through the Principal's Office (principal@psgtech.edu).",
+                chips: ["Placements & Packages", "Tuition Fees", "Programmes Offered"]
+            },
+            {
+                keywords: ["library", "grd", "books", "library timing", "journals", "ieee", "digital library"],
+                answer: "📖 **Dr. G.R.D. Memorial Central Library:**\n• Collection: Over **2,50,000+ volumes** and 350+ printed national and international journals.\n• Digital Resources: Access to IEEE Xplore, ScienceDirect, ACM Digital Library, SpringerLink, and ASME.\n• Working Hours: Monday to Saturday: **8:00 AM – 10:00 PM** (Sundays: 9:00 AM – 5:00 PM).\n• Borrowing Limits: UG students can borrow up to 6 books; PG students up to 8 books for 14 days (renewable online).",
+                chips: ["75% Attendance Rule", "Campus Facilities", "Central Canteen"]
+            },
+            {
+                keywords: ["grade", "grading", "cgpa", "gpa", "arrear", "revaluation", "grade point"],
+                answer: "📈 **Autonomous Grading & Credit System:**\n• Grades: **O** (10 - Outstanding), **A+** (9 - Excellent), **A** (8 - Very Good), **B+** (7 - Good), **B** (6 - Average), **C** (5 - Satisfactory), **RA** (Re-Appearance / Arrear).\n• GPA Formula: Σ(Course Credits × Grade Points) / Σ(Course Credits).\n• Revaluation: Students can apply for photocopy of answer scripts and revaluation within 7 days of result publication via the COE portal.",
+                chips: ["CAT Marks Weightage", "75% Attendance Rule", "Studzone Forms"]
+            },
+            {
+                keywords: ["course", "programme", "branch", "department", "mca", "btech", "msc", "m.tech"],
+                answer: "🎓 **Programmes Offered at PSG Tech:**\n• Undergraduate: 16 B.E./B.Tech programmes including CSE, IT, AI & Data Science, Robotics, ECE, EEE, Mechanical, Production, and Biotechnology.\n• Postgraduate: MCA (2-Year Master of Computer Applications), MBA, and 17 M.Tech/M.E. specializations.\n• Integrated Programmes: 5-Year Integrated M.Sc in Cyber Security, Data Science, and Software Systems.",
+                chips: ["Admissions & Cutoffs", "Placements & Packages", "Tuition Fees"]
+            },
+            {
+                keywords: ["principal", "head", "prakasan", "who is the principal", "leadership", "trustee"],
+                answer: "🏛️ **Institutional Leadership:**\n• Principal: **Dr. K. Prakasan** is the Principal of PSG College of Technology.\n• Managing Trustee: **Shri L. Gopalakrishnan**, Managing Trustee of PSG & Sons' Charities Trust (established 1926).\n• Principal's Office: Administrative Block, First Floor (Phone: 0422-2572477 / Email: principal@psgtech.edu).",
+                chips: ["Contact & Address", "Admissions & Cutoffs", "Central Library"]
+            },
+            {
+                keywords: ["canteen", "cafeteria", "food", "mess", "coffee", "juice"],
+                answer: "☕ **Dining & Cafeteria Facilities:**\n• Central Canteen: Located near F-Block serving hygienic South Indian, North Indian vegetarian and non-vegetarian meals and snacks.\n• Timings: 7:30 AM to 7:00 PM on all working days.\n• Additional Spots: Campus Cafe, Fresh Fruit Juice Corner, and Coffee kiosks near the Library and Mechanical Block.",
+                chips: ["Hostel Timings", "Campus Facilities", "Central Library"]
+            },
+            {
+                keywords: ["club", "kriya", "fest", "symposium", "rotaract", "ieee club", "cultural"],
+                answer: "🎉 **Campus Life & Student Clubs:**\n• KRIYA: The landmark annual global techno-management festival organized by the Students Union of PSG Tech.\n• Technical Chapters: IEEE Student Branch, ACM Chapter, Computer Society of India (CSI), SAE Collegiate Club, and Robotics Club.\n• Cultural & Social Clubs: Rotaract Club, NSS, NCC (Air & Army Wings), Dramatics Club, Fine Arts Club, and Music Club.",
+                chips: ["Placements & Packages", "Central Library", "Programmes Offered"]
+            },
+            {
+                keywords: ["form", "bonafide", "certificate", "studzone", "leave", "hall ticket", "duplicate"],
+                answer: "📄 **Online Forms & Student Services:**\n• Studzone Portal: Students can access internal assessment marks, fee payment receipts, and semester timetables online.\n• Bonafide Certificate: Apply online for passport, education loan, or scholarship verification.\n• Hostel Gate Pass: Apply for weekend outing or home travel passes.\n• Office: Academic Section, Administrative Block (Ground Floor).",
+                chips: ["75% Attendance Rule", "CAT Marks Weightage", "Hostel Timings"]
+            },
+            {
+                keywords: ["contact", "address", "phone", "email", "reach", "location", "helpdesk"],
+                answer: "📍 **Contact PSG College of Technology:**\n• Address: Post Box No. 1611, Avinashi Road, Peelamedu, Coimbatore - 641004, Tamil Nadu, India.\n• Phone: 0422-2572177, 2572477, 4344777\n• Email: principal@psgtech.edu / academic@psgtech.ac.in\n• Transport: 5 km from Coimbatore International Airport; 7 km from Coimbatore Railway Junction.",
+                chips: ["Admissions & Cutoffs", "Placements & Packages", "Hostel Timings"]
+            },
+            {
+                keywords: ["fee", "fees", "scholarship", "tuition", "concession", "first graduate"],
+                answer: "💰 **Fees & Financial Assistance:**\n• Tuition Fees: Government-aided and self-supporting fee structures as regulated by the Tamil Nadu State Fee Fixation Committee.\n• Scholarships: Government BC/MBC/DNC and SC/ST welfare scholarships, First Graduate Tuition Fee Concession, and AICTE Pragati Scholarships for girls.\n• Institutional Aid: PSG & Sons' Charities Merit-cum-Means Scholarships and PSG Tech Alumni Association (Laudea) awards.",
+                chips: ["Admissions & Cutoffs", "Hostel Timings", "Studzone Forms"]
+            }
+        ];
+
+        function findBestAnswer(query) {
+            var q = query.toLowerCase();
+
+            if (q === 'hi' || q === 'hello' || q === 'hey' || q === 'hai' || q === 'start') {
+                return {
+                    answer: "Hello! Welcome to **PSG Nexus**, your official AI guide for PSG College of Technology. How can I help you today?",
+                    chips: ["Admissions & Cutoffs", "Placements & Packages", "75% Attendance Rule", "Hostel Timings", "Central Library"]
+                };
+            }
+
+            var bestMatch = null;
+            var highestScore = 0;
+
+            campusKnowledge.forEach(function (item) {
+                var score = 0;
+                item.keywords.forEach(function (kw) {
+                    if (q.indexOf(kw) !== -1) {
+                        score += kw.length;
+                    }
+                });
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestMatch = item;
+                }
+            });
+
+            if (bestMatch && highestScore > 0) {
+                return bestMatch;
+            }
+
+            return {
+                answer: "I can help you with anything related to **PSG College of Technology**! You can ask about admissions, TNEA cutoffs, placement statistics, attendance rules, CAT marks, hostel in-times, library facilities, or certificates.",
+                chips: ["Admissions & Cutoffs", "Placements & Packages", "75% Attendance Rule", "Hostel Timings", "Central Library"]
+            };
+        }
+
+        async function handleQuery(text) {
+            var query = text.trim();
+            if (!query) return;
+
+            appendMessage('user', query);
+            if (chatInput) chatInput.value = '';
+
+            setTyping(true);
+
+            var responseFound = false;
+            try {
+                var apiRes = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: query, role: 'student' }),
+                    signal: AbortSignal.timeout(1200)
+                });
+                if (apiRes.ok) {
+                    var apiData = await apiRes.json();
+                    setTyping(false);
+                    appendMessage('bot', apiData.reply, apiData.suggestedQuestions);
+                    responseFound = true;
+                }
+            } catch (e) {
+                // Backend offline or opened as static file://
+            }
+
+            if (!responseFound) {
+                setTimeout(function () {
+                    setTyping(false);
+                    var result = findBestAnswer(query);
+                    appendMessage('bot', result.answer, result.chips);
+                }, 750);
+            }
+        }
+
+        if (chatForm) {
+            chatForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var text = chatInput.value.trim();
+                if (text) {
+                    handleQuery(text);
+                }
+            });
+        }
+
+        renderWelcomeMessage();
+    });
+    </script>
+</body>
+</html>
