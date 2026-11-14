@@ -71,17 +71,27 @@ GEMINI_MODEL=gemini-3.1-flash-lite
 PORT=3000
 ```
 
-### 4. (Optional) Run Knowledge Ingestion
-If you want to re-crawl or re-embed the website pages:
-```bash
-npm run ingest
-```
+### 4. Database Management & Ingestion Workflow
 
-### 5. Start the Application
+* **Reset / Start with an Empty Database:**
+  ```bash
+  npm run clean:db
+  ```
+  *(Clears all documents in MongoDB `website_chunks` collection and resets the local cache)*
+
+* **Crawl & Ingest Website Data into MongoDB (On Demand):**
+  ```bash
+  npm run crawl
+  ```
+  *(Parses all replicated website HTML pages, generates 768-dimensional Gemini embeddings, and stores them in MongoDB)*
+
+### 5. Launch the Chatbot Application
 ```bash
 npm start
 ```
-Open your browser and navigate to:
+*(Only starts the Express server and chatbot user interface — no automatic crawling)*
+
+Open your browser to:
 ```
 http://localhost:3000
 ```

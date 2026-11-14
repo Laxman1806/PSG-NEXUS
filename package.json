@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "ingest": "node scripts/ingest-local-pages.js"
+    "crawl": "node scripts/ingest-local-pages.js",
+    "ingest": "node scripts/ingest-local-pages.js",
+    "clean:db": "node scripts/clean-database.js",
+    "reset:db": "node scripts/clean-database.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
