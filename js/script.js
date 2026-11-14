@@ -10,16 +10,14 @@ const resetBtn = document.getElementById('reset-btn');
 const chatWindow = document.getElementById('chat-window');
 
 // Welcome message content
-const WELCOME_MESSAGE = "Hello! I am **PSG Nexus**, your digital campus guide for PSG College of Technology. 👋\n\nHow can I help you today? You can ask about:\n* **Academic Programmes** (UG / PG)\n* **Admissions & Eligibility**\n* **Placements & Top Recruiters**\n* **Departments & Faculty**\n* **Campus Facilities & Events**";
+const WELCOME_MESSAGE = "Hello! I am **PSG Nexus**, your digital campus guide for PSG College of Technology. 👋\n\nHow can I help you today? You can ask about:\n* **Academic Programmes** (B.E., B.Tech, MCA, MBA, M.Sc)\n* **Admissions & Eligibility** (TNEA Code: 2006, TANCET, Lateral Entry)\n* **Placements & Top Recruiters** (Package highlights, companies)\n* **Hostels & Residential Rules** (timings, mess, warden)\n* **Academic Regulations** (75% minimum attendance rule)";
 
 // Determine API endpoint dynamically
 function getApiEndpoints() {
     const endpoints = [];
     if (window.location.protocol.startsWith('http')) {
-        // If served from Express or another local server
         endpoints.push(`${window.location.origin}/api/chat`);
     }
-    // Default local server ports
     endpoints.push('http://localhost:5000/api/chat');
     endpoints.push('http://localhost:3000/api/chat');
     return [...new Set(endpoints)];
@@ -29,7 +27,6 @@ function getApiEndpoints() {
 function formatMarkdown(text) {
     if (!text || typeof text !== 'string') return '';
 
-    // HTML escape first
     let escaped = text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -39,9 +36,9 @@ function formatMarkdown(text) {
     escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
     // Markdown links [text](url)
-    escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; text-decoration: underline;">$1</a>');
+    escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: underline;">$1</a>');
 
-    // Bullet lists: line starting with * or -
+    // Bullet lists: lines starting with * or -
     const lines = escaped.split('\n');
     let inList = false;
     const processedLines = [];
@@ -70,13 +67,38 @@ function formatMarkdown(text) {
 }
 
 // Function to add a message bubble to the chat UI
-function appendMessage(text, sender) {
+function appendMessage(text, sender, sources = []) {
     if (!chatMessages) return;
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', sender);
 
     if (sender === 'bot') {
-        messageDiv.innerHTML = formatMarkdown(text);
+        let contentHtml = formatMarkdown(text);
+
+        // Append clickable source badges if present
+        if (sources && sources.length > 0) {
+            const uniqueSources = [];
+            const seen = new Set();
+            for (const s of sources) {
+                const key = s.title || s.url;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    uniqueSources.push(s);
+                }
+            }
+
+            contentHtml += `
+                <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">
+                    <span style="font-weight: 600; color: #0066cc;">📍 Sources:</span>
+                    ${uniqueSources.map(s => {
+                        const targetUrl = s.url ? (s.url.startsWith('/') ? s.url.substring(1) : s.url) : '#';
+                        return `<a href="${targetUrl}" target="_blank" style="background: #f1f5f9; color: #0a2c66; padding: 2px 7px; border-radius: 4px; text-decoration: none; border: 1px solid #e2e8f0; font-weight: 500; font-size: 10.5px;">${s.title}</a>`;
+                    }).join(' ')}
+                </div>
+            `;
+        }
+
+        messageDiv.innerHTML = contentHtml;
     } else {
         messageDiv.innerText = text;
     }
@@ -100,15 +122,16 @@ async function handleSend() {
     appendMessage(userText, 'user');
     chatInput.value = '';
 
-    // Show a temporary "thinking..." bubble
+    // Show temporary "thinking..." bubble
     const typingMessage = document.createElement('div');
-    typingMessage.innerHTML = '<em>PSG Nexus is thinking...</em>';
+    typingMessage.innerHTML = '<em>PSG Nexus is consulting campus knowledge...</em>';
     typingMessage.classList.add('message', 'bot', 'typing');
     chatMessages.appendChild(typingMessage);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     const endpoints = getApiEndpoints();
     let replyText = null;
+    let replySources = [];
 
     for (const url of endpoints) {
         try {
@@ -117,12 +140,13 @@ async function handleSend() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: userText }),
-                signal: AbortSignal.timeout(25000) // 25s timeout
+                signal: AbortSignal.timeout(30000) // 30s timeout
             });
 
             if (response.ok) {
                 const data = await response.json();
                 replyText = data.response || data.reply;
+                replySources = data.sources || [];
                 if (replyText) break;
             }
         } catch (err) {
@@ -136,7 +160,7 @@ async function handleSend() {
     }
 
     if (replyText) {
-        appendMessage(replyText, 'bot');
+        appendMessage(replyText, 'bot', replySources);
     } else {
         appendMessage("Sorry, I'm having trouble connecting to the campus hub server. Please ensure the backend server is running (`npm start`) on port 5000.", 'bot');
     }

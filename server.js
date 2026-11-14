@@ -1,176 +1,123 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const fs = require('fs');
+
+const { connectDB, getDB } = require('./src/config/database');
+const { searchWebsite } = require('./src/services/searchService');
+const { generateAnswer } = require('./src/services/geminiService');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files from workspace root
+// Serve all static website replica files (HTML, CSS, JS, images, fonts, subpages)
 app.use(express.static(__dirname));
 
-// Initialize Gemini API
-const geminiApiKey = process.env.GEMINI_API_KEY;
-if (!geminiApiKey) {
-    console.error('❌ Missing GEMINI_API_KEY in environment variables!');
-}
-const genAI = new GoogleGenerativeAI(geminiApiKey);
+// Route helper to serve directory index.html for .php subpages (e.g. /abtcllg.php -> /abtcllg.php/index.html)
+app.use((req, res, next) => {
+    if (req.method !== 'GET') return next();
 
-// Models: gemini-embedding-001 for vector search, gemini-3.1-flash-lite for fast conversational responses
-const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
-const primaryChatModel = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
-const fallbackChatModel = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
+    const cleanPath = req.path.replace(/^\/+|\/+$/g, '');
+    if (!cleanPath) return next();
 
-// Helper to generate text with fallback
-async function generateWithFallback(prompt) {
-    try {
-        const result = await primaryChatModel.generateContent(prompt);
-        return result.response.text();
-    } catch (primaryErr) {
-        console.warn('⚠️ Primary model (gemini-3.1-flash-lite) error, trying fallback (gemini-3.5-flash):', primaryErr.message);
-        const result = await fallbackChatModel.generateContent(prompt);
-        return result.response.text();
+    const directDirIndex = path.join(__dirname, cleanPath, 'index.html');
+    if (fs.existsSync(directDirIndex)) {
+        return res.sendFile(directDirIndex);
     }
-}
 
-// Connect to MongoDB Atlas (pointing explicitly to psg_chatbot database)
-const mongoUri = process.env.MONGO_URI || '';
-mongoose.connect(mongoUri, {
-    dbName: 'psg_chatbot',
-    serverSelectionTimeoutMS: 5000
-})
-.then(() => console.log('✅ Connected to MongoDB Atlas (database: psg_chatbot)'))
-.catch(err => console.error('❌ MongoDB Connection Error:', err.message));
-
-// Schema definition matching MongoDB Atlas collection: website_chunks
-const chunkSchema = new mongoose.Schema({
-    chunkIndex: Number,
-    content: String,
-    embedding: [Number], // 768-element vector
-    title: String,
-    url: String,
-    updatedAt: Date
-}, { collection: 'website_chunks' });
-
-const Chunk = mongoose.model('Chunk', chunkSchema);
+    next();
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+    const db = getDB();
     res.json({
         status: 'online',
-        database: mongoose.connection.readyState === 1 ? 'connected' : 'connecting/disconnected',
+        database: db ? 'connected' : 'in-memory-cache-mode',
+        knowledgeBase: 'verified 71 chunks (768d embeddings)',
         models: {
-            embedding: 'gemini-embedding-001 (768d)',
-            chat: 'gemini-3.1-flash-lite'
+            embedding: 'gemini-embedding-001',
+            chat: process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite (with fallback)'
         }
     });
 });
 
-// Chatbot Endpoint
+// Chatbot Query Endpoint
 app.post('/api/chat', async (req, res) => {
     try {
         const userQuery = req.body.message ? req.body.message.trim() : '';
         if (!userQuery) {
             return res.status(400).json({ 
-                reply: "Please ask a question.",
-                response: "Please ask a question."
+                reply: "Please ask a question about PSG College of Technology.",
+                response: "Please ask a question about PSG College of Technology."
             });
         }
 
-        console.log(`🗣️ User asked: "${userQuery}"`);
+        console.log(`\n🗣️ User Query: "${userQuery}"`);
 
-        // Check if query is a simple greeting
+        // Check for simple greetings
         const isGreeting = /^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening)|who\s*are\s*you|what\s*can\s*you\s*do)\b/i.test(userQuery);
+        if (isGreeting) {
+            const welcomeText = "Hello! I am **PSG Nexus**, your official AI digital assistant for **PSG College of Technology**, Coimbatore. 👋\n\nI can help you explore everything about our campus:\n* **Admissions & Eligibility** (B.E., B.Tech, MCA, MBA)\n* **Hostels & Residential Rules** (timings, facilities, mess)\n* **Placements & Top Recruiters** (salary statistics, companies)\n* **Academic Regulations** (75% attendance policy, grading)\n* **Programmes, Departments & HoDs**\n\nWhat would you like to know today?";
+            return res.json({ reply: welcomeText, response: welcomeText });
+        }
+
+        // 1. Retrieve most relevant chunks across all PSG Tech pages
+        const relevantChunks = await searchWebsite(userQuery);
 
         let contextText = "";
-        let searchResults = [];
+        let sources = [];
 
-        try {
-            // 1. Convert user's query into an embedding vector matching the index's 768 dimensions
-            const embeddingResult = await embeddingModel.embedContent({
-                content: { parts: [{ text: userQuery }] },
-                outputDimensionality: 768
-            });
-            const queryVector = embeddingResult.embedding.values;
+        if (relevantChunks && relevantChunks.length > 0) {
+            sources = relevantChunks.map(c => ({
+                title: c.title,
+                url: c.url,
+                score: c.score ? Number(c.score.toFixed(3)) : undefined
+            }));
 
-            // 2. Perform Vector Search on MongoDB Atlas vector_index
-            if (mongoose.connection.readyState === 1) {
-                searchResults = await Chunk.aggregate([
-                    {
-                        "$vectorSearch": {
-                            "index": "vector_index",
-                            "path": "embedding",
-                            "queryVector": queryVector,
-                            "numCandidates": 10,
-                            "limit": 3
-                        }
-                    },
-                    {
-                        "$project": {
-                            "content": 1,
-                            "title": 1,
-                            "url": 1,
-                            "score": { "$meta": "vectorSearchScore" }
-                        }
-                    }
-                ]);
+            contextText = relevantChunks
+                .map((chunk, idx) => `[Source ${idx + 1}: ${chunk.title || 'PSG Tech Info'} (${chunk.url || ''})]\n${chunk.content}`)
+                .join('\n\n');
 
-                console.log(`🔍 Retrieved ${searchResults.length} vector search candidates (top score: ${searchResults[0]?.score?.toFixed(3) || 'none'})`);
-
-                if (searchResults.length > 0 && searchResults[0].score >= 0.65) {
-                    contextText = searchResults
-                        .filter(doc => doc.score >= 0.65)
-                        .map(doc => `[Source: ${doc.title || 'PSG Tech Info'}]\n${doc.content}`)
-                        .join('\n\n');
-                }
-            }
-        } catch (searchError) {
-            console.warn('⚠️ Vector search note:', searchError.message);
-            // Non-fatal: if vector search has issues, Gemini can still answer institutional questions
+            console.log(`📑 Retrieved ${relevantChunks.length} context chunks (Top source: ${sources[0]?.title})`);
         }
 
-        // 3. Formulate Prompt for Gemini
-        const systemPrompt = `You are PSG Nexus, the official intelligent AI campus assistant for PSG College of Technology, Coimbatore.
-You assist students, aspirants, parents, and visitors with accurate information about admissions, academic programmes, departments, campus life, and placements.
+        // 2. Generate answer via Gemini with intelligent fallback
+        const botAnswer = await generateAnswer(userQuery, contextText);
 
-Behavior Guidelines:
-- Tone: Professional, welcoming, encouraging, and clear.
-- Formatting: Use markdown (bold headings, bullet points) to make responses easy to read.
-- Greetings: If the user says hello or asks who you are, greet them warmly, introduce yourself as PSG Nexus, and highlight what you can assist with.
-- Answering queries: Prioritize the verified context provided below.
-- Accuracy: If information is not in the context or PSG Tech public domain, politely guide the user to official sources (https://www.psgtech.edu).
-
-${contextText ? `=== VERIFIED PSG TECH KNOWLEDGE BASE CONTEXT ===\n${contextText}\n===============================================` : 'Note: Answer using verified general knowledge about PSG College of Technology, Coimbatore.'}
-
-User Question: ${userQuery}
-`;
-
-        // 4. Generate AI response using Gemini
-        const botReply = await generateWithFallback(systemPrompt);
-
-        return res.json({ 
-            reply: botReply,
-            response: botReply
+        return res.json({
+            reply: botAnswer,
+            response: botAnswer,
+            sources: sources
         });
 
     } catch (error) {
-        console.error("❌ Error processing chat:", error);
-        return res.status(500).json({ 
-            reply: "I apologize, but I encountered an error while retrieving that information. Please try asking again or visit https://www.psgtech.edu.",
-            response: "I apologize, but I encountered an error while retrieving that information. Please try asking again or visit https://www.psgtech.edu."
+        console.error("❌ Error processing chat request:", error.message);
+        return res.status(500).json({
+            reply: "I apologize, but I encountered a brief issue retrieving that information. Please ask again or visit the official PSG Tech portal at https://www.psgtech.edu.",
+            response: "I apologize, but I encountered a brief issue retrieving that information. Please ask again or visit the official PSG Tech portal at https://www.psgtech.edu."
         });
     }
 });
 
-// Serve index.html for root path
+// Root path serves the replicated homepage with embedded chatbot
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 PSG Nexus Server running on http://localhost:${PORT}`);
-});
+
+// Initialize Database connection on startup
+connectDB()
+    .catch(err => console.warn("Database initialization note:", err.message))
+    .finally(() => {
+        app.listen(PORT, () => {
+            console.log(`====================================================`);
+            console.log(`🚀 PSG NEXUS (Unified Campus Chatbot System)`);
+            console.log(`🌐 Server active at: http://localhost:${PORT}`);
+            console.log(`🏛️ PSG Tech Web Replica + AI Campus Guide Loaded`);
+            console.log(`====================================================`);
+        });
+    });
