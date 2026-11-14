@@ -1,29 +1,25 @@
+// src/services/embeddingservice.js - Official SDK Vector Generator
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+let embeddingModel = null;
+
+function getEmbeddingModel() {
+    if (!embeddingModel) {
+        if (!process.env.GEMINI_API_KEY) {
+            throw new Error("Missing GEMINI_API_KEY in environment variables.");
+        }
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
+    }
+    return embeddingModel;
+}
 
 async function generateEmbedding(text) {
-    const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "x-goog-api-key": process.env.GEMINI_API_KEY
-            },
-            body: JSON.stringify({
-                model: "models/gemini-embedding-001",
-                content: {
-                    parts: [{ text }]
-                },
-                outputDimensionality: 768
-            })
-        }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok) {
-        throw new Error(JSON.stringify(result));
-    }
-
+    const model = getEmbeddingModel();
+    const result = await model.embedContent({
+        content: { parts: [{ text }] },
+        outputDimensionality: 768
+    });
     return result.embedding.values;
 }
 

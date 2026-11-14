@@ -1,53 +1,25 @@
-// src/services/geminiService.js - Gemini Text Generation with Model Fallback
+// src/services/geminiService.js - Official SDK Text Generation with Model Fallback
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const MODELS_PRIORITY = [
     process.env.GEMINI_MODEL || "gemini-3.1-flash-lite",
-    "gemini-3.8-flash",
-    "gemini-3.5-flash"
+    "gemini-3.5-flash",
+    "gemini-3.8-flash"
 ];
 
-async function callGeminiApi(modelName, prompt) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000); // 20s timeout
-
-    try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-goog-api-key": process.env.GEMINI_API_KEY
-                },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        temperature: 0.3,
-                        maxOutputTokens: 1024
-                    }
-                }),
-                signal: controller.signal
-            }
-        );
-
-        if (!response.ok) {
-            const errBody = await response.json().catch(() => ({}));
-            throw new Error(`[${response.status}] ${errBody.error?.message || response.statusText}`);
+let genAI = null;
+function getGenAI() {
+    if (!genAI) {
+        if (!process.env.GEMINI_API_KEY) {
+            throw new Error("GEMINI_API_KEY is missing from environment variables.");
         }
-
-        const data = await response.json();
-        const text = data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
-        if (!text) throw new Error("Gemini returned empty text candidate.");
-        return text;
-    } finally {
-        clearTimeout(timeout);
+        genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     }
+    return genAI;
 }
 
 async function generateAnswer(question, context = "") {
-    if (!process.env.GEMINI_API_KEY) {
-        throw new Error("GEMINI_API_KEY is missing from environment variables.");
-    }
+    const ai = getGenAI();
 
     const systemPrompt = `You are PSG Nexus, the official intelligent AI campus assistant for PSG College of Technology, Coimbatore.
 You assist students, parents, alumni, and visitors with accurate information about admissions, courses, hostels, placements, departments, campus life, and facilities.
@@ -68,8 +40,12 @@ User Question: ${question}
     for (const modelName of MODELS_PRIORITY) {
         try {
             console.log(`🤖 Querying Gemini with model: ${modelName}`);
-            const answer = await callGeminiApi(modelName, systemPrompt);
-            return answer;
+            const model = ai.getGenerativeModel({ model: modelName });
+            const result = await model.generateContent(systemPrompt);
+            const answer = result.response.text();
+            if (answer && answer.trim()) {
+                return answer.trim();
+            }
         } catch (err) {
             console.warn(`⚠️ Model ${modelName} failed (${err.message}), trying next model...`);
             lastError = err;
