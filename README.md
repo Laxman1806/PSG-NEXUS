@@ -1,16 +1,16 @@
 # 🏛️ PSG NEXUS — Intelligent AI Campus Chatbot for PSG College of Technology
 
-**PSG Nexus** is a unified, full-stack digital campus guide for [PSG College of Technology](https://www.psgtech.edu), Coimbatore. It combines an authentic offline multi-page replica of the official college website with a modern Retrieval-Augmented Generation (RAG) AI assistant powered by **Google Gemini** and **MongoDB Vector Search**.
+**PSG Nexus** is a unified, full-stack digital campus guide for [PSG College of Technology](https://www.psgtech.edu), Coimbatore. It combines an authentic offline multi-page replica of the official college website with a modern Retrieval-Augmented Generation (RAG) AI assistant powered by **Google Gemini** and **MongoDB Atlas Vector Search**.
 
 ---
 
 ## 👥 Team Details (Team 1)
 
-| Roll No. | Student Name | Role & Module |
+| Roll No. | Student Name | Role & Architecture Module |
 | :--- | :--- | :--- |
-| **26MX209** | **Laxman B** | Website Replication & Frontend UI Design (`www.psgtech.edu`) |
-| **26MX110** | **Karthikeyan S** | Database & Vector Ingestion Pipeline (`psgmaster` / RAG Embeddings) |
-| **26MX115** | **Mohamed Abdul Basith A A** | Backend Architecture, API Integration & Official Git Core (`psgnexus`) |
+| **26MX209** | **Laxman B** | **Frontend UI:** Website Replication & Chatbot Interface (`frontend/`) |
+| **26MX115** | **Mohamed Abdul Basith A A** | **Backend Architecture:** Express Server, Routes & Gemini AI (`backend/`) |
+| **26MX110** | **Karthikeyan S** | **Database & RAG:** MongoDB Atlas, Vector Embeddings & Search (`db/`) |
 
 **Faculty Guide:** Mrs. Gowri Thangam J  
 **Academic Program:** MCA (Master of Computer Applications), 1st Semester  
@@ -18,123 +18,121 @@
 
 ---
 
+## 📁 Clean 3-Tier Project Architecture
+
+The project is structured into three clean, self-contained layers so anyone can immediately understand the codebase:
+
+```text
+PSG-NEXUS/
+│
+├── frontend/                     # 🌐 PRESENTATION LAYER (Laxman B)
+│   ├── index.html                # PSG Tech portal with embedded PSG Nexus AI
+│   ├── about.html                # About PSG Tech subpage
+│   ├── programmes.html           # Academic programmes subpage
+│   ├── faculty.html              # Faculty directory subpage
+│   ├── placements.html           # Placement overview subpage
+│   ├── css/
+│   │   ├── chatbot.css           # Isolated styles for floating chat & animations
+│   │   └── ...                   # Replicated site stylesheets (bootstrap, main, etc.)
+│   ├── js/
+│   │   ├── chatbot.js            # Chatbot client controller & API communicator
+│   │   └── ...                   # Replicated site scripts (vendor, owl, etc.)
+│   ├── images/                   # College logos, banners, and photo galleries
+│   ├── fonts/                    # Replicated web fonts & icon libraries
+│   ├── files/                    # Official college forms, notices, and PDFs
+│   └── [subpages]                # abtcllg.php, admission.php, hostel, placements, etc.
+│
+├── backend/                      # ⚙️ BUSINESS LOGIC & AI LAYER (Mohamed Abdul Basith)
+│   ├── app.js                    # Express app factory, CORS, static routes & middleware
+│   ├── server.js                 # Server listener & startup lifecycle
+│   ├── routes/
+│   │   └── chatRoutes.js         # API endpoints: POST /api/chat, GET /api/health
+│   ├── controllers/
+│   │   └── chatController.js     # Query validation, greeting checks, context assembly
+│   └── services/
+│       ├── geminiService.js      # Gemini text generation with multi-model fallback
+│       └── embeddingService.js   # Official Google SDK 768-dim vector generator
+│
+├── db/                           # 🗄️ DATA & SEARCH ENGINE (Karthikeyan S)
+│   ├── connection.js             # MongoDB Atlas / local connection manager
+│   ├── searchService.js          # Atlas $vectorSearch (768d) & local semantic search
+│   ├── data/
+│   │   └── knowledge_chunks.json # Cached knowledge base chunks (offline fallback)
+│   └── scripts/                  # Data ingestion & database maintenance utilities
+│       ├── demo-rag.js           # CLI demonstration runner for the RAG pipeline
+│       ├── ingest-local-pages.js # Extracts, chunks & embeds local website pages
+│       └── clean-database.js     # Safely cleans collections & resets cache
+│
+├── .env                          # Environment variables (API keys, URIs, PORT)
+├── .env.example                  # Template configuration for team members
+├── .gitignore                    # Git rules (excludes node_modules, .env, *.log)
+├── package.json                  # Dependencies & npm scripts
+└── server.js                     # Root launcher (executes backend/server.js)
+```
+
+---
+
 ## 🚀 Key Features
 
-1. **Complete PSG Tech Web Replica:**
-   - Accurate local replica of `psgtech.edu` with full navigation for Admissions, About the College, Hostels, Placements, Academic Programmes, HoD Directory, Contact, and Regulations.
-   - Clean, web-optimized asset delivery (over 400 MB of raw media bloat pruned while preserving 100% visual fidelity).
+1. **Clean 3-Tier Architecture:**  
+   Distinct separation between `frontend/`, `backend/`, and `db/` ensures modularity, high maintainability, and clear ownership.
 
-2. **Embedded AI Assistant (PSG Nexus):**
-   - Modern glassmorphism floating chat interface with responsive animations, quick prompt chips, and instant restart.
-   - Answers questions on any college topic directly from the home page.
-   - Transparent citations: Every answer highlights verified sources with direct subpage links.
+2. **Complete Offline PSG Tech Web Replica:**  
+   Accurate multi-page replica of `www.psgtech.edu` with full navigation for Admissions, Hostels, Placements, Academic Programmes, and Regulations.
 
-3. **Hybrid RAG Knowledge Engine:**
-   - 71 chunked knowledge documents embedded using **Gemini `gemini-embedding-001` (768 dimensions)**.
-   - Multi-tier vector retrieval:
-     1. **MongoDB Atlas `$vectorSearch`** (Cloud vector search)
-     2. **Local MongoDB vector store** (`mongodb://127.0.0.1:27017/psg_chatbot`)
-     3. **In-memory Cosine Similarity Engine** (`data/knowledge_chunks.json` fail-safe backup for zero downtime)
-   - Conversational generation powered by **Gemini 3.1 Flash Lite** with fallback to **Gemini 3.8 / 3.5 Flash**.
+3. **Embedded AI Assistant (PSG Nexus):**  
+   - Modern glassmorphism floating chat modal with responsive animations, quick prompt chips, and conversation reset.
+   - Answers questions on admissions, hostels, syllabus, fees, and placements.
+   - Shows transparent citations and source links for every response.
 
----
-
-## 🛠️ Tech Stack
-
-- **Frontend:** HTML5, CSS3, JavaScript (ES6+), Bootstrap, Tailwind CSS, Owl Carousel
-- **Backend:** Node.js, Express.js
-- **AI & Embeddings:** Google Generative AI SDK (`@google/generative-ai`), `gemini-embedding-001`, `gemini-3.1-flash-lite`
-- **Database & Search:** MongoDB Atlas / Local MongoDB, MongoDB Vector Search, In-memory Cosine Vector Similarity
-- **Data Ingestion:** Cheerio HTML parser, Crypto SHA-256 chunk hashing
+4. **Hybrid RAG Knowledge Engine:**  
+   - Knowledge chunks embedded using **Gemini `gemini-embedding-001` (768 dimensions)**.
+   - Multi-tier retrieval:
+     1. **MongoDB Atlas `$vectorSearch`** on `vector_index` (768 dimensions).
+     2. **Local Semantic Cosine Similarity** fallback (`db/data/knowledge_chunks.json`).
+     3. **Keyword relevance matching** fallback for 100% uptime.
+   - Conversational generation powered by **Gemini 3.1 Flash Lite** with automatic fallback to **Gemini 3.5 Flash** and **Gemini 3.8 Flash**.
 
 ---
 
-## 📦 Setup & Installation
+## 🛠️ Quick Start Guide
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Laxman1806/PSG-NEXUS.git
-cd PSG-NEXUS
-```
+### 1. Prerequisites
+- **Node.js** v18+ (tested on v22)
+- **npm** v9+
+- A valid **Google Gemini API Key** (set in `.env`)
 
-### 2. Install Dependencies
-```bash
-npm install
-```
-
-### 3. Environment Variables
-Create a `.env` file in the root directory (or copy from `.env.example`):
+### 2. Configuration (`.env`)
+Create or verify your `.env` file at the root:
 ```env
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/psg_chatbot
+PORT=5000
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-3.1-flash-lite
-PORT=3000
+MONGO_URI=mongodb+srv://karthiadmin:karthi2005@psgchatbotcluster.y3bqzag.mongodb.net/psg_chatbot
+MONGODB_COLLECTION=website_chunks
+VECTOR_INDEX_NAME=vector_index
 ```
 
-### 4. Database Management & Ingestion Workflow
-
-* **Reset / Start with an Empty Database:**
-  ```bash
-  npm run clean:db
-  ```
-  *(Clears all documents in MongoDB `website_chunks` collection and resets the local cache)*
-
-* **Crawl & Ingest Website Data into MongoDB (On Demand):**
-  ```bash
-  npm run crawl
-  ```
-  *(Parses all replicated website HTML pages, generates 768-dimensional Gemini embeddings, and stores them in MongoDB)*
-
-### 5. Launch the Chatbot Application
+### 3. Start the Application
+From the project root:
 ```bash
 npm start
 ```
-*(Only starts the Express server and chatbot user interface — no automatic crawling)*
 
-Open your browser to:
+Open your browser at:
 ```
-http://localhost:3000
+http://localhost:5000/
 ```
+Click the floating shield icon in the bottom-right corner to interact with **PSG Nexus**!
 
 ---
 
-## 📁 Project Structure
+## 🧪 Available Scripts
 
-```
-PSG-NEXUS/
-├── data/
-│   └── knowledge_chunks.json       # Pre-computed 768d vector embeddings cache
-├── scripts/
-│   ├── ingest-local-pages.js       # Offline page crawler & embedding generator
-│   ├── crawl-and-ingest.js         # Web crawler ingestion pipeline
-│   └── demo-rag.js                 # Terminal RAG testing demo
-├── src/
-│   ├── config/
-│   │   └── database.js             # Dual-mode MongoDB connection (Atlas & Local)
-│   └── services/
-│       ├── chunkService.js         # Text chunking & token window overlapping
-│       ├── crawlerService.js       # Webpage scraping utilities
-│       ├── embeddingService.js     # 768-dimensional vector generator
-│       ├── geminiService.js        # Gemini multi-model response generator
-│       ├── ingestionService.js     # MongoDB chunk upsert service
-│       └── searchService.js        # Semantic cosine & vector search engine
-├── js/
-│   ├── script.js                   # Interactive chatbot UI client controller
-│   └── ...                         # Website vendor scripts
-├── css/                            # Bootstrap & theme stylesheets
-├── images/                         # Web-optimized campus images
-├── abtcllg.php/                    # About College subpage
-├── admission.php/                  # Admissions subpage
-├── hostel/                         # Hostels & residential rules subpage
-├── placements/                     # Placement division & stats subpage
-├── Heads.php/                      # Heads of Departments directory
-├── index.html                      # Replicated PSG Tech homepage with AI assistant
-├── server.js                       # Express server & API endpoints
-├── package.json
-└── README.md
-```
-
----
-
-## 🔒 License & Academic Integrity
-Developed as an academic project for **PSG College of Technology**, Coimbatore. Intended for educational demonstration and evaluation.
+| Command | Action |
+| :--- | :--- |
+| `npm start` | Starts the unified server on `http://localhost:5000` |
+| `npm run dev` | Starts the server with `--watch` for automatic reloads |
+| `node db/scripts/demo-rag.js` | Runs a CLI test of the RAG pipeline with sample questions |
+| `npm run crawl` | Re-crawls and embeds all local pages into the database |
+| `npm run clean:db` | Clears all knowledge chunks from the database |
