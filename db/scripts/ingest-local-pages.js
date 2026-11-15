@@ -93,7 +93,7 @@ const candidatePages = [
     { file: 'websiteUrls.php/index.html', title: 'Official Portals Directory & Web Links', url: '/websiteUrls.php' }
 ];
 
-// Curated Institutional Knowledge Packs
+// Curated Institutional Knowledge Packs Tailored for Parents, Students & Visitors
 const verifiedKnowledgePacks = [
     {
         title: 'PSG Tech Overview & Key Institutional Facts',
@@ -152,6 +152,65 @@ Dr. G.R. Damodaran Central Library: Holds over 2,50,000 volumes, 50,000+ e-journ
 Health Center: 24x7 medical assistance with qualified resident medical officers, emergency ambulance service connected to PSG Hospitals, Peelamedu.
 Sports & Recreation: 400m athletic track, football ground, cricket nets, basketball courts with floodlights, tennis courts, and modern indoor badminton stadium.
 Transport: Extensive fleet of college buses operating across Coimbatore, Tirupur, Pollachi, and Mettupalayam routes.`
+    },
+    {
+        title: 'Parents Guide: Ward Monitoring, Campus Safety & Healthcare',
+        url: '/parentzone.php',
+        content: `Essential Information for Parents at PSG College of Technology:
+1. Academic Progress Tracking (Parent Zone): Parents can track their ward's day-to-day attendance, internal test marks (CA1, CA2), continuous assessment results, and semester exam grades by logging into the official Parent Portal (https://www.psgtech.edu/parentzone.php) using the student's Roll Number and Date of Birth.
+2. Tutor-Ward Mentoring System: Every student is assigned a dedicated faculty advisor (Tutor) who closely monitors academic performance and emotional well-being. Tutors conduct monthly reviews and proactively contact parents if attendance falls below 75% or internal marks need improvement.
+3. Medical & Hospital Support: On-campus health clinic with resident medical officers. Direct emergency connectivity and priority ambulance access to the renowned 1400-bed PSG Hospitals located just 500 meters from campus.
+4. Campus Security & Curfew: Round-the-clock security guards, CCTV surveillance in all corridors and common zones, biometric access in hostels, and strict 8:30 PM gate closure for student safety.
+5. Direct Contact: Parents can schedule meetings with Heads of Departments (HoDs), the Dean of Academic Affairs, or the Principal during working days (09:00 AM to 04:30 PM).`
+    },
+    {
+        title: 'Tuition Fees, Scholarships & Financial Concessions',
+        url: '/scholarships.php',
+        content: `Fees and Financial Aid at PSG College of Technology:
+1. Government Quota Fees: Moderate, regulated fees as determined by the Tamil Nadu Government Fee Fixation Committee for aided and self-financing engineering programmes.
+2. State Government Scholarships: Full tuition fee concessions and maintenance allowances for SC/ST/SCA students; Post-Matric scholarships for BC/MBC/DNC students through the Directorate of Backward Classes and Minorities Welfare.
+3. First Generation Graduate Concession: Tuition fee waiver of ₹25,000 to ₹27,500 per year as granted by the Tamil Nadu Government for eligible students whose parents are non-graduates.
+4. Merit & Alumni Scholarships: PSG & Sons' Charities Trust provides need-cum-merit financial assistance to deserving economically disadvantaged students. PSG Tech Alumni Association (PSG Tech Alumni Trust) provides educational loans and interest-free grants.
+5. Central Schemes: AICTE Pragati Scholarship for female engineering students, AICTE Saksham for differently-abled students, and Central Sector Scholarship for merit holders.`
+    },
+    {
+        title: 'Specialized Programmes: 5-Year Sandwich Engineering & Integrated M.Sc',
+        url: '/programme.php',
+        content: `Flagship Unique Academic Offerings at PSG Tech:
+1. 5-Year B.E. Sandwich Programmes (Mechanical, Production, Electrical & Electronics):
+   - Unique to PSG College of Technology in India, established in collaboration with PSG Industrial Institute.
+   - Structure: Students alternate between classroom academic study and real-time industrial training at machine shops, assembly units, and industrial manufacturing plants.
+   - Outcome: Graduates possess 1.5 years of verifiable industrial work experience by the time of graduation, making them highest-priority recruits in core engineering giants (Caterpillar, L&T, Robert Bosch, Tata Motors).
+2. 5-Year Integrated M.Sc Programmes:
+   - Specialized branches: Software Systems, Data Science, Theoretical Computer Science, Cyber Security, Decision & Computing Sciences.
+   - Eligibility: 10+2 with Mathematics and Physics. Excellent alternative to traditional B.Tech with guaranteed full-semester corporate internships starting in the 7th and 9th semesters.`
+    },
+    {
+        title: 'Visitor & Recruiter Guide: Location, Directions, Transit Distances & Guest House',
+        url: '/cont.php',
+        content: `Visitor, Recruiter & Campus Navigation Guide:
+1. Physical Location: PSG College of Technology, Avinashi Road, Peelamedu, Coimbatore - 641004, Tamil Nadu, India.
+2. Transit Distances & Reaching Campus:
+   - Coimbatore International Airport (CJB): 5 km (approx. 10 to 15 minutes drive along Avinashi Road).
+   - Coimbatore Junction (CBE) Railway Station: 7 km (approx. 20 minutes drive).
+   - Gandhipuram Central Bus Stand: 6 km (approx. 15 minutes drive).
+   - Peelamedu Bus Stop: Directly in front of the college main entrance with city buses plying every 2 minutes.
+3. On-Campus Guest House: Well-furnished air-conditioned guest rooms with dining facilities available for visiting professors, recruiters, conference delegates, and official guests.
+4. Key Contact Phone Numbers:
+   - Main Reception / EPABX: 0422-2572177, 0422-2572477, 0422-4344777
+   - Career Development Centre (CDC / Placements): 0422-4344180 / placement@psgtech.ac.in
+   - Admission Enquiry: 0422-4344446, 0422-4344167
+   - Principal's Office Email: principal@psgtech.ac.in`
+    },
+    {
+        title: 'Campus Discipline, Anti-Ragging Policy & Student Welfare',
+        url: '/MandatoryCommittee.php',
+        content: `Campus Discipline, Anti-Ragging & Student Support Ecosystem:
+1. Anti-Ragging Strict Policy: PSG College of Technology strictly follows a Zero-Tolerance policy against ragging as per UGC / AICTE norms. Dedicated Anti-Ragging Committee and Squad conduct surprise inspections in academic buildings, hostels, and sports grounds.
+   - National Anti-Ragging Helpline (Toll-Free): 1800-180-5522.
+2. Women Welfare & Internal Complaints Committee (ICC): Chaired by senior women faculty to ensure a secure, respectful, and empowering environment for all female students, researchers, and staff.
+3. Student Grievance Redressal Cell (SGRC): Provides a fair, confidential online and offline mechanism for addressing student concerns regarding examinations, academic evaluations, or campus amenities.
+4. Career & Psychological Counselling: On-campus professional student counsellor available to assist students with stress management, academic focus, and career decision-making.`
     }
 ];
 

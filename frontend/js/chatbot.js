@@ -10,7 +10,14 @@ const resetBtn = document.getElementById('reset-btn');
 const chatWindow = document.getElementById('chat-window');
 
 // Welcome message content
-const WELCOME_MESSAGE = "Hello! I am **PSG Nexus**, your digital campus guide for PSG College of Technology. 👋\n\nHow can I help you today? You can ask about:\n* **Academic Programmes** (B.E., B.Tech, MCA, MBA, M.Sc)\n* **Admissions & Eligibility** (TNEA Code: 2006, TANCET, Lateral Entry)\n* **Placements & Top Recruiters** (Package highlights, companies)\n* **Hostels & Residential Rules** (timings, mess, warden)\n* **Academic Regulations** (75% minimum attendance rule)";
+const WELCOME_MESSAGE = `Hello! I am **PSG Nexus**, the official AI campus assistant for **PSG College of Technology**, Coimbatore. 👋
+
+I am here to assist:
+* **👨‍👩‍👧 Parents:** Parent Portal ward monitoring, hostel security, 8:30 PM curfew, health care & fee details.
+* **🎓 Students:** Admissions (TNEA Code: 2006), 5-Year Sandwich engineering, 75% attendance rule & placements.
+* **📍 Visitors & Recruiters:** Campus navigation (Peelamedu), guest house, CDC placements & departmental contacts.
+
+How can I help you today?`;
 
 // Determine API endpoint dynamically
 function getApiEndpoints() {

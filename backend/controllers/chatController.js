@@ -6,7 +6,14 @@ const { generateAnswer } = require('../services/geminiService');
 // Greeting check regex
 const GREETING_REGEX = /^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening)|who\s*are\s*you|what\s*can\s*you\s*do)\b/i;
 
-const WELCOME_REPLY = "Hello! I am **PSG Nexus**, your official AI digital assistant for **PSG College of Technology**, Coimbatore. 👋\n\nI can help you explore everything about our campus:\n* **Admissions & Eligibility** (B.E., B.Tech, MCA, MBA)\n* **Hostels & Residential Rules** (timings, facilities, mess)\n* **Placements & Top Recruiters** (salary statistics, companies)\n* **Academic Regulations** (75% attendance policy, grading)\n* **Programmes, Departments & HoDs**\n\nWhat would you like to know today?";
+const WELCOME_REPLY = `Hello! I am **PSG Nexus**, the official AI campus assistant for **PSG College of Technology**, Coimbatore. 👋
+
+I am here to assist:
+* **👨‍👩‍👧 Parents:** Parent Portal ward monitoring, hostel security, 8:30 PM curfew, health care & fee details.
+* **🎓 Students:** Admissions (TNEA Code: 2006), 5-Year Sandwich engineering, 75% attendance rule & placements.
+* **📍 Visitors & Recruiters:** Campus navigation (Peelamedu), guest house, CDC placements & departmental contacts.
+
+How can I help you today?`;
 
 async function handleChat(req, res) {
     try {
