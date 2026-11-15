@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+
 function splitIntoChunks(text, maxWords = 400, overlap = 50) {
     if (!text) return [];
     const words = text.split(/\s+/).filter(Boolean);
@@ -21,44 +22,78 @@ function splitIntoChunks(text, maxWords = 400, overlap = 50) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
 
-async function getEmbedding(text) {
-    const result = await embeddingModel.embedContent({
-        content: { parts: [{ text }] },
-        outputDimensionality: 768
-    });
-    return result.embedding.values;
+async function getEmbeddingWithRetry(text) {
+    let attempts = 3;
+    while (attempts > 0) {
+        try {
+            const result = await embeddingModel.embedContent({
+                content: { parts: [{ text }] },
+                outputDimensionality: 768
+            });
+            return result.embedding.values;
+        } catch (err) {
+            const msg = err.message || '';
+            if (msg.includes('429') || msg.includes('quota') || msg.includes('Too Many Requests')) {
+                console.warn(`⏳ Rate limit reached. Pausing for 20s to allow Gemini token bucket to refill...`);
+                await new Promise(r => setTimeout(r, 20000));
+                attempts--;
+            } else {
+                throw err;
+            }
+        }
+    }
+    throw new Error("Exceeded max retries for embedding generation.");
 }
 
 const rootDir = path.resolve(__dirname, '..', '..');
 const frontendDir = path.join(rootDir, 'frontend');
 
+// Comprehensive list of all 41 core institutional pages
 const candidatePages = [
-    { file: 'index.html', title: 'PSG Tech - Home & Announcements', url: '/' },
-    { file: 'abtcllg.php/index.html', title: 'About PSG College of Technology', url: '/abtcllg.php' },
-    { file: 'admission.php/index.html', title: 'Admissions & Eligibility', url: '/admission.php' },
-    { file: 'BScMScAdmission2026/index.html', title: 'B.Sc & M.Sc Admissions', url: '/BScMScAdmission2026' },
-    { file: 'hostel/index.html', title: 'Hostel Facilities, Rules & Warden Info', url: '/hostel' },
-    { file: 'placements/index.php/index.html', title: 'Placement Statistics & Recruiters', url: '/placements' },
-    { file: 'Heads.php/index.html', title: 'Heads of Departments (HoD)', url: '/Heads.php' },
-    { file: 'programme.php/index.html', title: 'Programmes Offered (UG & PG)', url: '/programme.php' },
-    { file: 'programme_offered.php/index.html', title: 'Academic Programmes Details', url: '/programme_offered.php' },
-    { file: 'cont.php/index.html', title: 'Contact Us & Campus Address', url: '/cont.php' },
-    { file: 'scholarships.php/index.html', title: 'Scholarships & Financial Aid', url: '/scholarships.php' },
-    { file: 'student.php/index.html', title: 'Student Guidelines & Academic Regulations', url: '/student.php' },
-    { file: 'parentzone.php/index.html', title: 'Parents Zone & Student Portal', url: '/parentzone.php' },
+    { file: 'index.html', title: 'PSG Tech - Home, Vision, Mission & Latest News', url: '/' },
+    { file: 'abtcllg.php/index.html', title: 'About PSG College of Technology & History', url: '/abtcllg.php' },
+    { file: 'admission.php/index.html', title: 'Admissions, Eligibility & Counselling Procedures', url: '/admission.php' },
+    { file: 'BScMScAdmission2026/index.html', title: 'B.Sc & M.Sc Integrated Admissions 2026', url: '/BScMScAdmission2026' },
+    { file: 'fn_oci/index.html', title: 'Foreign National (FN) & OCI / NRI Admissions', url: '/fn_oci' },
+    { file: 'hostel/index.html', title: 'Hostel Facilities, Residential Rules & Wardens', url: '/hostel' },
+    { file: 'placements/index.php/index.html', title: 'Placement Statistics, Top Recruiters & CDC', url: '/placements' },
+    { file: 'Heads.php/index.html', title: 'Heads of Departments (HoD) & Department Chairs', url: '/Heads.php' },
+    { file: 'facultyDetails.php/index.html', title: 'Faculty Members Directory & Professors', url: '/facultyDetails.php' },
+    { file: 'programme.php/index.html', title: 'Programmes Offered (Undergraduate & Postgraduate)', url: '/programme.php' },
+    { file: 'programme_offered.php/index.html', title: 'Academic Programmes, Degrees & Branches', url: '/programme_offered.php' },
+    { file: 'coe.php/index.html', title: 'Controller of Examinations (CoE) & Exam Regulations', url: '/coe.php' },
+    { file: 'student.php/index.html', title: 'Student Guidelines, Rules & Campus Conduct', url: '/student.php' },
+    { file: 'parentzone.php/index.html', title: 'Parents Zone & Student Academic Portal', url: '/parentzone.php' },
+    { file: 'cont.php/index.html', title: 'Contact Details, Campus Address & Helpdesk', url: '/cont.php' },
+    { file: 'scholarships.php/index.html', title: 'Scholarships, Fee Concessions & Financial Aid', url: '/scholarships.php' },
     { file: 'principal.php/index.html', title: 'Principal & Leadership Message', url: '/principal.php' },
-    { file: 'Dean-Academic.php/index.html', title: 'Office of Dean - Academic', url: '/Dean-Academic.php' },
+    { file: 'Dean-Academic.php/index.html', title: 'Office of Dean - Academic Affairs', url: '/Dean-Academic.php' },
     { file: 'Dean-Administration.php/index.html', title: 'Office of Dean - Administration', url: '/Dean-Administration.php' },
     { file: 'Dean-Autonomous.php/index.html', title: 'Office of Dean - Autonomous Exam Cell', url: '/Dean-Autonomous.php' },
+    { file: 'VicePrincipal_WomenWelfare.php/index.html', title: 'Vice Principal & Women Welfare Committee', url: '/VicePrincipal_WomenWelfare.php' },
     { file: 'Management.php/index.html', title: 'Management & Governing Council', url: '/Management.php' },
-    { file: 'founders.php/index.html', title: 'Founders & PSG & Sons Charities', url: '/founders.php' },
+    { file: 'founders.php/index.html', title: 'Founders & PSG & Sons Charities Legacy', url: '/founders.php' },
     { file: 'trustees.php/index.html', title: 'Managing Trustees of PSG Tech', url: '/trustees.php' },
     { file: 'secretary.php/index.html', title: 'Secretary of PSG College of Technology', url: '/secretary.php' },
-    { file: 'nirf.php/index.html', title: 'NIRF Ranking & Institutional Data', url: '/nirf.php' },
-    { file: 'course conducted.php/index.html', title: 'Specialized Courses & FDPs', url: '/course-conducted.php' }
+    { file: 'nirf.php/index.html', title: 'NIRF Ranking & National Institutional Data', url: '/nirf.php' },
+    { file: 'NBA Accreditation.php/index.html', title: 'NBA Accreditation & Quality Assurance', url: '/NBA-Accreditation.php' },
+    { file: 'approval.php/index.html', title: 'AICTE Approval & Affiliation Status', url: '/approval.php' },
+    { file: 'R&D.php/index.html', title: 'Research & Development (R&D) & Sponsored Projects', url: '/R&D.php' },
+    { file: 'Report-RC2026.php/index.html', title: 'Research Conclave 2026 Proceedings', url: '/Report-RC2026.php' },
+    { file: 'Research/ird.html', title: 'Industrial Research & Consultancy Cell (IRD)', url: '/Research/ird.html' },
+    { file: 'IIC/index.html', title: 'Institution Innovation Council (IIC) & Incubation', url: '/IIC' },
+    { file: 'Mousgloblink.php/index.html', title: 'International MoUs & Global University Tie-ups', url: '/Mousgloblink.php' },
+    { file: 'MandatoryCommittee.php/index.html', title: 'Mandatory Committees & Grievance Redressal', url: '/MandatoryCommittee.php' },
+    { file: 'course conducted.php/index.html', title: 'Short Term Courses, FDPs & Workshops', url: '/course-conducted.php' },
+    { file: 'coeindutech/index.html', title: 'Center of Excellence in Industrial Textiles (InduTech)', url: '/coeindutech' },
+    { file: 'psgcrs/index.html', title: 'PSG Community Radio 107.8 MHz (CRS)', url: '/psgcrs' },
+    { file: 'teqip/index.html', title: 'TEQIP World Bank Institutional Quality Project', url: '/teqip' },
+    { file: 'help-desk.php/index.html', title: 'Student Help Desk & Support Services', url: '/help-desk.php' },
+    { file: 'Glances/index.html', title: 'Glances of PSG Tech - Campus Life & Traditions', url: '/Glances' },
+    { file: 'websiteUrls.php/index.html', title: 'Official Portals Directory & Web Links', url: '/websiteUrls.php' }
 ];
 
-// Curated Institutional Knowledge Chunks for frequently asked campus topics
+// Curated Institutional Knowledge Packs
 const verifiedKnowledgePacks = [
     {
         title: 'PSG Tech Overview & Key Institutional Facts',
@@ -173,15 +208,40 @@ async function runIngestion() {
     }
 
     console.log(`\n📊 Total chunks compiled: ${documentsToStore.length}`);
-    console.log('⚡ Generating embeddings with Gemini API (gemini-embedding-001, 768d)...');
+
+    // Check existing cache for incremental speedup
+    const dataDir = path.join(rootDir, 'db', 'data');
+    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+    const cachePath = path.join(dataDir, 'knowledge_chunks.json');
+
+    const cachedEmbeddingsMap = new Map();
+    if (fs.existsSync(cachePath)) {
+        try {
+            const existingCache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+            for (const doc of existingCache) {
+                if (doc._id && doc.embedding && doc.embedding.length === 768) {
+                    cachedEmbeddingsMap.set(doc._id, doc.embedding);
+                }
+            }
+            console.log(`💾 Found ${cachedEmbeddingsMap.size} pre-computed 768d embeddings in cache! Reusing...`);
+        } catch (e) {}
+    }
+
+    console.log('⚡ Generating vector embeddings (gemini-embedding-001, 768d)...');
 
     const finalizedDocuments = [];
 
     for (let i = 0; i < documentsToStore.length; i++) {
         const doc = documentsToStore[i];
+        const id = crypto.createHash('sha256').update(`${doc.url}:${doc.chunkIndex}:${doc.title}`).digest('hex');
+
         try {
-            const embedding = await getEmbedding(doc.content);
-            const id = crypto.createHash('sha256').update(`${doc.url}:${doc.chunkIndex}:${doc.title}`).digest('hex');
+            let embedding = cachedEmbeddingsMap.get(id);
+            if (!embedding) {
+                embedding = await getEmbeddingWithRetry(doc.content);
+                // Respect free-tier rate limits with a small gap
+                await new Promise(r => setTimeout(r, 600));
+            }
 
             finalizedDocuments.push({
                 _id: id,
@@ -194,22 +254,16 @@ async function runIngestion() {
             });
 
             if ((i + 1) % 10 === 0 || i === documentsToStore.length - 1) {
-                console.log(`  Processed ${i + 1}/${documentsToStore.length} embeddings...`);
+                console.log(`  Processed ${i + 1}/${documentsToStore.length} embeddings (${finalizedDocuments.length} ready)...`);
             }
         } catch (err) {
             console.error(`❌ Embedding error for chunk ${i}:`, err.message);
-            // Brief pause in case of rate limits
-            await new Promise(r => setTimeout(r, 1000));
         }
     }
 
     console.log(`\n✅ Generated ${finalizedDocuments.length} vector embeddings!`);
 
     // Step 3: Save to local persistent cache JSON
-    const dataDir = path.join(rootDir, 'db', 'data');
-    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-
-    const cachePath = path.join(dataDir, 'knowledge_chunks.json');
     fs.writeFileSync(cachePath, JSON.stringify(finalizedDocuments, null, 2), 'utf8');
     console.log(`💾 Saved persistent knowledge cache to: data/knowledge_chunks.json (${(fs.statSync(cachePath).size / 1024 / 1024).toFixed(2)} MB)`);
 
