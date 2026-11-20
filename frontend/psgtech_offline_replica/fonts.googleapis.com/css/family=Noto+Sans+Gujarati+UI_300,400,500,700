@@ -1,0 +1,32 @@
+/* gujarati */
+@font-face {
+  font-family: 'Noto Sans Gujarati UI';
+  font-style: normal;
+  font-weight: 300;
+  src: url(../../fonts.gstatic.com/s/notosansgujaratiui/v27/y83IW5AQ0Q-Xx3edxI4sY0SreQ2LeJlhvh_rVglmuZ27.woff2) format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839, U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* gujarati */
+@font-face {
+  font-family: 'Noto Sans Gujarati UI';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../fonts.gstatic.com/s/notosansgujaratiui/v27/y83FW5AQ0Q-Xx3edxI4sY0SreQ2LeJlhvh_j5itz.woff2) format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839, U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* gujarati */
+@font-face {
+  font-family: 'Noto Sans Gujarati UI';
+  font-style: normal;
+  font-weight: 500;
+  src: url(../../fonts.gstatic.com/s/notosansgujaratiui/v27/y83IW5AQ0Q-Xx3edxI4sY0SreQ2LeJlhvh_rDghmuZ27.woff2) format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839, U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* gujarati */
+@font-face {
+  font-family: 'Noto Sans Gujarati UI';
+  font-style: normal;
+  font-weight: 700;
+  src: url(../../fonts.gstatic.com/s/notosansgujaratiui/v27/y83IW5AQ0Q-Xx3edxI4sY0SreQ2LeJlhvh_rRg5muZ27.woff2) format('woff2');
+  unicode-range: U+0951-0952, U+0964-0965, U+0A80-0AFF, U+200C-200D, U+20B9, U+25CC, U+A830-A839, U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

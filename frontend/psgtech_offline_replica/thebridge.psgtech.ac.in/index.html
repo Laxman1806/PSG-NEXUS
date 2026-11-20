@@ -1,0 +1,936 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>The Bridge</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preload" href="/assets/css/app.css?v=7bb634c764" as="style">
+    <link rel="preload" href="/assets/js/manifest.js?v=7bb634c764" as="script">
+    <link rel="preload" href="/assets/js/vendor/content-api.min.js?v=7bb634c764" as="script">
+    <link rel="preload" href="/assets/js/vendor.js?v=7bb634c764" as="script">
+    <link rel="preload" href="/assets/js/app.js?v=7bb634c764" as="script">
+    <link rel="preconnect" href="https://polyfill.io">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://polyfill.io">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+
+      <link rel="preload" href="/assets/css/home.css?v=7bb634c764" as="style">
+  <link rel="preload" href="/assets/css/listing.css?v=7bb634c764" as="style">
+  <link rel="preload" href="/assets/js/home.js?v=7bb634c764" as="script">
+
+
+    <style>
+      /* These font-faces are here to make fonts work if the Ghost instance is installed in a subdirectory */
+
+      /* source-sans-pro-regular */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('SourceSansPro-Regular'),
+            url("assets/fonts/source-sans-pro/latin/source-sans-pro-regular_v%3D7bb634c764.woff2") format('woff2'),
+            url("assets/fonts/source-sans-pro/latin/source-sans-pro-regular_v%3D7bb634c764.woff") format('woff');
+      }
+
+      /* source-sans-pro-600 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: local('SourceSansPro-SemiBold'),
+            url("assets/fonts/source-sans-pro/latin/source-sans-pro-600_v%3D7bb634c764.woff2") format('woff2'),
+            url("assets/fonts/source-sans-pro/latin/source-sans-pro-600_v%3D7bb634c764.woff") format('woff');
+      }
+
+      /* source-sans-pro-700 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local('SourceSansPro-Bold'),
+            url("assets/fonts/source-sans-pro/latin/source-sans-pro-700_v%3D7bb634c764.woff2") format('woff2'),
+            url("assets/fonts/source-sans-pro/latin/source-sans-pro-700_v%3D7bb634c764.woff") format('woff');
+      }
+
+      /* iconmoon */
+      @font-face {
+        font-family: 'icomoon';
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+        src: url("assets/fonts/icomoon/icomoon_101fc3_v%3D7bb634c764.eot");
+        src: url("assets/fonts/icomoon/icomoon_101fc3.eot#iefix?v=7bb634c764") format('embedded-opentype'),
+        url("assets/fonts/icomoon/icomoon_101fc3_v%3D7bb634c764.ttf") format('truetype'),
+        url("assets/fonts/icomoon/icomoon_101fc3_v%3D7bb634c764.woff") format('woff'),
+        url("assets/fonts/icomoon/icomoon_101fc3.svg#icomoon?v=7bb634c764") format('svg');
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/app_v%3D7bb634c764.css" media="screen">
+
+      <link rel="stylesheet" type="text/css" href="assets/css/home_v%3D7bb634c764.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="assets/css/listing_v%3D7bb634c764.css" media="screen">
+
+
+    
+
+    <meta name="description" content="The Official Online Magazine of PSG Tech">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="canonical" href="https://thebridge.psgtech.ac.in/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="next" href="https://thebridge.psgtech.ac.in/page/2/">
+    
+    <meta property="og:site_name" content="The Bridge">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="The Bridge">
+    <meta property="og:description" content="The Official Online Magazine of PSG Tech">
+    <meta property="og:url" content="https://thebridge.psgtech.ac.in/">
+    <meta property="og:image" content="content/images/2020/04/bridge.jpg">
+    <meta property="article:publisher" content="https://www.facebook.com/thebridgepsg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Bridge">
+    <meta name="twitter:description" content="The Official Online Magazine of PSG Tech">
+    <meta name="twitter:url" content="https://thebridge.psgtech.ac.in/">
+    <meta name="twitter:image" content="https://thebridge.psgtech.ac.in/content/images/2020/04/bridge.jpg">
+    <meta name="twitter:site" content="@thebridgepsg">
+    <meta property="og:image:width" content="2000">
+    <meta property="og:image:height" content="1325">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "publisher": {
+        "@type": "Organization",
+        "name": "The Bridge",
+        "url": "https://thebridge.psgtech.ac.in/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://thebridge.psgtech.ac.in/content/images/2020/08/The-Bridge-Logo.png"
+        }
+    },
+    "url": "https://thebridge.psgtech.ac.in/",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://thebridge.psgtech.ac.in/content/images/2020/04/bridge.jpg",
+        "width": 2000,
+        "height": 1325
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://thebridge.psgtech.ac.in/"
+    },
+    "description": "The Official Online Magazine of PSG Tech"
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.32">
+    <link rel="alternate" type="application/rss+xml" title="The Bridge" href="https://thebridge.psgtech.ac.in/rss/">
+    
+    <script defer="" src="public/cards.min_v%3D7bb634c764.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/cards.min_v%3D7bb634c764.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="../www.googletagmanager.com/gtag/js/id%3DUA-175255679-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-175255679-1');
+</script>
+
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#fff">
+<script>
+  const ghostSearchApiKey = '53e8ee3d3435d5b2a08463aac0'
+</script><style>:root {--ghost-accent-color: #d6bb07;}</style>
+
+    <style>
+      :root {
+        --primary-subtle-color: var(--ghost-accent-color) !important;
+      }
+    </style>
+
+    <script>
+      // @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat
+      const ghostHost = "https://thebridge.psgtech.ac.in"
+      // @license-end
+    </script>
+
+  </head>
+  <body class="home-template">
+    
+
+
+
+
+<header class="m-header with-picture js-header">
+  <div class="m-mobile-topbar" data-aos="fade-down">
+    <button class="m-icon-button in-mobile-topbar js-open-menu" aria-label="Open menu">
+      <span class="icon-menu" aria-hidden="true"></span>
+    </button>
+    <a href="https://thebridge.psgtech.ac.in" class="m-logo in-mobile-topbar">
+      <img src="content/images/2020/08/The-Bridge-Logo.png" alt="The Bridge">
+    </a>
+    <button class="m-icon-button in-mobile-topbar js-open-search" aria-label="Open search">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="m-menu js-menu">
+    <button class="m-icon-button outlined as-close-menu js-close-menu" aria-label="Close menu">
+      <span class="icon-close"></span>
+    </button>
+    <div class="m-menu__main" data-aos="fade-down">
+      <div class="l-wrapper">
+        <div class="m-nav js-main-nav">
+          <nav class="m-nav__left js-main-nav-left" role="navigation" aria-label="Main menu">
+            <ul>
+              <li class="only-desktop">
+                <a href="https://thebridge.psgtech.ac.in" class="m-logo">
+                  <img src="content/images/2020/08/The-Bridge-Logo.png" alt="The Bridge">
+                </a>
+              </li>
+              
+    <li class="nav-everything-psg">
+      <a href="https://thebridge.psgtech.ac.in/everything-psg/">Everything PSG</a>
+    </li>
+    <li class="nav-careers">
+      <a href="https://thebridge.psgtech.ac.in/careers/">Careers</a>
+    </li>
+    <li class="nav-interviews">
+      <a href="https://thebridge.psgtech.ac.in/interviews/">Interviews</a>
+    </li>
+    <li class="nav-series">
+      <a href="https://thebridge.psgtech.ac.in/series/">Series</a>
+    </li>
+    <li class="nav-entrepreneurship">
+      <a href="https://thebridge.psgtech.ac.in/category/entrepreneurship/">Entrepreneurship</a>
+    </li>
+    <li class="nav-sci-tech">
+      <a href="https://thebridge.psgtech.ac.in/category/sci-tech/">Sci Tech</a>
+    </li>
+
+                <li class="more">
+                  <span>
+                    <a href="javascript:void(0);" class="js-open-secondary-menu">
+                      More
+                      <span class="icon-chevron-down" aria-hidden="true"></span>
+                    </a>
+                  </span>
+                </li>
+              <li class="submenu-option js-submenu-option">
+                <button class="m-icon-button in-menu-main more js-toggle-submenu" aria-label="Open submenu">
+                  <span class="icon-more" aria-hidden="true"></span>
+                </button>
+                <div class="m-submenu js-submenu">
+                  <div class="l-wrapper in-submenu">
+                    <section class="m-recent-articles">
+                      <h3 class="m-submenu-title in-recent-articles">Recent articles</h3>
+                      <div class="glide js-recent-slider">
+                        <div class="glide__track" data-glide-el="track">
+                          <div class="glide__slides">
+                            <div class="glide__slide">
+                              <a href="/viksit-bharat-2047-amrith-kaal-vimarsh/" class="m-recent-article">
+                                <div class="m-recent-article__picture ">
+                                  <img src="content/images/size/w300/2024/03/------.png" loading="lazy" alt="">
+                                </div>
+                                <h3 class="m-recent-article__title js-recent-article-title" title="Viksit Bharat@2047 - Amrith Kaal Vimarsh">
+                                  Viksit Bharat@2047 - Amrith Kaal Vimarsh
+                                </h3>
+                                <span class="m-recent-article__date">3 years ago</span>
+                              </a>
+                            </div>
+                            <div class="glide__slide">
+                              <a href="/water-water-everywhere-nor-any-drop-to-drink/" class="m-recent-article">
+                                <div class="m-recent-article__picture ">
+                                  <img src="content/images/size/w300/2023/11/Untitled-1.png" loading="lazy" alt="">
+                                </div>
+                                <h3 class="m-recent-article__title js-recent-article-title" title="Water, water, everywhere, nor any drop to drink">
+                                  Water, water, everywhere, nor any drop to drink
+                                </h3>
+                                <span class="m-recent-article__date">3 years ago</span>
+                              </a>
+                            </div>
+                            <div class="glide__slide">
+                              <a href="/adayalam-identity-unveiled-tedxpsgtech/" class="m-recent-article">
+                                <div class="m-recent-article__picture ">
+                                  <img src="content/images/size/w300/2023/10/WhatsApp-Image-2023-10-28-at-08.20.37_856b0569.jpg-3.png" loading="lazy" alt="">
+                                </div>
+                                <h3 class="m-recent-article__title js-recent-article-title" title="Adayalam: Identity unveiled - TEDxPSGTech">
+                                  Adayalam: Identity unveiled - TEDxPSGTech
+                                </h3>
+                                <span class="m-recent-article__date">3 years ago</span>
+                              </a>
+                            </div>
+                            <div class="glide__slide">
+                              <a href="/the-prophecy-of-life/" class="m-recent-article">
+                                <div class="m-recent-article__picture ">
+                                  <img src="content/images/size/w300/2023/07/_90ca1cea-3f24-4631-8c28-5ca9ed9afb81.png" loading="lazy" alt="">
+                                </div>
+                                <h3 class="m-recent-article__title js-recent-article-title" title="The Prophecy of Life">
+                                  The Prophecy of Life
+                                </h3>
+                                <span class="m-recent-article__date">3 years ago</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+<!--                    <section class="m-tags">
+                      <h3 class="m-submenu-title">Tags</h3>
+                      <ul>
+                        <li class="m-not-found">No tags found :(</li>
+                      </ul>
+                    </section> -->
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <div class="m-nav__right">
+            <button class="m-icon-button in-menu-main js-open-search" aria-label="Open search">
+              <span class="icon-search" aria-hidden="true"></span>
+            </button>
+            <div class="m-toggle-darkmode js-tooltip" data-tippy-content="Toggle light/dark mode" tabindex="0">
+              <label for="toggle-darkmode" class="sr-only">
+                Toggle light/dark mode
+              </label>
+              <input id="toggle-darkmode" type="checkbox" class="js-toggle-darkmode">
+              <div>
+                <span class="icon-moon moon" aria-hidden="true"></span>
+                <span class="icon-sunny sun" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="secondary-navigation-template" style="display: none;">
+    
+  <ul class="m-secondary-menu">
+      <li class="nav-sports">
+        <a href="https://thebridge.psgtech.ac.in/category/sports/">Sports</a>
+      </li>
+      <li class="nav-coimbatore-times">
+        <a href="https://thebridge.psgtech.ac.in/category/coimbatore/">Coimbatore Times</a>
+      </li>
+      <li class="nav-musings">
+        <a href="https://thebridge.psgtech.ac.in/category/musings/">Musings</a>
+      </li>
+      <li class="nav-poetry">
+        <a href="https://thebridge.psgtech.ac.in/category/poetry/">Poetry</a>
+      </li>
+      <li class="nav-recommendations">
+        <a href="https://thebridge.psgtech.ac.in/category/recos/">Recommendations</a>
+      </li>
+      <li class="nav-miscellaneous">
+        <a href="https://thebridge.psgtech.ac.in/category/miscellaneous/">Miscellaneous</a>
+      </li>
+      <li class="nav-readers-space">
+        <a href="https://thebridge.psgtech.ac.in/category/readers-space/">Readers' Space</a>
+      </li>
+      <li class="nav-sudoku">
+        <a href="https://thebridge.psgtech.ac.in/sudoku/">Sudoku</a>
+      </li>
+      <li class="nav-about-us">
+        <a href="https://thebridge.psgtech.ac.in/about/">About Us</a>
+      </li>
+      <li class="nav-our-team">
+        <a href="https://thebridge.psgtech.ac.in/category/our-team/">Our Team</a>
+      </li>
+  </ul>
+
+  </div>
+</header>
+<main class="main-wrap">
+  
+  <section class="m-hero with-picture" data-aos="fade">
+    <div class="m-hero__picture ">
+      <img srcset="content/images/size/w300/2020/04/bridge.jpg 300w, content/images/size/w600/2020/04/bridge.jpg 600w, content/images/size/w1000/2020/04/bridge.jpg 1000w, content/images/size/w2000/2020/04/bridge.jpg 2000w" sizes="(max-width: 600px) 600px, (max-width: 1000px) 1000px, 2000px" src="content/images/size/w1000/2020/04/bridge.jpg" alt="">
+    </div>
+  <div class="m-hero__content" data-aos="fade-down">
+    <h1 class="m-hero-title bigger">The Bridge</h1>
+      <p class="m-hero-description bigger">The Official Online Magazine of PSG Tech</p>
+    <a rel="noreferrer" href="https://psgtech.us17.list-manage.com/subscribe/post?u=3724c926db363a7c051db30bb&amp;id=77e355c53b" class="m-button filled" target="_blank">Subscribe</a>
+  </div>
+  </section>
+  <div class="l-content">
+    <div class="l-wrapper" data-aos="fade-up" data-aos-delay="300">
+      <div class="l-grid centered">
+            <div class="m-featured-slider glide js-featured-slider">
+              <div class="glide__track" data-glide-el="track">
+                <div class="m-featured-slider__list glide__slides">
+                    <div class="m-featured-slider__list__item glide__slide js-featured-slide">
+                      <article class="m-featured-article ">
+                        <div class="m-featured-article__picture">
+                            <style>
+                              #featured-bg-6539fd3515ed40089d4252d4 {
+                                background-image: url(content/images/size/w1000/2023/10/WhatsApp-Image-2023-10-28-at-08.20.37_856b0569.jpg-3.png);
+                              }
+                            
+                              @media(max-width: 768px) {
+                                #featured-bg-6539fd3515ed40089d4252d4 {
+                                  background-image: url(content/images/size/w600/2023/10/WhatsApp-Image-2023-10-28-at-08.20.37_856b0569.jpg-3.png);
+                                }
+                              }
+                            </style>
+                            <div id="featured-bg-6539fd3515ed40089d4252d4"></div>
+                        </div>
+                        <div class="m-featured-article__meta">
+                          <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-featured-article__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar Along with Ritika Loganayagi">
+                              <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+                          </a>
+                        </div>
+                        <div class="m-featured-article__ribbon">
+                          <span class="icon-star"></span>
+                          <span>Featured</span>
+                        </div>
+                        <a href="/adayalam-identity-unveiled-tedxpsgtech/" class="m-featured-article__content">
+                          <h2 class="m-featured-article__title js-featured-article-title" title="Adayalam: Identity unveiled - TEDxPSGTech">
+                            Adayalam: Identity unveiled - TEDxPSGTech
+                          </h2>
+                          <div class="m-featured-article__timestamp">
+                            <span>3 years ago</span>
+                            <span>•</span>
+                            <span>7 min read</span>
+                          </div>
+                        </a>
+                      </article>
+                    </div>
+                    <div class="m-featured-slider__list__item glide__slide js-featured-slide">
+                      <article class="m-featured-article ">
+                        <div class="m-featured-article__picture">
+                            <style>
+                              #featured-bg-648f1c3615ed40089d4251fa {
+                                background-image: url(content/images/size/w1000/2023/06/Screenshot-2023-06-18-205109.png);
+                              }
+                            
+                              @media(max-width: 768px) {
+                                #featured-bg-648f1c3615ed40089d4251fa {
+                                  background-image: url(content/images/size/w600/2023/06/Screenshot-2023-06-18-205109.png);
+                                }
+                              }
+                            </style>
+                            <div id="featured-bg-648f1c3615ed40089d4251fa"></div>
+                        </div>
+                        <div class="m-featured-article__meta">
+                          <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-featured-article__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar ">
+                              <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+                          </a>
+                            <a href="https://thebridge.psgtech.ac.in/category/sci-tech/" class="m-featured-article__tag">Sci Tech</a>
+                        </div>
+                        <div class="m-featured-article__ribbon">
+                          <span class="icon-star"></span>
+                          <span>Featured</span>
+                        </div>
+                        <a href="/on-the-brink/" class="m-featured-article__content">
+                          <h2 class="m-featured-article__title js-featured-article-title" title="On the brink">
+                            On the brink
+                          </h2>
+                          <div class="m-featured-article__timestamp">
+                            <span>3 years ago</span>
+                            <span>•</span>
+                            <span>4 min read</span>
+                          </div>
+                        </a>
+                      </article>
+                    </div>
+                    <div class="m-featured-slider__list__item glide__slide js-featured-slide">
+                      <article class="m-featured-article ">
+                        <div class="m-featured-article__picture">
+                            <style>
+                              #featured-bg-647359e615ed40089d42519e {
+                                background-image: url(content/images/size/w1000/2023/05/Marielle-Price--1-.png);
+                              }
+                            
+                              @media(max-width: 768px) {
+                                #featured-bg-647359e615ed40089d42519e {
+                                  background-image: url(content/images/size/w600/2023/05/Marielle-Price--1-.png);
+                                }
+                              }
+                            </style>
+                            <div id="featured-bg-647359e615ed40089d42519e"></div>
+                        </div>
+                        <div class="m-featured-article__meta">
+                          <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-featured-article__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar Along with N Krishna">
+                              <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+                          </a>
+                        </div>
+                        <div class="m-featured-article__ribbon">
+                          <span class="icon-star"></span>
+                          <span>Featured</span>
+                        </div>
+                        <a href="/tapestry/" class="m-featured-article__content">
+                          <h2 class="m-featured-article__title js-featured-article-title" title="&quot;Tapestry&quot;">
+                            "Tapestry"
+                          </h2>
+                          <div class="m-featured-article__timestamp">
+                            <span>3 years ago</span>
+                            <span>•</span>
+                            <span>6 min read</span>
+                          </div>
+                        </a>
+                      </article>
+                    </div>
+                    <div class="m-featured-slider__list__item glide__slide js-featured-slide">
+                      <article class="m-featured-article ">
+                        <div class="m-featured-article__picture">
+                            <style>
+                              #featured-bg-635e76e1b7eaba088783df08 {
+                                background-image: url(content/images/size/w1000/2022/10/Login-Logo-4K.png);
+                              }
+                            
+                              @media(max-width: 768px) {
+                                #featured-bg-635e76e1b7eaba088783df08 {
+                                  background-image: url(content/images/size/w600/2022/10/Login-Logo-4K.png);
+                                }
+                              }
+                            </style>
+                            <div id="featured-bg-635e76e1b7eaba088783df08"></div>
+                        </div>
+                        <div class="m-featured-article__meta">
+                          <a href="https://thebridge.psgtech.ac.in/author/iniya/" class="m-featured-article__author js-tooltip" aria-label="Annie Iniya" data-tippy-content="Posted by Annie Iniya Along with Varsini Parthiban">
+                              <div style="background-image: url(content/images/size/w100/2020/09/Screenshot_20200920-162522.png);"></div>
+                          </a>
+                            <a href="https://thebridge.psgtech.ac.in/category/campus-news/" class="m-featured-article__tag">On Campus</a>
+                        </div>
+                        <div class="m-featured-article__ribbon">
+                          <span class="icon-star"></span>
+                          <span>Featured</span>
+                        </div>
+                        <a href="/a-celebration-of-resilience-login/" class="m-featured-article__content">
+                          <h2 class="m-featured-article__title js-featured-article-title" title="A celebration of resilience - LOGIN 2022">
+                            A celebration of resilience - LOGIN 2022
+                          </h2>
+                          <div class="m-featured-article__timestamp">
+                            <span>4 years ago</span>
+                            <span>•</span>
+                            <span>5 min read</span>
+                          </div>
+                        </a>
+                      </article>
+                    </div>
+                    <div class="m-featured-slider__list__item glide__slide js-featured-slide">
+                      <article class="m-featured-article ">
+                        <div class="m-featured-article__picture">
+                            <style>
+                              #featured-bg-634d403573e77248fb4e7598 {
+                                background-image: url(content/images/size/w1000/2022/10/by-tharunkumar-Dhanasekaran--2-.png);
+                              }
+                            
+                              @media(max-width: 768px) {
+                                #featured-bg-634d403573e77248fb4e7598 {
+                                  background-image: url(content/images/size/w600/2022/10/by-tharunkumar-Dhanasekaran--2-.png);
+                                }
+                              }
+                            </style>
+                            <div id="featured-bg-634d403573e77248fb4e7598"></div>
+                        </div>
+                        <div class="m-featured-article__meta">
+                          <a href="https://thebridge.psgtech.ac.in/author/tharunkumar-dhanasekaran/" class="m-featured-article__author js-tooltip" aria-label="Tharunkumar Dhanasekaran" data-tippy-content="Posted by Tharunkumar Dhanasekaran ">
+                              <div style="background-image: url(content/images/size/w100/2022/01/tharun.jpeg);"></div>
+                          </a>
+                            <a href="https://thebridge.psgtech.ac.in/category/the-raga-series/" class="m-featured-article__tag">The Raga Series</a>
+                        </div>
+                        <div class="m-featured-article__ribbon">
+                          <span class="icon-star"></span>
+                          <span>Featured</span>
+                        </div>
+                        <a href="/bhairavi-the-raga-that-tested-time/" class="m-featured-article__content">
+                          <h2 class="m-featured-article__title js-featured-article-title" title="Bhairavi - The Rāga that Tested Time">
+                            Bhairavi - The Rāga that Tested Time
+                          </h2>
+                          <div class="m-featured-article__timestamp">
+                            <span>4 years ago</span>
+                            <span>•</span>
+                            <span>8 min read</span>
+                          </div>
+                        </a>
+                      </article>
+                    </div>
+                </div>
+              </div>
+              <div data-glide-el="controls" class="glide__arrows js-featured-slider-controls">
+                <button data-glide-dir="<" class="m-icon-button in-featured-articles glide-prev js-featured-slider-previous" aria-label="Previous">
+                  <span class="icon-arrow-left" aria-hidden="true"></span>
+                </button>
+                <button data-glide-dir=">" class="m-icon-button in-featured-articles glide-next js-featured-slider-next" aria-label="Next">
+                  <span class="icon-arrow-right" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+        
+  <article class="m-article-card  post tag-hash-amrithkaal tag-hash-glf tag-hash-environment">
+    <div class="m-article-card__picture">
+      <a href="/viksit-bharat-2047-amrith-kaal-vimarsh/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2024/03/------.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-article-card__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar Along with The Editorial Team">
+          <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info no-tag">
+    
+      <a href="/viksit-bharat-2047-amrith-kaal-vimarsh/" class="m-article-card__info-link" aria-label="Viksit Bharat@2047 - Amrith Kaal Vimarsh">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Viksit Bharat@2047 - Amrith Kaal Vimarsh">
+            Viksit Bharat@2047 - Amrith Kaal Vimarsh
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>5 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-miscellaneous tag-hash-climatechange">
+    <div class="m-article-card__picture">
+      <a href="/water-water-everywhere-nor-any-drop-to-drink/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2023/11/Untitled-1.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/nanakrish/" class="m-article-card__author js-tooltip" aria-label="N Krishna" data-tippy-content="Posted by N Krishna ">
+          <div style="background-image: url(content/images/size/w100/2020/08/WhatsApp-Image-2020-07-04-at-02.05.04.jpeg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <div class="m-article-card__tag">
+          <a href="https://thebridge.psgtech.ac.in/category/miscellaneous/">Miscellaneous</a>
+        </div>        
+    
+      <a href="/water-water-everywhere-nor-any-drop-to-drink/" class="m-article-card__info-link" aria-label="Water, water, everywhere, nor any drop to drink">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Water, water, everywhere, nor any drop to drink">
+            Water, water, everywhere, nor any drop to drink
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>7 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-hash-tedx tag-hash-tedxpsgtech tag-miscellaneous tag-off-the-stage featured">
+    <div class="m-article-card__picture">
+      <a href="/adayalam-identity-unveiled-tedxpsgtech/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2023/10/WhatsApp-Image-2023-10-28-at-08.20.37_856b0569.jpg-3.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-article-card__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar Along with Ritika Loganayagi">
+          <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+      </a>
+        <a href="/adayalam-identity-unveiled-tedxpsgtech/" class="m-article-card__featured js-tooltip" data-tippy-content="Featured" aria-label="Featured">
+          <span class="icon-star" aria-hidden="true"></span>
+        </a>
+    </div>
+      <div class="m-article-card__info no-tag">
+    
+      <a href="/adayalam-identity-unveiled-tedxpsgtech/" class="m-article-card__info-link" aria-label="Adayalam: Identity unveiled - TEDxPSGTech">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Adayalam: Identity unveiled - TEDxPSGTech">
+            Adayalam: Identity unveiled - TEDxPSGTech
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>7 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-miscellaneous tag-hash-fantasy tag-hash-philosophy">
+    <div class="m-article-card__picture">
+      <a href="/the-prophecy-of-life/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2023/07/_90ca1cea-3f24-4631-8c28-5ca9ed9afb81.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/vanji-yazhini-udayakumar/" class="m-article-card__author js-tooltip" aria-label="Vanji Yazhini Udayakumar" data-tippy-content="Posted by Vanji Yazhini Udayakumar ">
+          <div style="background-image: url(content/images/size/w100/2022/01/Yazhini_picture.jpg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <div class="m-article-card__tag">
+          <a href="https://thebridge.psgtech.ac.in/category/miscellaneous/">Miscellaneous</a>
+        </div>        
+    
+      <a href="/the-prophecy-of-life/" class="m-article-card__info-link" aria-label="The Prophecy of Life">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="The Prophecy of Life">
+            The Prophecy of Life
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>3 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-sci-tech">
+    <div class="m-article-card__picture">
+      <a href="/a-laymans-approach-to-the-world-of-dimensionality-reduction/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2023/07/_23ff3b4a-6ff8-4de5-96b3-7d0e37db5913.jpg" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/anirudh-balakrishnan/" class="m-article-card__author js-tooltip" aria-label="Anirudh Balakrishnan" data-tippy-content="Posted by Anirudh Balakrishnan ">
+          <div style="background-image: url(content/images/size/w100/2021/06/Anirudh.png);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <div class="m-article-card__tag">
+          <a href="https://thebridge.psgtech.ac.in/category/sci-tech/">Sci Tech</a>
+        </div>        
+    
+      <a href="/a-laymans-approach-to-the-world-of-dimensionality-reduction/" class="m-article-card__info-link" aria-label="A layman's approach to the world of dimensionality reduction">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="A layman's approach to the world of dimensionality reduction">
+            A layman's approach to the world of dimensionality reduction
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>5 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-sci-tech featured">
+    <div class="m-article-card__picture">
+      <a href="/on-the-brink/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2023/06/Screenshot-2023-06-18-205109.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-article-card__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar ">
+          <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+      </a>
+        <a href="/on-the-brink/" class="m-article-card__featured js-tooltip" data-tippy-content="Featured" aria-label="Featured">
+          <span class="icon-star" aria-hidden="true"></span>
+        </a>
+    </div>
+      <div class="m-article-card__info">
+        <div class="m-article-card__tag">
+          <a href="https://thebridge.psgtech.ac.in/category/sci-tech/">Sci Tech</a>
+        </div>        
+    
+      <a href="/on-the-brink/" class="m-article-card__info-link" aria-label="On the brink">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="On the brink">
+            On the brink
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>4 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-hash-interview tag-alumni tag-hash-research featured">
+    <div class="m-article-card__picture">
+      <a href="/tapestry/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2023/05/Marielle-Price--1-.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/vishaal-harikrishna-kumar/" class="m-article-card__author js-tooltip" aria-label="Vishaal Harikrishna Kumar" data-tippy-content="Posted by Vishaal Harikrishna Kumar Along with N Krishna">
+          <div style="background-image: url(content/images/size/w100/2022/08/IMG_1298--1--2.JPG);"></div>
+      </a>
+        <a href="/tapestry/" class="m-article-card__featured js-tooltip" data-tippy-content="Featured" aria-label="Featured">
+          <span class="icon-star" aria-hidden="true"></span>
+        </a>
+    </div>
+      <div class="m-article-card__info no-tag">
+    
+      <a href="/tapestry/" class="m-article-card__info-link" aria-label="&quot;Tapestry&quot;">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="&quot;Tapestry&quot;">
+            "Tapestry"
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>•</span>
+          <span>6 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-campus-news featured">
+    <div class="m-article-card__picture">
+      <a href="/a-celebration-of-resilience-login/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2022/10/Login-Logo-4K.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/iniya/" class="m-article-card__author js-tooltip" aria-label="Annie Iniya" data-tippy-content="Posted by Annie Iniya Along with Varsini Parthiban">
+          <div style="background-image: url(content/images/size/w100/2020/09/Screenshot_20200920-162522.png);"></div>
+      </a>
+        <a href="/a-celebration-of-resilience-login/" class="m-article-card__featured js-tooltip" data-tippy-content="Featured" aria-label="Featured">
+          <span class="icon-star" aria-hidden="true"></span>
+        </a>
+    </div>
+      <div class="m-article-card__info">
+        <div class="m-article-card__tag">
+          <a href="https://thebridge.psgtech.ac.in/category/campus-news/">On Campus</a>
+        </div>        
+    
+      <a href="/a-celebration-of-resilience-login/" class="m-article-card__info-link" aria-label="A celebration of resilience - LOGIN 2022">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="A celebration of resilience - LOGIN 2022">
+            A celebration of resilience - LOGIN 2022
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>4 years ago</span>
+          <span>•</span>
+          <span>5 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-the-raga-series featured">
+    <div class="m-article-card__picture">
+      <a href="/bhairavi-the-raga-that-tested-time/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2022/10/by-tharunkumar-Dhanasekaran--2-.png" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/tharunkumar-dhanasekaran/" class="m-article-card__author js-tooltip" aria-label="Tharunkumar Dhanasekaran" data-tippy-content="Posted by Tharunkumar Dhanasekaran ">
+          <div style="background-image: url(content/images/size/w100/2022/01/tharun.jpeg);"></div>
+      </a>
+        <a href="/bhairavi-the-raga-that-tested-time/" class="m-article-card__featured js-tooltip" data-tippy-content="Featured" aria-label="Featured">
+          <span class="icon-star" aria-hidden="true"></span>
+        </a>
+    </div>
+      <div class="m-article-card__info">
+        <div class="m-article-card__tag">
+          <a href="https://thebridge.psgtech.ac.in/category/the-raga-series/">The Raga Series</a>
+        </div>        
+    
+      <a href="/bhairavi-the-raga-that-tested-time/" class="m-article-card__info-link" aria-label="Bhairavi - The Rāga that Tested Time">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Bhairavi - The Rāga that Tested Time">
+            Bhairavi - The Rāga that Tested Time
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>4 years ago</span>
+          <span>•</span>
+          <span>8 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+  <article class="m-article-card  post tag-hash-interview tag-off-the-stage tag-alumni tag-hash-music featured">
+    <div class="m-article-card__picture">
+      <a href="/a-rendezvous-with-a-wizard/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="content/images/size/w600/2022/10/Saketharaman-1.jpeg" loading="lazy" alt="">
+      <a href="https://thebridge.psgtech.ac.in/author/tharunkumar-dhanasekaran/" class="m-article-card__author js-tooltip" aria-label="Tharunkumar Dhanasekaran" data-tippy-content="Posted by Tharunkumar Dhanasekaran ">
+          <div style="background-image: url(content/images/size/w100/2022/01/tharun.jpeg);"></div>
+      </a>
+        <a href="/a-rendezvous-with-a-wizard/" class="m-article-card__featured js-tooltip" data-tippy-content="Featured" aria-label="Featured">
+          <span class="icon-star" aria-hidden="true"></span>
+        </a>
+    </div>
+      <div class="m-article-card__info no-tag">
+    
+      <a href="/a-rendezvous-with-a-wizard/" class="m-article-card__info-link" aria-label="Rendezvous with a Wizard">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Rendezvous with a Wizard">
+            Rendezvous with a Wizard
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>4 years ago</span>
+          <span>•</span>
+          <span>8 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+      </div>
+    </div>
+    
+<div class="l-wrapper">
+  <nav class="m-pagination" aria-label="Pagination">
+    <span class="m-pagination__text">Page 1 of 43</span>
+      <a href="/page/2/" class="m-icon-button filled in-pagination-right" aria-label="Older posts">
+        <span class="icon-arrow-right"></span>
+      </a>
+  </nav>
+</div>
+
+  </div>
+</main>
+
+
+
+    
+<div class="m-search js-search" role="dialog" aria-modal="true" aria-label="Search">
+  <button class="m-icon-button outlined as-close-search js-close-search" aria-label="Close search">
+    <span class="icon-close" aria-hidden="true"></span>
+  </button>
+  <div class="m-search__content">
+    <form class="m-search__form">
+      <div class="pos-relative">
+        <span class="icon-search m-search-icon" aria-hidden="true"></span>
+        <label for="search-input" class="sr-only">
+          Type to search
+        </label>
+        <input id="search-input" type="text" class="m-input in-search js-input-search" placeholder="Type to search">
+      </div>
+    </form>
+    <div class="js-search-results hide"></div>
+    <p class="m-not-found align-center hide js-no-results">
+      No results for your search, please try with something else.
+    </p>
+  </div>
+</div>
+
+    <footer class="m-footer">
+  <div class="m-footer__content">
+    <p class="m-footer-copyright">
+      <span>
+        The Bridge
+        ©
+        2026
+      </span>
+      <span>
+        •
+      </span>
+      <a href="https://psgtech.edu" target="_blank" rel="noopener">
+        <span>
+          PSG College of Technology
+        </span>
+      </a>
+    </p>
+    
+    <nav class="m-footer-social">
+        <a href="https://www.facebook.com/thebridgepsg" target="_blank" rel="noopener" aria-label="Facebook">
+          <span class="icon-facebook"></span>
+        </a>
+        <a href="https://twitter.com/thebridgepsg" target="_blank" rel="noopener" aria-label="Twitter">
+          <span class="icon-twitter"></span>
+        </a>
+      <a href="https://www.instagram.com/thebridgepsg" target="_blank" rel="noopener" aria-label="Instagram">
+        <span class="icon-instagram"></span>
+      </a>
+      <a href="https://www.linkedin.com/company/the-bridge-psg-tech" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <span class="icon-linkedin"></span>
+      </a>
+      <a href="https://thebridge.psgtech.ac.in/rss" target="_blank" rel="noopener" aria-label="rss">
+        <span class="icon-rss"></span>
+      </a>
+    </nav>
+  </div>
+</footer>
+    <script crossorigin="anonymous" src="../polyfill.io/v3/polyfill.min_features%3DIntersectionObserver%252CPromise%252CArray.prototype.includes%252CString.prototype.endsWith%252CString.prototype.startsWith%252CObject.assign%252CNodeList.prototype.forEach.js.html"></script>
+    <script defer="" src="assets/js/manifest_v%3D7bb634c764.js"></script>
+    <script defer="" src="assets/js/vendor/content-api.min_v%3D7bb634c764.js"></script>
+    <script defer="" src="assets/js/vendor_v%3D7bb634c764.js"></script>
+    <script defer="" src="assets/js/app_v%3D7bb634c764.js"></script>
+
+      <script defer="" src="assets/js/home_v%3D7bb634c764.js"></script>
+
+
+    <script src="pwa/pwa.js"></script>
+  
+
+</body></html>

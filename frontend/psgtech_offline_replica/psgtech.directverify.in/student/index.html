@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="script-src 'strict-dynamic' 'sha256-At2HPo55mXoKjBS66I5e06yDznsq+JRsnVebay5h7i4=' https: 'unsafe-inline';object-src 'none';base-uri 'self';">
+    <meta charset="utf-8">
+      <title>Docswallet — Digital Document Locker</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="assets/img/Favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <!-- Inter is what --font-sans/--font-display ask for first, and it was never
+         loaded, so the whole app silently fell back to Roboto. Roboto was itself
+         requested at 300/400/500 only while the stylesheets use 600 (61 times) and
+         700 (12 times), leaving the browser to synthesise those weights - faux bold
+         renders smeared and unevenly spaced. These are the weights actually used. -->
+    <link href="../../fonts.googleapis.com/css2/family%3DInter_wght%40400%3B500%3B600%3B700%26display%3Dswap" rel="stylesheet">
+    <link href="../../fonts.googleapis.com/icon/family%3DMaterial%2BIcons" rel="stylesheet">
+    <link href="../../fonts.googleapis.com/icon/family%3DMaterial%2BIcons%2BOutlined" rel="stylesheet">
+    <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="styles.css"></head>
+  <body>
+    <app-root ngcspnonce="__CSP_NONCE__"></app-root>
+  <script>
+  var scripts = [['main.js', 'module', false, false]];
+  scripts.forEach(function(scriptUrl) {
+    var s = document.createElement('script');
+    s.src = scriptUrl[0];
+    s.type = scriptUrl[1];
+    s.async = !!scriptUrl[2];
+    s.defer = !!scriptUrl[3];
+    document.lastElementChild.appendChild(s);
+  });
+</script>
+
+</body></html>

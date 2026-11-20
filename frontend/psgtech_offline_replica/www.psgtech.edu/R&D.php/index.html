@@ -1,0 +1,1678 @@
+<!DOCTYPE html><!--[if lt IE 7]>		<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]--><!--[if IE 7]>			<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]--><!--[if IE 8]>			<html class="no-js lt-ie9" lang=""> <![endif]--><!--[if gt IE 8]><!--><html class="no-js" lang="zxx"><!--<![endif]--><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PSG College of Technology</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png/index.html">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/icomoon.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/prettyPhoto.css">
+    <link rel="stylesheet" href="../css/owl.carousel.css">
+    <link rel="stylesheet" href="../css/owl.theme.default.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/color.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="shortcut icon" href="../images/psgicon.ico">
+    <script src="../js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+    <style>
+        .awNotices {
+            position: relative;
+            color: white;
+            font: 400 12px Arial;
+
+            a {
+                padding: 8px 25px 8px 10px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                opacity: 0;
+                color: inherit;
+                text-decoration: none;
+                visibility: hidden;
+                transition: opacity .6s;
+                border-radius: 3px;
+                text-shadow: 0 0 3px rgba(1, 1, 1, .3);
+                line-height: 150%;
+                overflow: hidden;
+                position: relative;
+                width: 100%;
+                -webkit-transform-style:preserve-3d;
+                -moz-transform-style:preserve-3d;
+                transform-style:preserve-3d
+
+                i.fa {
+                    padding-right: 8px;
+                    margin-right: 5px;
+                    border-right: 1px solid rgba(255, 255, 255, .2);
+                }
+            }
+
+            a[notice-color="orange"] {
+                background-color: #ff9800;
+            }
+
+            a[notice-color="red"] {
+                background-color: #e51c23;
+            }
+
+            a[notice-color="blue"] {
+                background-color: #3f51b5;
+            }
+
+            a[notice-color="green"] {
+                background-color: #8bc34a;
+            }
+
+            a[notice-color="dark"] {
+                background-color: #414141;
+            }
+
+            a.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            span.controller {
+                position: absolute;
+                cursor: pointer;
+                background: transparent;
+                right: 0;
+                padding: 8px 10px;
+                line-height: 150%;
+            }
+        }
+    </style>
+
+    <style>
+        /*
+*,html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,label,fieldset,input,p,blockquote,th,td {
+    margin: 0;
+    padding: 0;
+}
+
+article,aside,figure,footer,header,hgroup,nav,section {
+    display: block;
+} */
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: #2B4BAB;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #2B4BAB;
+        }
+
+        /*
+body {
+    background: #e5e5e5;
+    color: #374147;
+    font: 14px "Open Sans",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+    width: 100%;
+} */
+
+        .nvmenu {
+            display: block;
+            /* background: #2B4BAB;*/
+            text-align: right;
+            background: transparent;
+        }
+
+        .menu {
+            display: block;
+            text-align: right;
+        }
+
+        .menu li {
+            display: inline-block;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu li:first-child {
+            margin-left: 0;
+        }
+
+        .menu li a {
+            /* font: 400 14px/40px 'Open Sans', Arial, Helvetica, sans-serif; */
+            font: 400 13px/21px 'Open Sans', Arial, Helvetica, sans-serif;
+            */
+            /* font-weight: 600; */
+            text-decoration: none;
+            padding: 10px 10px;
+            display: block;
+            color: #fff;
+            transition: all 0.2s ease-in-out 0s;
+        }
+
+        .menu li a:hover,
+        .menu li:hover>a {
+            color: #fff;
+            background: #9ca3da;
+        }
+
+        .menu ul {
+            visibility: hidden;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            width: 170px;
+            position: absolute;
+            left: 0px;
+            background: #fff;
+            z-index: 99;
+            transform: translate(0, 20px);
+            transition: all 0.2s ease-out;
+        }
+
+        .menu ul:after {
+            bottom: 100%;
+            left: 20%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #fff;
+            border-width: 6px;
+            margin-left: -6px;
+        }
+
+        .menu ul li {
+            display: block;
+            float: none;
+            background: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu ul li a {
+            font-size: 12px;
+            font-weight: normal;
+            display: block;
+            color: #797979;
+            background: #fff;
+        }
+
+        .menu ul li a:hover,
+        .menu ul li:hover>a {
+            background: #9ca3da;
+            color: #fff;
+        }
+
+        .menu li:hover>ul {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .menu ul ul {
+            left: 169px;
+            top: 0px;
+            visibility: hidden;
+            opacity: 0;
+            transform: translate(20px, 20px);
+            transition: all 0.2s ease-out;
+        }
+
+        .menu ul ul:after {
+            left: -6px;
+            top: 10%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-right-color: #fff;
+            border-width: 6px;
+            margin-top: -6px;
+        }
+
+        .menu li>ul ul:hover {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .responsive-menu {
+            text-align: right;
+            font: 400 13px/21px 'Open Sans', Arial, Helvetica, sans-serif;
+            /* font: 400 14px/40px 'Open Sans', Arial, Helvetica, sans-serif; */
+            display: none;
+            width: 100%;
+            padding: 10px 15px;
+            /* background: #2B4BAB; */
+            color: #fff;
+            /* text-transform: uppercase; */
+            font-weight: 600;
+        }
+
+        .responsive-menu:hover {
+            background: #2B4BAB;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a.homer {
+            background: #9ca3da;
+        }
+
+        @media (min-width: 768px) and (max-width: 979px) {
+            .mainWrap {
+                width: 768px;
+            }
+
+            .menu ul {
+                top: 37px;
+            }
+
+            .menu li a {
+                font-size: 12px;
+            }
+
+            a.homer {
+                background: #374147;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mainWrap {
+                width: auto;
+                padding: 50px 20px;
+            }
+
+            .menu {
+                display: none;
+            }
+
+            .responsive-menu {
+                display: block;
+            }
+
+            nav {
+                margin: 0;
+                background: none;
+            }
+
+            .menu li {
+                display: block;
+                margin: 0;
+            }
+
+            .menu li a {
+                background: #fff;
+                color: #797979;
+            }
+
+            .menu li a:hover,
+            .menu li:hover>a {
+                background: #9ca3da;
+                color: #fff;
+            }
+
+            .menu ul {
+                visibility: hidden;
+                opacity: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                transform: initial;
+            }
+
+            .menu li:hover>ul {
+                visibility: visible;
+                opacity: 1;
+                position: relative;
+                transform: initial;
+            }
+
+            .menu ul ul {
+                left: 0;
+                transform: initial;
+            }
+
+            .menu li>ul ul:hover {
+                transform: initial;
+            }
+        }
+
+        @media (max-width: 480px) {}
+
+        @media (max-width: 320px) {}
+    </style>
+
+
+<script async="" src="../../www.googletagmanager.com/gtag/js/id%3DG-987N7XWC78"></script><script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-987N7XWC78'); </script></head>
+ <!-- Google tag (gtag.js) -->
+
+
+<!-- Google tag (gtag.js) -->
+
+
+
+<body class="tg-home tg-homeone">
+    <div id="tg-wrapper" class="tg-wrapper">
+        <header id="tg-header" class="tg-header tg-headervtwo tg-haslayout">
+
+            <div class="tg-topbar">
+                <div class="tg-leftbox">
+                    <div class="tg-tickerbox"> <span>News:</span>
+                        <div id="tg-ticker" class="tg-ticker owl-carousel">
+
+                            
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://events.psgtech.ac.in/flashedu/images/files/Registration for Redo courses even 2026-27.pdf"><font color="#f4de88" size="2.5px">Registration for Redo Courses </font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://ecampus.psgtech.ac.in/studzone2/AttWfLoginPage.aspx"><font color="#f4de88" size="2.5px">Semester Examinations December 2026 Timetable Published</font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://events.psgtech.ac.in/flashedu/images/files/Global tender PSG College of Technology Coimbatore-VDI Tester.pdf"><font color="#f4de88" size="2.5px">Global Tender Invited for the Procurement of VDI Tester under the Ministry of Textiles� NTTM Project.</font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://www.psgproducts.org/"><font color="#f4de88" size="2.5px">PSG Centenary Celebrations | Products of PSG Products Expo 2026 - Visit the Official Expo Website. </font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!-- <div class="tg-rightbox ">
+      <span class="tg-rtltextbox">
+  -->
+                <nav class="nvmenu">
+                    <a id="resp-menu" class="responsive-menu" href="#" style="color: white;"><i class="fa fa-reorder"></i> PSG Mail</a>
+                    <ul class="menu">
+                    <li><a class="homer" href="files/Campus-Map.jpg" target="_blank" style="background-color: #2B4BAB;color: white;text-align: left;">
+                                            Campus Map </a>
+                                    </li>
+                        <li><a class="homer" href="https://mail.google.com/a/psgtech.ac.in" target="_blank" style="background-color: #2B4BAB;color: white;text-align: left;">Mail</a>
+                        </li>
+                        <li><a href="student.php" style="background-color: #2B4BAB;color: white;text-align: left;">Students</a></li>
+                        <li><a href="parentzone.php" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Parents</a>
+                        </li>
+                        <li><a href="#" style="background-color: #2B4BAB;color: white;text-align: left;">Alumni</a>
+                            <ul class="sub-menuu">
+                                <li><a href="https://laudea.psgtech.ac.in/alumni/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Albums</a></li>
+                                <li><a href="https://alumni.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Association</a></li>
+                                <!-- <li><a href="http://alumnifoundation.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;">Alumni Foundation</a></li> -->
+                                <li><a href="https://psgtechalumnifoundation.org/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Foundation</a></li>
+                                <li><a href="grdmuseum/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">PSG GRD
+                                        Museum</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li><a href="https://psgsonscharities.freshteam.com/jobs"
+                                style="background-color: #2B4BAB;color: white;text-align: left;">Careers</a></li> -->
+                        <li><a href="https://recruitments.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Careers</a></li>
+                               
+                        <li><a href="IIC/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank"> IIC</a>
+                        </li>
+                        <li><a href="help-desk.php" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank"> Help
+                                            Desk</a>
+                                    </li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </nav>
+                <!-- <a href="https://mail.google.com/a/psgtech.ac.in" target="_blank">PSG Gmail</a>
+            <a href="student.php">Students</a>
+            <a href="parentzone.php">Parents</a>
+            <a href="javascript:void(0);">Alumni</a>
+                    <li><a href="http://alumnifoundation.psgtech.ac.in/">Alumni Foundation</a></li>
+                    <li><a href="https://alumni.psgtech.ac.in/">Alumni</a></li>
+            <a href="/achievements.php">Achievements</a> -->
+                <!-- </span>
+  </div> -->
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <div class="tg-navigationarea"> <strong class="tg-logo"><a href="http://www.psgtech.edu">
+                            <!-- <img src="images/logo-G2-New.png" alt="PSG College of Technology"> -->
+                            <img src="../images/logo.png" alt="PSG College of Technology">
+                        </a>
+                                <a href="images/ISO Certificate.jpg">ISO certified 9001:2015 </a>
+                            </strong>
+                            <div class="tg-navigationandsearch">
+                                <nav id="tg-nav" class="tg-nav tg">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tg-navigation" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                                    </div>
+                                    <div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
+                                        <ul>
+                                            <li><a href="https://www.psgtech.edu/">Home</a></li>
+                                            <li class="menu-item-has-children current-menu-item"> <a href="javascript:void(0);">About us</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="abtcllg.php">About the College</a></li>
+                                                    <li><a href="Management.php">Management</a></li>
+                                                    <li><a href="files/general/Updated_GCCT_MembersList_Aug2026.pdf" target="_blank">Governing Council</a></li>
+                                                    <li><a href="founders.php">PSG &amp; Sons' Charities </a></li>
+                                                    <li><a href="trustees.php">Managing Trustees</a></li>
+                                                    <li><a href="secretary.php">Secretary</a></li>
+                                                    <li><a href="principal.php">Principals</a></li>
+                                                    <li><a href="Professor_Practice.php">Professor of Practice</a></li>
+                                                     <li><a href="VicePrincipal_WomenWelfare.php">Vice Principal  (Women Welfare)</a></li>
+                                                    <li><a href="Dean-Academic.php">Dean - Academic</a></li>
+                                                    <li><a href="Dean-Administration.php">Dean - Administration</a></li>
+                                                    <li><a href="Dean-Autonomous.php" class="adm">Dean - Autonomous Functioning</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Academics</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="programme.php">Programmes</a></li>
+                                                    <li><a href="index.php">Departments</a></li>
+                                                    <li><a href="scholarships.php">Scholarship</a></li>
+                                                    <li><a href="placements/index.php">Placement</a></li>
+                                                    <li><a href="Heads.php">Heads of the Department</a></li>
+                                                    <!-- <li><a href="calendar.php">Academic Calendar</a></li> -->
+                                                    <li><a href="https://academicschedule.psgtech.ac.in/" target="_blank">Academic Calendar</a></li>
+                                                    <li><a href="files/calendar/PSGTech-AcademicCalendar2025-2026.pdf" target="_blank">College Calendar</a></li>
+                                                    <li><a href="https://library.psgtech.ac.in/" target="_blank">Library</a></li>
+                                                    <li><a href="https://sports.psgtech.ac.in/" target="_blank">Sports</a></li>
+
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Admissions</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="programme_offered.php">Programmes offered</a></li>
+                                                    <li><a href="admission.php">Admission 2026</a></li>
+                                                    <li><a href="BScMScAdmission2026/" class="adm">B.Sc &amp; M.Sc Programmes Admission 2026</a></li>
+                                                    <!-- <li><a href="#" class="adm">B.Sc & M.Sc Programmes Admission 2025</a></li> -->
+                                                    <!-- <li><a href="pgadmission2025/" class="adm" target="_blank">ME / MTech / MCA Programmes Admission 2025 </a></li> -->
+                                                    <li><a href="https://psgtech.edu/pgadmission2026" class="adm">ME/MTech/MCA Programmes 2026</a></li>
+                                                    <li><a href="./fn_oci/" target="_blank" class="adm">BE/BTech Programme Admission 2026 under FN/OCI Only</a></li>
+                                                    <!-- <li><a href="fn_oci_ciwgc" class="adm">BE / BTech Programmes Admission 2024 under FN / OCI / CIWGC</a></li> -->
+                                                     <li><a href="https://enquiry.psgtech.ac.in/" target="_blank" class="adm">BE/BTech Enquiry form</a></li>
+                                                    <!-- <li><a href="https://enquiry.psgtech.ac.in" class="adm">BE/BTECH Enquiry form</a></li> -->
+                                                    <!--  <li><a href="https://ecampus.psgtech.ac.in/fnapplication/" class="adm">FN/OCI/CIWGC Admission 2022</a></li>
+-->
+                                                    <!-- <li><a href="FNOCI.php" class="adm">FN/OCI/CIWGC Admission 2023</a></li> -->
+                                                    <!-- <li><a href="fn_oci_ciwgc/" class="adm">FN/OCI/CIWGC Admission 2023</a></li> -->
+                                                    <!-- fn_oci_ciwgc/ -->
+                                                    <!-- <li><a href="https://events.psgtech.ac.in/flashedu/images/files/BSc App Sci Shortlisted candidates 2022-23.pdf" class="adm">BSc App.Sci. shortlisted candidates 2022</a></li> -->
+                                                </ul>
+                                            </li>
+
+                                            <li><a href="coe.php">Exams</a></li>
+
+                                            <li><a href="NAAC/">NAAC</a></li>
+
+                                            <!-- <li class="NAAC/"> <a href="NAAC"></a>
+                                            <ul class="sub-menu">
+                                            <ul class="sub-menu">
+
+                                            <li><a href="1st - IQAC Meeting Minutes 2021-22.pdf">Minutes of 1<sup>st </sup>meeting 21-22</a></li></a></li>
+                                            <li><a href="Minutes of 2nd meeting 21-22.pdf">Minutes of 2<sup>nd </sup>meeting 21-22</a></li></a></li>
+                                            <li><a href="IQAC-EPTV 2019-2020.pdf">External Team Report (19-20) </a></li></a></li>
+                                            <li><a href="IQAC-memebrs.jpg">IQAC  Members List  2019-21</a></li>
+                                            <li><a href="IQACarchives.php">Archives</a></li>
+                                            </ul>
+                                            </li>
+
+                                            </ul>
+                                            </li> -->
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Research</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="R&amp;D.php">Office of Dean Research</a></li>
+                                                    <!-- <li><a href="iprcell/">IPR Cell</a></li> -->
+                                                    <li><a href="http://iprcell.psgtech.ac.in/" target="_blank">IPR Cell</a></li>
+                                                    <li><a href="http://ir.psgtech.ac.in:8080/jspui/" target="_blank">PhD Thesis</a></li>
+                                                    <!-- <li><a href="research_index.php">Research Centers</a></li> -->
+                                                    <li><a href="http://journals.psgtech.ac.in/" target="_blank">Technology Journal</a>
+                                                    </li>
+                                                </ul>
+                                                <!--http://ows.psgtech.edu/journal/index.htm http://ows.psgtech.edu/Researchindex.php-->
+                                            </li>
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Industry</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="Mousgloblink.php">MOUs</a></li>
+
+                                                    <!-- <li><a href="Coll-Act/">Colloborative Activities</a></li> -->
+                                                    <li><a href="./files/general/coeweldingdetails.pdf">COE Welding</a>
+                                                    </li>
+                                                    <!-- <li><a href="http://www.coew.psgtech.ac.in/">COE Welding</a></li> -->
+
+                                                    <li><a href="coeindutech/" target="_blank">Indu Tech</a></li>
+                                                    <li><a href="teqip/">TEQIP</a></li>
+                                                    <li><a href="http://www.psgstep.org/" target="_blank">STEP</a></li>
+                                                    <li><a href="http://psgtifac.co.in/" target="_blank">TIFAC</a></li>
+
+                                                    <!-- <li><a href="IIC/">IIC</a></li> -->
+                                                    <li><a href="//iipc.psgtech.ac.in/">IIPC</a></li>
+                                                    <!--li><a href="PACE.php">PACE</a></li-->
+                                                    <li><a href="https://cnce.psgtech.ac.in/" target="_blank">CNCE</a></li>
+                                                    <li><a href=" https://csrc.psgtech.ac.in" target="_blank">CSRC</a></li>
+                                                    <li><a href="Research/ird.html">CIRD</a></li>
+                                                    <li><a href="https://aiconsortium.psgtech.ac.in/" target="_blank">PSG-AI Consortium</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="coeindutech/">InduTech</a></li>
+
+                                            <li><a href="nirf.php" style="line-height:1.5em">NIRF &amp; <br> ARIIA</a></li>
+
+                                            <li><a href="cont.php">Contact</a></li>
+
+
+                                        </ul>
+
+                                    </div>
+                                </nav>
+                                <!--    <div class="tg-searchbox"> <a id="tg-btnsearch" class="tg-btnsearch" href="javascript:void(0);"><i class="icon-magnifier"></i></a>
+                <form class="tg-formtheme tg-formsearch">
+                  <fieldset>
+                    <input type="search" name="search" class="form-control" placeholder="Start Your Search Here">
+                  </fieldset>
+                </form>
+              </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <script type="text/javascript" src="../../code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- alumni menu
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>-->
+        <script>
+            $(document).ready(function () {
+                var touch = $('#resp-menu');
+                var menu = $('.menu');
+
+                $(touch).on('click', function (e) {
+                    e.preventDefault();
+                    menu.slideToggle();
+                });
+                $(window).resize(function () {
+                    var w = $(window).width();
+                    if (w > 767 && menu.is(':hidden')) {
+                        menu.removeAttr('style');
+                    }
+                });
+
+            });
+        </script>
+
+        <!-- alumni end menu -->
+
+        <script type="text/javascript">
+            <!--$('.awNotices').append('<span class="controller fa fa-pause"></span>');-->
+            $('.awNotices a:nth-of-type(1)').addClass('active');
+
+            function awNotice() {
+                if (!$('.awNotices').hasClass('stopped')) {
+                    var $active = $('.awNotices a.active');
+                    var $next = $active.next('a');
+
+                    if ($next.length) {
+                        $next.addClass('active');
+                        $active.removeClass('active');
+                    } else {
+                        $active.removeClass('active');
+                        $('.awNotices a:first-of-type').addClass('active');
+                    }
+                }
+            }
+
+            $('.awNotices .controller').click(function () {
+                $(this).toggleClass('fa-pause fa-play');
+                $('.awNotices').toggleClass('stopped');
+            })
+
+            function awNotices(timer) {
+                setInterval("awNotice()", timer);
+            }
+
+            awNotices(2500);
+        </script>
+<style>
+  .tg-coursestabs .tg-themetabnav li a {
+    width: auto;
+    padding: 0 15px;
+    overflow: hdden;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+  }
+
+  body {
+    font-family: 'Arial', Helvetica, sans-serif !important;
+  }
+
+.research-scholar-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    background: #fff;
+}
+
+.research-scholar-table th {
+    background: #f1f5f9;
+    color: #1e293b;
+    font-weight: 600;
+    text-align: center !important;;
+    padding: 14px 12px;
+    border: 1px solid #dbe2ea;
+    vertical-align: middle;
+}
+
+.research-scholar-table th span {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.research-scholar-table td {
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+.research-scholar-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Scholar Image */
+.scholar-image {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #e2e8f0;
+    display: block;
+    margin: auto;
+}
+
+/* Status */
+.status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.progress {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.text-bold{
+  font-weight:bold;
+  text-align:left !important;
+}
+.dean-img{
+  width:155px;
+  height:auto;
+}
+</style>
+
+<!-- Code for Right Click and Copy paste disable-->
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(document).bind("contextmenu", function(e) {
+      return false;
+    });
+  })
+
+  document.onkeydown = function(e) {
+    var e = e || event;
+    if (e.shiftKey === true) {
+      return false;
+    }
+  };
+</script>
+
+<!--  Code Ends-->
+<script type="text/javascript">
+  function mischandler() {
+    return false;
+  }
+
+  function mousehandler(e) {
+    var myevent = (isNS) ? e : event;
+    var eventbutton = (isNS) ? myevent.which : myevent.button;
+    if ((eventbutton == 2) || (eventbutton == 3)) return false;
+  }
+  document.oncontextmenu = mischandler;
+  document.onmousedown = mousehandler;
+  document.onmouseup = mousehandler;
+  var isCtrl = false;
+  document.onkeyup = function(e) {
+    if (e.which == 17)
+      isCtrl = false;
+  }
+
+  document.onkeydown = function(e) {
+    if (e.which == 17)
+      isCtrl = true;
+    if ((e.which == 85) || (e.which == 67) && isCtrl == true) {
+      return false;
+    }
+  }
+</script>
+
+<main id="tg-main" class="tg-main tg-haslayout">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="tg-content" class="tg-content">
+          <div class="tg-titleborder">
+            <br>
+            <h2>Office of Dean Research</h2>
+          </div>
+          <div id="tg-twocolumns">
+            <div class="col-xs-12 col-sm-8 col-md-12 col-lg-12">
+              <div id="tg-content" class="tg-content">
+                <article class="tg-themepost tg-course">
+                  <div class="tg-themetabs tg-coursestabs">
+                    <ul class="tg-themetabnav" role="tablist">
+                      <li role="presentation" class="active"> <a href="#description" style="border: 1px solid #ddd;" role="tab" data-toggle="tab"><i class="fa fa-home" style="font-size:25px;color:grey"></i></a> </li>
+                      <li role="presentation"> <a href="#30" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">Research Policy</a> </li>
+                      <li role="presentation"> <a href="#29" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">Advisory Committee</a> </li>
+                      <li role="presentation"> <a href="#86" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">Ethics Committee</a> </li>
+                      <li role="presentation"> <a href="#43" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">AU Regulations</a> </li>
+                      <li role="presentation"> <a href="#25" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">Research Centres</a></li>
+                      <li role="presentation"> <a href="#26" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">Research Conclave</a></li>
+                      <li role="presentation"> <a href="#27" style="border: 1px solid #ddd;" role="tab" data-toggle="tab">Fellowship</a></li>
+                    </ul>
+                    <div class="tab-content tg-themetabcontent" style="border: 0px solid #ddd;">
+                      <div role="tabpanel" class="tab-pane active" id="description">
+                        <section class="tg-sectionspace tg-haslayout" style="padding: 1px;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #fbfbff;">
+                            <figure style="width:22%"><img class="dean-img" src="../images/dean/DeanResearch.jpg" alt="image description"></figure>
+                            <div class="tg-shortcodetextbox">
+                              <h2>Dr Krishnaraj V</h2>
+                              <p align="justify">
+                                 Dean - Research,<br>
+                                <a href="javascript:void(0);">
+                                  <i class="icon-envelope"></i>
+                                  <span>dean.res@psgtech.ac.in</span>
+                                </a>
+                              </p>
+                            </div>
+                          </div>  
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #fbfbff;">
+                            <figure style="width:22%"><img class="dean-img" src="../images/dean/assoDean_research.jpg" alt="image description"></figure>
+                            <div class="tg-shortcodetextbox">
+                             <h2>Dr Krishnamoorthi J</h2>
+                              <p align="justify">
+                                Associate Dean - Research,<br>
+                              </p>
+                            </div>
+                          </div>  
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #fbfbff;">
+                            <figure style="width:22%"><img class="dean-img" src="../images/dean/AssociateDean1.jpg" alt="image description"></figure>
+                            <div class="tg-shortcodetextbox">
+                             <h2>Dr Leo Kumar S P</h2>
+                              <p align="justify">
+                                Associate Dean - Research<br>
+                              </p>
+                            </div>
+                          </div>  
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #fbfbff;">
+                            <figure style="width:22%"><img class="dean-img" src="../images/dean/AssociateDean2.jpg" alt="image description"></figure>
+                            <div class="tg-shortcodetextbox">
+                             <h2>Dr Kathirvel P</h2>
+                              <p align="justify">
+                                Associate Dean - Research<br>
+                              </p>
+                            </div>
+                          </div>  
+                        </section>
+                      </div>
+
+                      <div role="tabpanel" class="tab-pane" id="30">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+                            <div class="tg-shortcodetextbox">
+                              <h2 style="text-align: center;"><b>Research Policy</b></h2>
+                              <ul>
+                                <h3>
+                                  <a href="files/rc/ResearchPolicy_2020-2021.pdf" target="_blank">
+                                    <li>2020 – 2021 </li>
+                                  </a>
+                                </h3> <br>
+                                <!-- <h3>
+                                  <a href="files/rc/Research Policy 2021 - 2022.pdf" target="_blank">
+                                    <li>2021 – 2022 </li>
+                                  </a>
+                                </h3> <br> -->
+                                <h3> 
+                                  <a href="files/rc/ResearchPolicy_ 2023-2024.pdf" target="_blank">
+                                    <li>2023 – 2024 </li>
+                                  </a>
+                                </h3>
+                              </ul>
+                            </div>
+                        </div></section>
+                      </div>
+
+                      <div role="tabpanel" class="tab-pane" id="29">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+
+                            <div class="tg-shortcodetextbox">
+                              <h2 style="text-align: center;"><b>MEMBERS OF RESEARCH ADVISORY COMMITTEE</b></h2>
+                              <ul>
+                                <h2><b>Chairman</b></h2>
+                                <h3>
+                                  <!-- <li>Dr K Prakasan, Principal, PSG College of Technology</li> -->
+                                   <li>Dr. G. Thilagavathi, Principal (FAC), PSG College of Technology</li>
+                                </h3>
+                              </ul>
+                              <ul>
+                                <h2><b>External Members</b></h2>
+                                <h3>
+                                  <li>Dr. Prasada Raju, Distinguished Visiting Professor, PSG Institutions</li>
+                                </h3>
+                                <!-- <h3>
+                                  <li>Dr. R. Selvakumar, Head - Dept. of Biotechnology & Nanobiotechnology, PSG Institute of Advanced Studies</li>
+                                </h3> -->
+                                <h3>
+                                  <li>Dr P Biji, Professor and Head - Dept. of Chemistry, PSG Institute of Advanced Studies</li>
+                                </h3>
+                              </ul>
+                              <ul>
+                                <h2><b>Internal Members</b></h2>
+                                 <h3>
+                                  <li>Dr V Srividya, Director, PSG Institute of Management</li>
+                                </h3>
+                                <!-- <h3>
+                                  <li>Dr P R Thyla, Dean Research</li>
+                                </h3> -->
+                                <h3>
+                                  <li>Dr G Thilagavathi, Professor &amp; Head, Dept of Textile Technology</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr J Krishnamoorthi, Associate Dean - Research, Professor &amp; Head, Dept of Metallurgical Engineering</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr G R Karpagam, Professor, Dept of Computer Science &amp; Engineering</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr S Vidyalakshmi, Associate Professor, Dept of Biotechnology</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr S Praveen Kumar, Associate Professor, Dept of Civil Engineering</li>
+                                </h3>
+                              </ul>
+                            </div>
+                        </div></section>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="86">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+
+                            <div class="tg-shortcodetextbox">
+                              <h2 style="text-align: center;"><b>MEMBERS OF ETHICS COMMITTEE</b></h2>
+                              <ul>
+                                <h2><b>Chairman</b></h2>
+                                <h3>
+                                  <!-- <li>Dr K Prakasan, Principal, PSG College of Technology</li> -->
+                                  <li>Dr. G. Thilagavathi, Principal (FAC), PSG College of Technology</li>
+                                </h3>
+                              </ul>
+                              <ul>
+                                <h2><b>External Members</b></h2>
+                                <h3>
+                                  <li>Dr V Lakshmi Prabha, Academic Consultant, PSG Institutions</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr Anuradha M Ashok,  Professor &amp; Head - Dept. of Physics, PSG Institute of Advanced Studies</li>
+                                </h3>
+                              </ul>
+                              <ul>
+                                <h2><b>Internal Members</b></h2>
+                                 <h3>
+                                  <li>Dr V Srividya, Director, PSG Institute of Management</li>
+                                </h3>
+                                <!-- <h3>
+                                  <li>Dr A Kandaswamy, Dean, Industrial Research & Development</li>
+                                </h3> -->
+                                <h3>
+                                  <li>Dr R Nadarajan, Dean - Placement &amp; Training</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr G Thilagavathi, Professor &amp; Head, Dept of Textile Technology</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr M Ananthasubramanian, Professor &amp; Head, Dept of Biotechnology</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr S Saravanan, Dean - Autonomous Functioning</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr.G.R.Karpagam, Professor, Dept of Computer Science &amp; Engineering</li>
+                                </h3>
+                                <h3>
+                                  <li>Dr P Kathirvel, Assistant Professor, Dept of Physics</li>
+                                </h3>
+                              </ul>
+
+
+
+
+                            </div>
+                        </div></section>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="43">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+
+                            <div class="tg-shortcodetextbox">
+                              <h2><b>Anna University Regulations</b></h2>
+                              <ul>
+
+                                <h3>
+                                  <li><a href="files/R&amp;D/AU-Ph.D-Regulation-2025.pdf" target="_blank">Regulations for Doctor of Philosophy</a></li>
+                                  <li><a href="files/R&amp;D/AU-MS-Regulations-2025.pdf" target="_blank">Regulations for M.S. (By Research)</a></li>
+
+                                </h3>
+                              </ul>
+                            </div>
+                        </div></section>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="26">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+                            <div class="tg-shortcodetextbox">
+                              <h2 style="text-align: center;"><b>Research Conclave</b></h2>
+                              <div class="responsive-table">
+                                <table class="table standard-table table-striped table-hover">
+                                  <tbody>
+                                    <tr>
+                                      <td>2026</td>
+                                      <td><a href="Report-RC2026.php" target="_blank">Report</a></td>
+                                      <td><a href="./files/ResearhConclave/RC2026.pdf" target="_blank">Brochure </a></td>
+                                    </tr>
+                                    <tr>
+                                      <td>2025</td>
+                                      <td><a href="Report-RC2025.php" target="_blank">Report</a></td>
+                                      <td><a href="./files/ResearhConclave/RC2025.pdf" target="_blank">Brochure </a></td>
+                                    </tr>
+                                    <tr>
+                                      <td>2024</td>
+                                      <td><a href="https://www.psgtech.edu/Report-RC.php" target="_blank">Report</a></td>
+                                      <td><a href="./files/ResearhConclave/RC2024.pdf" target="_blank">Brochure </a></td>
+                                    </tr>
+                                    <tr>
+                                      <td>2023</td>
+                                      <td><a href="https://www.psgtech.edu/Report-RC-2023.php" target="_blank">Report</a></td>
+                                      <td><a href="./files/ResearhConclave/RC2023.pdf" target="_blank">Brochure </a></td>
+                                    </tr>
+                                    <tr>
+                                      <td>2022</td>
+                                      <td><a href="https://www.psgtech.edu/Report-RC-2022.php" target="_blank">Report</a></td>
+                                      <td><a href="./files/ResearhConclave/RC2022.pdf" target="_blank">Brochure </a></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                        </div></section>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="27">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+                            <div class="tg-shortcodetextbox">
+
+                              <strong>Research Scholar Fellowship </strong>
+                              <!-- <div class="responsive-table">
+                             <table class="research-scholar-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">Photo</th>
+                                        <th rowspan="2">Research Scholar</th>
+                                        <th colspan="2">Research Fellowship Duration</th>
+                                        <th rowspan="2">PhD Supervisor</th>
+                                        <th rowspan="2">Department</th>
+                                        <th rowspan="2">
+                                            PhD Degree Status<br>
+                                            <span>(In Progress / Completed)</span>
+                                        </th>
+                                    </tr>
+
+                                    <tr>
+                                        <th>From</th>
+                                        <th>To</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="./R&D/DeviMeenaS.png"  width="100px" height="100px" align="center"
+                                                alt="Research Scholar"
+                                                class="img-circle">
+                                        </td>
+
+                                        <td>John Doe</td>
+                                        <td>2022</td>
+                                        <td>2026</td>
+                                        <td>Dr. ABC</td>
+                                        <td>Computer Science</td>
+                                        <td>
+                                            <span class="status completed">Completed</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <img src="images/scholar2.jpg"
+                                                alt="Research Scholar"
+                                                class="scholar-image">
+                                        </td>
+
+                                        <td>Jane Smith</td>
+                                        <td>2024</td>
+                                        <td>Present</td>
+                                        <td>Dr. XYZ</td>
+                                        <td>Physics</td>
+                                        <td>
+                                            <span class="status progress">In Progress</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+</div> -->
+                              <div class="responsive-table">
+                                <table class="table standard-table table-striped table-hover research-scholar-table">
+                                  <thead>
+                                    <tr>
+                                      <th rowspan="2">Research Scholar</th>
+                                      <th colspan="2">Research Fellowship Duration</th>
+                                      <th rowspan="2" style="width:200px">PhD Supervisor</th>
+                                      <th rowspan="2">Department</th>
+                                      <th rowspan="2">PhD Degree status(in progress / completed)</th>
+                                    </tr>
+                                      <tr>
+                                      <th>From</th>
+                                      <th>To</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td colspan="6" class="text-bold">Year 2026</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/DeviMeenaS.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Devi Meena S
+                                      </td>
+                                      <td data-title="fromDate">April 2026</td>
+                                      <td data-title="ToDate">Till Date</td>
+
+                                      <td data-title="guide">Dr Senthil Prabha R</td>
+                                      <td data-title="Course">Information Technology</td>
+                                      <td data-title="ststus">In progress</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/GayathriG.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Gayathri G
+                                      </td>
+                                      <td data-title="University/Institute">April 2026</td>
+                                      <td data-title="Course">Till Date</td>
+
+                                      <td data-title="University/Institute">Dr Kathirvel P</td>
+                                      <td data-title="Course">Physics</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/KarvannanS.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Karvannan S
+                                      </td>
+                                      <td data-title="University/Institute">April 2026</td>
+                                      <td data-title="Course">Till Date</td>
+                                      <td data-title="University/Institute">Dr Vidyalakshmi S</td>
+                                      <td data-title="Course">Biotechnology</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/ReshmaDavisJE.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Reshma Davis J E
+                                      </td>
+                                      <td data-title="University/Institute">April 2026</td>
+                                      <td data-title="Course">Till Date</td>
+                                      <td data-title="University/Institute">Dr Brindha A </td>
+                                      <td data-title="Course">Physics</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/SarathS.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Sarath S
+                                      </td>
+                                      <td data-title="University/Institute">April 2026</td>
+                                      <td data-title="Course">Till Date</td>
+
+                                      <td data-title="University/Institute">Dr Praveen Kumar S </td>
+                                      <td data-title="Course">Civil Engineering </td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/SnehaCharisD.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Sneha Charis D
+                                      </td>
+                                      <td data-title="University/Institute">April 2026</td>
+                                      <td data-title="Course">Till Date</td>
+                                      <td data-title="University/Institute">Dr Sweety Jose P</td>
+                                      <td data-title="Course">Electrical &amp; Electronics Engineering</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/SuganyaV.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Suganya V
+                                      </td>
+                                      <td data-title="University/Institute">April 2026</td>
+                                      <td data-title="Course">Till Date</td>
+                                      <td data-title="University/Institute">Dr Murugananthan M</td>
+                                      <td data-title="Course">Chemistry</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                     <tr>
+                                      <td colspan="6" class="text-bold">Year 2024</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/DhanabalakrishnanM.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Dhanabalakrishnan M
+                                      </td>
+                                      <td data-title="University/Institute">November 2024</td>
+                                      <td data-title="Course">Till date</td>
+                                      <td data-title="University/Institute">Dr Prabhakaran S</td>
+                                      <td data-title="Course">Robotics &amp; Automation Engineering</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/RameshS.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Ramesh S
+                                      </td>
+                                      <td data-title="University/Institute">November 2024</td>
+                                      <td data-title="Course">Till date</td>
+                                      <td data-title="University/Institute">Dr Krishnaveni V </td>
+                                      <td data-title="Course">Electronics &amp; Communication Engineering</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/HarismitaR.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Harismita R
+                                      </td>
+                                      <td data-title="University/Institute">November 2024</td>
+                                      <td data-title="Course">August 2025</td>
+                                      <td data-title="University/Institute">Dr Lekshmi R S</td>
+                                      <td data-title="Course">Applied Mathematics &amp; Computational Sciences </td>
+                                      <td data-title="University/Institute"> - </td>
+                                    </tr>
+                                     <tr>
+                                      <td colspan="6" class="text-bold">Year 2023</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/AnsilyS.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Ansily S
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">March 2026</td>
+                                      <td data-title="University/Institute">Dr Lekshmi R S</td>
+                                      <td data-title="Course">Applied Mathematics &amp; Computational Sciences</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/KiruthikaK.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Kiruthika K
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">September 2024</td>
+                                      <td data-title="University/Institute">Dr Ashok Kumar L </td>
+                                      <td data-title="Course">Electrical &amp; Electronics Engineering</td>
+                                      <td data-title="University/Institute"> - </td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/NabeelaKader.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Nabeela Kader
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">March 2026</td>
+                                      <td data-title="University/Institute">Dr Vasanth Raj D </td>
+                                      <td data-title="Course">Physics</td>
+                                      <td data-title="University/Institute">Thesis Submitted</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/Paul%20ImmanuelT.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Paul Immanuel T
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">March 2026</td>
+                                      <td data-title="University/Institute">Dr Anitha Kumari K </td>
+                                      <td data-title="Course">Information Technology</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/PoornimaN.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Poornima N
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">March 2026</td>
+
+                                      <td data-title="University/Institute">Dr Sridevi B</td>
+                                      <td data-title="Course">Mathematics</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/RishmaTR.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Rishma T R
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">March 2026</td>
+
+                                      <td data-title="University/Institute">Dr Kanimozhi N</td>
+                                      <td data-title="Course">Physics</td>
+                                      <td data-title="University/Institute">Thesis Submitted</td>
+                                    </tr>
+
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/RameshR.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Ramesh R
+                                      </td>
+                                      <td data-title="University/Institute">October 2023</td>
+                                      <td data-title="Course">March 2026</td>
+
+                                      <td data-title="University/Institute">Dr Anusuya KV</td>
+                                      <td data-title="Course">Electronics &amp; Communication Engineering</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+                                    <tr>
+                                      <td colspan="6" class="text-bold">Year 2022</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/AnishaCD.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Dr Anisha C D
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">July 2024</td>
+
+                                      <td data-title="University/Institute">Dr Arul Anand N</td>
+                                      <td data-title="Course">Computer Science &amp; Engineering</td>
+                                      <td data-title="University/Institute">Completed</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/GayathriK.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Dr Gayathri K
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">September 2024</td>
+
+                                      <td data-title="University/Institute">Dr Praveen Kumar S</td>
+                                      <td data-title="Course">Civil Engineering</td>
+                                      <td data-title="University/Institute">Completed</td>
+                                    </tr>
+
+                                     <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/JacqulineSagayapushpamA.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Jacquline Sagayapushpam A
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">April 2025</td>
+
+                                      <td data-title="University/Institute">Dr Latha R</td>
+                                      <td data-title="Course">Electrical &amp; Electronics Engineering</td>
+                                      <td data-title="University/Institute"> - </td>
+                                    </tr>
+
+                                     <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/ParthasarathyR.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Dr Parthasarathy R
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">April 2025</td>
+
+                                      <td data-title="University/Institute">Dr Saravanan P</td>
+                                      <td data-title="Course">Electronics &amp; Communication Engineering</td>
+                                      <td data-title="University/Institute">Completed</td>
+                                    </tr>
+                                     <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/PavithraG.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Dr Pavithra G
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">July 2024</td>
+
+                                      <td data-title="University/Institute">Dr Kathirvel P</td>
+                                      <td data-title="Course">Physics</td>
+                                      <td data-title="University/Institute">Completed</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/PraisudanS.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Mr Praisudan S
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">May 2024</td>
+
+                                      <td data-title="University/Institute">Dr Kathirvel P</td>
+                                      <td data-title="Course">Physics</td>
+                                      <td data-title="University/Institute">Thesis Submitted</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/RamkumarN.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Dr Ramkumar N
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">March 2024</td>
+
+                                      <td data-title="University/Institute">Dr Karthika Renuka D</td>
+                                      <td data-title="Course">Information Technology</td>
+                                      <td data-title="University/Institute">Completed</td>
+                                    </tr>
+                                    <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/ShanmugasundaramN.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Dr Shanmugasundaram N
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">December 2023</td>
+
+                                      <td data-title="University/Institute">Dr Praveen Kumar S</td>
+                                      <td data-title="Course">Civil Engineering</td>
+                                      <td data-title="University/Institute">Completed</td>
+                                    </tr>
+                                     <tr>
+                                      <td data-title="Name" class="foto_style">
+                                        <img src="../R%26D/ThilagavathiST.png" class="img-circle img-responsive" width="100px" height="100px" align="center">
+                                        <br> Ms Thilagavathi S T
+                                      </td>
+                                      <td data-title="University/Institute">November 2022</td>
+                                      <td data-title="Course">April 2025</td>
+
+                                      <td data-title="University/Institute">Dr Nalini P</td>
+                                      <td data-title="Course">Management Sciences</td>
+                                      <td data-title="University/Institute">In progress</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                        </div></section>
+                      </div>
+                      <div role="tabpanel" class="tab-pane" id="25">
+                        <section class="tg-sectionspace tg-haslayout" style="border: 0px solid #ddd;">
+                          <div class="tg-shortcode tg-welcomeandgreeting tg-welcomeandgreeting-v2" style="background-color: #FFF;">
+
+                            <div class="tg-shortcodetextbox">
+                              <h2 style="text-align: left;"><b>Centre of Excellence</b></h2>
+                              <ul>
+                                <h3>
+                                  <li>PSG-TI Centre for Medical Electronics</li>
+                                  <li>DST Centre of Excellence for Assistive Technology and Rehabilitation Engineering Solutions (PSG CARES)</li>
+                                  <!-- <li>PSG-TRIDENT Centre for Alternative Cooling Technologies</li> -->
+                                  <li>CARES Centre for Industrial Cyber Physical System Research</li>
+                                  <li>PSG-Prosun Centre of Excellence for Solar PV Systems</li>
+                                  <li>PSG-Lapp Centre for Excellence in Cable Technology</li>
+                                  <li>PSG-NI Virtual Instrumentation Centre</li>
+                                  <li>PSG-Centre for Audio Visual Speech Recording</li>
+                                  <li>PSG-Danfoss Centre for Excellence in Climate and Energy</li>
+                                  <li>PSG-DHI Centre for Excellence in Welding Engineering and Technology</li>
+                                  <li>PSG-TI Centre of Excellence for Signal Processing (CESP)</li>
+                                  <li>PSG-Intel Centre of Excellence in VLSI System Design (CEVSD) </li>
+                                  <li>PSG-KEYSIGHT Centre of Excellence in Wireless Technology</li>
+                                  <li>CAD/CAM Centre</li>
+                                  <li>PSG-Janatics Centre for Pneumatics and Automation</li>
+                                  <li>PSG-Maxbyte Centre of Excellence on IioT</li>
+                                  <li>PSG-Fanuc Centre for Advanced CNC and Robotics</li>
+                                  <li>PSG-Adept Centre for Robotics</li>
+                                  <li>PSG-Heidenhain CNC Centre</li>
+                                  <li>PSG-Indutech Centre of Excellence for Industrial and Home Textiles</li>
+                                  <li>PSG-EMI-EMC Pre Compliance Test Centre</li>
+                                  <li>TIFAC-CORE in Rapid Prototyping and Manufacturing</li>
+                                </h3>
+                              </ul>
+                            </div>
+                            <div class="tg-shortcodetextbox">
+                              <h2 style="text-align: left;"><b>Other Research Facilities</b></h2>
+                              <ul>
+                                <h3>
+                                  <li>Advanced Machine Tool Research Centre</li>
+                                  <a href="Research/coe.html">
+                                    <li>COE Indutech Research Center</li>
+                                  </a>
+                                  <a href="cnld/">
+                                    <li>Centre for Nonlinear Dynamics</li>
+                                  </a>
+                                  <a href="cavsr/">
+                                    <li>Centre for Audio Visual Speech Recognition</li>
+                                  </a>
+                                  <a href="Grd/">
+                                    <li>GRD Centre for Materials</li>
+                                  </a>
+                                  <a href="Research/ird.html">
+                                    <li>Industrial Research and Development</li>
+                                  </a>
+                                  <!-- <a href="Research/metals.html">
+                                    <li>Metal Testing & Research</li>
+                                  </a> -->
+                                  <a href="Nano/Home.html">
+                                    <li>Research on Nanotechnology</li>
+                                  </a>
+                                  <a href="Research/robo.html">
+                                    <li>Research on Robotics</li>
+                                  </a>
+                                </h3>
+                              </ul>
+                            </div>
+
+
+                        </div></section>
+                      </div>
+
+
+
+
+
+
+
+                </div></div></article>
+                <section class="tg-sectionspace tg-haslayout"> </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+      <!--************************************
+				Main End
+		*************************************-->
+      <!--************************************
+				Footer Start
+		*************************************-->
+      <footer id="tg-footer" class="tg-footer tg-haslayout">
+<div class="tg-lineseparator">
+</div>
+    <div class="tg-footermiddlebar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetcompanyinfo">
+              <div class="tg-widgetcontent"> <strong class="tg-logo"><a href="https://psgtech.edu"><img src="../images/logo2.png" alt="image description"></a></strong>
+                <ul class="tg-infolist mt20">
+                  <li> <i class="icon-location"></i>
+                    <address>
+                    Post Box No. 1611<br>
+                    Peelamedu<br>
+                    Coimbatore - 641004
+                    </address>
+                  </li>
+                  <li> <i class="icon-phone-handset"></i> <span>0422-2572177, 2572477, 4344777</span> </li>
+                  <li> <i class="icon-printer"></i> <span>0422-2592277</span> </li>
+                  <li> <a href="cont.php"> <i class="icon-envelope"></i> <span>Contact Us</span> </a> </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+           <div id="map"><a href="https://www.google.com/maps/place/PSG+College+Of+Technology/@11.024689,77.002127,13z/data=!4m5!3m4!1s0x0:0x137d95bfd8909293!8m2!3d11.0246887!4d77.0021273?hl=en-US"><img src="../images/psggoogle.jpg" width="250" height="250" border="0"></a></div>
+
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetcoursecategories">
+              <div class="tg-widgettitle">
+                <h3>My PSG</h3>
+              </div>
+              <div class="tg-widgetcontent">
+                <ul>
+              <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li>
+			        <li><a href="http://mail.psgtech.ac.in/cgi-bin/openwebmail/openwebmail.pl">Webmail</a></li>
+              <li><a href="http://www.psgtech.edu/lib1/lib.html">Library</a></li> -->
+              <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li> -->
+                  <li><a href="https://library.psgtech.ac.in/">Library</a></li> <!-- Modified by MKM-20-06-2022  -->
+                  <li><a href="psgcrs/">Community Radio</a></li>
+              <!--<li>PSG Tech News</li>
+                  <li>Virtual Tour</li> -->
+                  <li><a href="http://accounts.google.com/">PSG Mail</a></li>
+                  <li><a href="MandatoryCommittee.php">UGC/AICTE Mandatory Committees</a></li>
+                  <li><a href="./websiteUrls.php">Our Websites</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetflickrgallery">
+              <div class="tg-widgettitle">
+                <h3>Glance at PSG</h3>
+              </div>
+              <div class="tg-widgetcontent">
+		            <a href="Glances/index.html"> <img src="../images/glances2.jpg"> </a> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tg-footerbar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <span class="tg-copyright">Copyright © 2026 - PSG. All Rights Reserved</span> </div>
+         <!--  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <span class="tg-copyright pull-right">Designed & Developed by PSG Software Technologies & NMC</span> </div> -->
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--************************************
+				Footer End
+		*************************************-->
+</div>
+<!--************************************
+			Wrapper End
+	*************************************-->
+<script src="../js/vendor/jquery-library.js"></script> 
+<script src="../js/vendor/bootstrap.min.js"></script> 
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/isotope.pkgd.js"></script> 
+<script src="../js/prettyPhoto.js"></script>
+<!-- <script src="js/countdown.js"></script> 22.05.2024 -->
+<script src="../js/collapse.js"></script>
+<script src="../js/moment.js"></script>
+<script src="../js/main.js"></script>
+<!--- READ TEXT <sript src="js/readtxt.js"></script> --></div></main></div></body></html>

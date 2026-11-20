@@ -1,0 +1,987 @@
+<!DOCTYPE html><!--[if lt IE 7]>		<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]--><!--[if IE 7]>			<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]--><!--[if IE 8]>			<html class="no-js lt-ie9" lang=""> <![endif]--><!--[if gt IE 8]><!--><html class="no-js" lang="zxx"><!--<![endif]--><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PSG College of Technology</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png/index.html">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/icomoon.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/prettyPhoto.css">
+    <link rel="stylesheet" href="../css/owl.carousel.css">
+    <link rel="stylesheet" href="../css/owl.theme.default.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/color.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="shortcut icon" href="../images/psgicon.ico">
+    <script src="../js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+    <style>
+        .awNotices {
+            position: relative;
+            color: white;
+            font: 400 12px Arial;
+
+            a {
+                padding: 8px 25px 8px 10px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                opacity: 0;
+                color: inherit;
+                text-decoration: none;
+                visibility: hidden;
+                transition: opacity .6s;
+                border-radius: 3px;
+                text-shadow: 0 0 3px rgba(1, 1, 1, .3);
+                line-height: 150%;
+                overflow: hidden;
+                position: relative;
+                width: 100%;
+                -webkit-transform-style:preserve-3d;
+                -moz-transform-style:preserve-3d;
+                transform-style:preserve-3d
+
+                i.fa {
+                    padding-right: 8px;
+                    margin-right: 5px;
+                    border-right: 1px solid rgba(255, 255, 255, .2);
+                }
+            }
+
+            a[notice-color="orange"] {
+                background-color: #ff9800;
+            }
+
+            a[notice-color="red"] {
+                background-color: #e51c23;
+            }
+
+            a[notice-color="blue"] {
+                background-color: #3f51b5;
+            }
+
+            a[notice-color="green"] {
+                background-color: #8bc34a;
+            }
+
+            a[notice-color="dark"] {
+                background-color: #414141;
+            }
+
+            a.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            span.controller {
+                position: absolute;
+                cursor: pointer;
+                background: transparent;
+                right: 0;
+                padding: 8px 10px;
+                line-height: 150%;
+            }
+        }
+    </style>
+
+    <style>
+        /*
+*,html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,label,fieldset,input,p,blockquote,th,td {
+    margin: 0;
+    padding: 0;
+}
+
+article,aside,figure,footer,header,hgroup,nav,section {
+    display: block;
+} */
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: #2B4BAB;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #2B4BAB;
+        }
+
+        /*
+body {
+    background: #e5e5e5;
+    color: #374147;
+    font: 14px "Open Sans",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+    width: 100%;
+} */
+
+        .nvmenu {
+            display: block;
+            /* background: #2B4BAB;*/
+            text-align: right;
+            background: transparent;
+        }
+
+        .menu {
+            display: block;
+            text-align: right;
+        }
+
+        .menu li {
+            display: inline-block;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu li:first-child {
+            margin-left: 0;
+        }
+
+        .menu li a {
+            /* font: 400 14px/40px 'Open Sans', Arial, Helvetica, sans-serif; */
+            font: 400 13px/21px 'Open Sans', Arial, Helvetica, sans-serif;
+            */
+            /* font-weight: 600; */
+            text-decoration: none;
+            padding: 10px 10px;
+            display: block;
+            color: #fff;
+            transition: all 0.2s ease-in-out 0s;
+        }
+
+        .menu li a:hover,
+        .menu li:hover>a {
+            color: #fff;
+            background: #9ca3da;
+        }
+
+        .menu ul {
+            visibility: hidden;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            width: 170px;
+            position: absolute;
+            left: 0px;
+            background: #fff;
+            z-index: 99;
+            transform: translate(0, 20px);
+            transition: all 0.2s ease-out;
+        }
+
+        .menu ul:after {
+            bottom: 100%;
+            left: 20%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #fff;
+            border-width: 6px;
+            margin-left: -6px;
+        }
+
+        .menu ul li {
+            display: block;
+            float: none;
+            background: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu ul li a {
+            font-size: 12px;
+            font-weight: normal;
+            display: block;
+            color: #797979;
+            background: #fff;
+        }
+
+        .menu ul li a:hover,
+        .menu ul li:hover>a {
+            background: #9ca3da;
+            color: #fff;
+        }
+
+        .menu li:hover>ul {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .menu ul ul {
+            left: 169px;
+            top: 0px;
+            visibility: hidden;
+            opacity: 0;
+            transform: translate(20px, 20px);
+            transition: all 0.2s ease-out;
+        }
+
+        .menu ul ul:after {
+            left: -6px;
+            top: 10%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-right-color: #fff;
+            border-width: 6px;
+            margin-top: -6px;
+        }
+
+        .menu li>ul ul:hover {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .responsive-menu {
+            text-align: right;
+            font: 400 13px/21px 'Open Sans', Arial, Helvetica, sans-serif;
+            /* font: 400 14px/40px 'Open Sans', Arial, Helvetica, sans-serif; */
+            display: none;
+            width: 100%;
+            padding: 10px 15px;
+            /* background: #2B4BAB; */
+            color: #fff;
+            /* text-transform: uppercase; */
+            font-weight: 600;
+        }
+
+        .responsive-menu:hover {
+            background: #2B4BAB;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a.homer {
+            background: #9ca3da;
+        }
+
+        @media (min-width: 768px) and (max-width: 979px) {
+            .mainWrap {
+                width: 768px;
+            }
+
+            .menu ul {
+                top: 37px;
+            }
+
+            .menu li a {
+                font-size: 12px;
+            }
+
+            a.homer {
+                background: #374147;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mainWrap {
+                width: auto;
+                padding: 50px 20px;
+            }
+
+            .menu {
+                display: none;
+            }
+
+            .responsive-menu {
+                display: block;
+            }
+
+            nav {
+                margin: 0;
+                background: none;
+            }
+
+            .menu li {
+                display: block;
+                margin: 0;
+            }
+
+            .menu li a {
+                background: #fff;
+                color: #797979;
+            }
+
+            .menu li a:hover,
+            .menu li:hover>a {
+                background: #9ca3da;
+                color: #fff;
+            }
+
+            .menu ul {
+                visibility: hidden;
+                opacity: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                transform: initial;
+            }
+
+            .menu li:hover>ul {
+                visibility: visible;
+                opacity: 1;
+                position: relative;
+                transform: initial;
+            }
+
+            .menu ul ul {
+                left: 0;
+                transform: initial;
+            }
+
+            .menu li>ul ul:hover {
+                transform: initial;
+            }
+        }
+
+        @media (max-width: 480px) {}
+
+        @media (max-width: 320px) {}
+    </style>
+
+
+<script async="" src="../../www.googletagmanager.com/gtag/js/id%3DG-987N7XWC78"></script><script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-987N7XWC78'); </script></head>
+ <!-- Google tag (gtag.js) -->
+
+
+<!-- Google tag (gtag.js) -->
+
+
+
+<body class="tg-home tg-homeone">
+    <div id="tg-wrapper" class="tg-wrapper">
+        <header id="tg-header" class="tg-header tg-headervtwo tg-haslayout">
+
+            <div class="tg-topbar">
+                <div class="tg-leftbox">
+                    <div class="tg-tickerbox"> <span>News:</span>
+                        <div id="tg-ticker" class="tg-ticker owl-carousel">
+
+                            
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://events.psgtech.ac.in/flashedu/images/files/Registration for Redo courses even 2026-27.pdf"><font color="#f4de88" size="2.5px">Registration for Redo Courses </font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://ecampus.psgtech.ac.in/studzone2/AttWfLoginPage.aspx"><font color="#f4de88" size="2.5px">Semester Examinations December 2026 Timetable Published</font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://events.psgtech.ac.in/flashedu/images/files/Global tender PSG College of Technology Coimbatore-VDI Tester.pdf"><font color="#f4de88" size="2.5px">Global Tender Invited for the Procurement of VDI Tester under the Ministry of Textiles� NTTM Project.</font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://www.psgproducts.org/"><font color="#f4de88" size="2.5px">PSG Centenary Celebrations | Products of PSG Products Expo 2026 - Visit the Official Expo Website. </font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!-- <div class="tg-rightbox ">
+      <span class="tg-rtltextbox">
+  -->
+                <nav class="nvmenu">
+                    <a id="resp-menu" class="responsive-menu" href="#" style="color: white;"><i class="fa fa-reorder"></i> PSG Mail</a>
+                    <ul class="menu">
+                    <li><a class="homer" href="files/Campus-Map.jpg" target="_blank" style="background-color: #2B4BAB;color: white;text-align: left;">
+                                            Campus Map </a>
+                                    </li>
+                        <li><a class="homer" href="https://mail.google.com/a/psgtech.ac.in" target="_blank" style="background-color: #2B4BAB;color: white;text-align: left;">Mail</a>
+                        </li>
+                        <li><a href="student.php" style="background-color: #2B4BAB;color: white;text-align: left;">Students</a></li>
+                        <li><a href="parentzone.php" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Parents</a>
+                        </li>
+                        <li><a href="#" style="background-color: #2B4BAB;color: white;text-align: left;">Alumni</a>
+                            <ul class="sub-menuu">
+                                <li><a href="https://laudea.psgtech.ac.in/alumni/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Albums</a></li>
+                                <li><a href="https://alumni.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Association</a></li>
+                                <!-- <li><a href="http://alumnifoundation.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;">Alumni Foundation</a></li> -->
+                                <li><a href="https://psgtechalumnifoundation.org/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Foundation</a></li>
+                                <li><a href="grdmuseum/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">PSG GRD
+                                        Museum</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li><a href="https://psgsonscharities.freshteam.com/jobs"
+                                style="background-color: #2B4BAB;color: white;text-align: left;">Careers</a></li> -->
+                        <li><a href="https://recruitments.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Careers</a></li>
+                               
+                        <li><a href="IIC/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank"> IIC</a>
+                        </li>
+                        <li><a href="help-desk.php" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank"> Help
+                                            Desk</a>
+                                    </li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </nav>
+                <!-- <a href="https://mail.google.com/a/psgtech.ac.in" target="_blank">PSG Gmail</a>
+            <a href="student.php">Students</a>
+            <a href="parentzone.php">Parents</a>
+            <a href="javascript:void(0);">Alumni</a>
+                    <li><a href="http://alumnifoundation.psgtech.ac.in/">Alumni Foundation</a></li>
+                    <li><a href="https://alumni.psgtech.ac.in/">Alumni</a></li>
+            <a href="/achievements.php">Achievements</a> -->
+                <!-- </span>
+  </div> -->
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <div class="tg-navigationarea"> <strong class="tg-logo"><a href="http://www.psgtech.edu">
+                            <!-- <img src="images/logo-G2-New.png" alt="PSG College of Technology"> -->
+                            <img src="../images/logo.png" alt="PSG College of Technology">
+                        </a>
+                                <a href="images/ISO Certificate.jpg">ISO certified 9001:2015 </a>
+                            </strong>
+                            <div class="tg-navigationandsearch">
+                                <nav id="tg-nav" class="tg-nav tg">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tg-navigation" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                                    </div>
+                                    <div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
+                                        <ul>
+                                            <li><a href="https://www.psgtech.edu/">Home</a></li>
+                                            <li class="menu-item-has-children current-menu-item"> <a href="javascript:void(0);">About us</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="abtcllg.php">About the College</a></li>
+                                                    <li><a href="Management.php">Management</a></li>
+                                                    <li><a href="files/general/Updated_GCCT_MembersList_Aug2026.pdf" target="_blank">Governing Council</a></li>
+                                                    <li><a href="founders.php">PSG &amp; Sons' Charities </a></li>
+                                                    <li><a href="trustees.php">Managing Trustees</a></li>
+                                                    <li><a href="secretary.php">Secretary</a></li>
+                                                    <li><a href="principal.php">Principals</a></li>
+                                                    <li><a href="Professor_Practice.php">Professor of Practice</a></li>
+                                                     <li><a href="VicePrincipal_WomenWelfare.php">Vice Principal  (Women Welfare)</a></li>
+                                                    <li><a href="Dean-Academic.php">Dean - Academic</a></li>
+                                                    <li><a href="Dean-Administration.php">Dean - Administration</a></li>
+                                                    <li><a href="Dean-Autonomous.php" class="adm">Dean - Autonomous Functioning</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Academics</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="programme.php">Programmes</a></li>
+                                                    <li><a href="index.php">Departments</a></li>
+                                                    <li><a href="scholarships.php">Scholarship</a></li>
+                                                    <li><a href="placements/index.php">Placement</a></li>
+                                                    <li><a href="Heads.php">Heads of the Department</a></li>
+                                                    <!-- <li><a href="calendar.php">Academic Calendar</a></li> -->
+                                                    <li><a href="https://academicschedule.psgtech.ac.in/" target="_blank">Academic Calendar</a></li>
+                                                    <li><a href="files/calendar/PSGTech-AcademicCalendar2025-2026.pdf" target="_blank">College Calendar</a></li>
+                                                    <li><a href="https://library.psgtech.ac.in/" target="_blank">Library</a></li>
+                                                    <li><a href="https://sports.psgtech.ac.in/" target="_blank">Sports</a></li>
+
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Admissions</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="programme_offered.php">Programmes offered</a></li>
+                                                    <li><a href="admission.php">Admission 2026</a></li>
+                                                    <li><a href="BScMScAdmission2026/" class="adm">B.Sc &amp; M.Sc Programmes Admission 2026</a></li>
+                                                    <!-- <li><a href="#" class="adm">B.Sc & M.Sc Programmes Admission 2025</a></li> -->
+                                                    <!-- <li><a href="pgadmission2025/" class="adm" target="_blank">ME / MTech / MCA Programmes Admission 2025 </a></li> -->
+                                                    <li><a href="https://psgtech.edu/pgadmission2026" class="adm">ME/MTech/MCA Programmes 2026</a></li>
+                                                    <li><a href="./fn_oci/" target="_blank" class="adm">BE/BTech Programme Admission 2026 under FN/OCI Only</a></li>
+                                                    <!-- <li><a href="fn_oci_ciwgc" class="adm">BE / BTech Programmes Admission 2024 under FN / OCI / CIWGC</a></li> -->
+                                                     <li><a href="https://enquiry.psgtech.ac.in/" target="_blank" class="adm">BE/BTech Enquiry form</a></li>
+                                                    <!-- <li><a href="https://enquiry.psgtech.ac.in" class="adm">BE/BTECH Enquiry form</a></li> -->
+                                                    <!--  <li><a href="https://ecampus.psgtech.ac.in/fnapplication/" class="adm">FN/OCI/CIWGC Admission 2022</a></li>
+-->
+                                                    <!-- <li><a href="FNOCI.php" class="adm">FN/OCI/CIWGC Admission 2023</a></li> -->
+                                                    <!-- <li><a href="fn_oci_ciwgc/" class="adm">FN/OCI/CIWGC Admission 2023</a></li> -->
+                                                    <!-- fn_oci_ciwgc/ -->
+                                                    <!-- <li><a href="https://events.psgtech.ac.in/flashedu/images/files/BSc App Sci Shortlisted candidates 2022-23.pdf" class="adm">BSc App.Sci. shortlisted candidates 2022</a></li> -->
+                                                </ul>
+                                            </li>
+
+                                            <li><a href="coe.php">Exams</a></li>
+
+                                            <li><a href="NAAC/">NAAC</a></li>
+
+                                            <!-- <li class="NAAC/"> <a href="NAAC"></a>
+                                            <ul class="sub-menu">
+                                            <ul class="sub-menu">
+
+                                            <li><a href="1st - IQAC Meeting Minutes 2021-22.pdf">Minutes of 1<sup>st </sup>meeting 21-22</a></li></a></li>
+                                            <li><a href="Minutes of 2nd meeting 21-22.pdf">Minutes of 2<sup>nd </sup>meeting 21-22</a></li></a></li>
+                                            <li><a href="IQAC-EPTV 2019-2020.pdf">External Team Report (19-20) </a></li></a></li>
+                                            <li><a href="IQAC-memebrs.jpg">IQAC  Members List  2019-21</a></li>
+                                            <li><a href="IQACarchives.php">Archives</a></li>
+                                            </ul>
+                                            </li>
+
+                                            </ul>
+                                            </li> -->
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Research</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="R&amp;D.php">Office of Dean Research</a></li>
+                                                    <!-- <li><a href="iprcell/">IPR Cell</a></li> -->
+                                                    <li><a href="http://iprcell.psgtech.ac.in/" target="_blank">IPR Cell</a></li>
+                                                    <li><a href="http://ir.psgtech.ac.in:8080/jspui/" target="_blank">PhD Thesis</a></li>
+                                                    <!-- <li><a href="research_index.php">Research Centers</a></li> -->
+                                                    <li><a href="http://journals.psgtech.ac.in/" target="_blank">Technology Journal</a>
+                                                    </li>
+                                                </ul>
+                                                <!--http://ows.psgtech.edu/journal/index.htm http://ows.psgtech.edu/Researchindex.php-->
+                                            </li>
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Industry</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="Mousgloblink.php">MOUs</a></li>
+
+                                                    <!-- <li><a href="Coll-Act/">Colloborative Activities</a></li> -->
+                                                    <li><a href="./files/general/coeweldingdetails.pdf">COE Welding</a>
+                                                    </li>
+                                                    <!-- <li><a href="http://www.coew.psgtech.ac.in/">COE Welding</a></li> -->
+
+                                                    <li><a href="coeindutech/" target="_blank">Indu Tech</a></li>
+                                                    <li><a href="teqip/">TEQIP</a></li>
+                                                    <li><a href="http://www.psgstep.org/" target="_blank">STEP</a></li>
+                                                    <li><a href="http://psgtifac.co.in/" target="_blank">TIFAC</a></li>
+
+                                                    <!-- <li><a href="IIC/">IIC</a></li> -->
+                                                    <li><a href="//iipc.psgtech.ac.in/">IIPC</a></li>
+                                                    <!--li><a href="PACE.php">PACE</a></li-->
+                                                    <li><a href="https://cnce.psgtech.ac.in/" target="_blank">CNCE</a></li>
+                                                    <li><a href=" https://csrc.psgtech.ac.in" target="_blank">CSRC</a></li>
+                                                    <li><a href="Research/ird.html">CIRD</a></li>
+                                                    <li><a href="https://aiconsortium.psgtech.ac.in/" target="_blank">PSG-AI Consortium</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="coeindutech/">InduTech</a></li>
+
+                                            <li><a href="nirf.php" style="line-height:1.5em">NIRF &amp; <br> ARIIA</a></li>
+
+                                            <li><a href="cont.php">Contact</a></li>
+
+
+                                        </ul>
+
+                                    </div>
+                                </nav>
+                                <!--    <div class="tg-searchbox"> <a id="tg-btnsearch" class="tg-btnsearch" href="javascript:void(0);"><i class="icon-magnifier"></i></a>
+                <form class="tg-formtheme tg-formsearch">
+                  <fieldset>
+                    <input type="search" name="search" class="form-control" placeholder="Start Your Search Here">
+                  </fieldset>
+                </form>
+              </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <script type="text/javascript" src="../../code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- alumni menu
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>-->
+        <script>
+            $(document).ready(function () {
+                var touch = $('#resp-menu');
+                var menu = $('.menu');
+
+                $(touch).on('click', function (e) {
+                    e.preventDefault();
+                    menu.slideToggle();
+                });
+                $(window).resize(function () {
+                    var w = $(window).width();
+                    if (w > 767 && menu.is(':hidden')) {
+                        menu.removeAttr('style');
+                    }
+                });
+
+            });
+        </script>
+
+        <!-- alumni end menu -->
+
+        <script type="text/javascript">
+            <!--$('.awNotices').append('<span class="controller fa fa-pause"></span>');-->
+            $('.awNotices a:nth-of-type(1)').addClass('active');
+
+            function awNotice() {
+                if (!$('.awNotices').hasClass('stopped')) {
+                    var $active = $('.awNotices a.active');
+                    var $next = $active.next('a');
+
+                    if ($next.length) {
+                        $next.addClass('active');
+                        $active.removeClass('active');
+                    } else {
+                        $active.removeClass('active');
+                        $('.awNotices a:first-of-type').addClass('active');
+                    }
+                }
+            }
+
+            $('.awNotices .controller').click(function () {
+                $(this).toggleClass('fa-pause fa-play');
+                $('.awNotices').toggleClass('stopped');
+            })
+
+            function awNotices(timer) {
+                setInterval("awNotice()", timer);
+            }
+
+            awNotices(2500);
+        </script>
+  <!--************************************
+				Header End
+		*************************************--> 
+  <!--************************************
+				Home Slider Start
+		*************************************--> 
+  
+  <!--************************************
+				Home Slider End
+		*************************************--> 
+  <!--************************************
+				Main Start
+		*************************************-->
+  <!--  Code for Right Click and Copy paste disable-->
+<script type="text/javascript">
+$(document).ready(function()
+{ 
+       $(document).bind("contextmenu",function(e){
+              return false;
+       }); 
+})
+
+document.onkeydown = function (e) {
+     var e = e || event;
+
+     if (e.shiftKey === true) {
+          return false;
+     }
+};
+
+</script>
+<!--  Code Ends-->
+<script type="text/javascript">
+function mischandler(){
+return false;
+}
+
+function mousehandler(e){
+var myevent = (isNS) ? e : event;
+var eventbutton = (isNS) ? myevent.which : myevent.button;
+if((eventbutton==2)||(eventbutton==3)) return false;
+}
+document.oncontextmenu = mischandler;
+document.onmousedown = mousehandler;
+document.onmouseup = mousehandler;
+var isCtrl = false;
+    document.onkeyup=function(e)
+    {
+    if(e.which == 17)
+    isCtrl=false;
+    }
+
+    document.onkeydown=function(e)
+    {
+    if(e.which == 17)
+    isCtrl=true;
+    if((e.which == 85) || (e.which == 67) && isCtrl == true)
+    {
+    // alert(�Keyboard shortcuts are cool!�);
+    return false;
+    }
+    }
+</script>
+
+
+  <main id="tg-main" class="tg-main tg-haslayout">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div id="tg-content" class="tg-content">
+                              <h3>Contact Us</h3>
+                              <br><p><a href="mailto:principal@psgtech.edu">principal@psgtech.edu</a>, <a href="mailto:principal@psgtech.ac.in"> principal@psgtech.ac.in</a> can be  contacted  for  clarifications.</p>
+                      <p>                                However, for specific queries and quick service the following offices can be contacted by email.<br></p>
+                                <div class="responsive-table">
+		<br>  
+							<table class="table">
+                                   <thead>
+                                   <tr>
+                                        <th width="24" scope="col">No.</th>
+                                        <th width="397" scope="col">Related query</th>
+                                        <th width="464" scope="col">Office/Section </th>
+                                        <th width="319" scope="col">Email-Id</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   <tr>
+                                        <th data-title="No." rowspan="2" scope="row">1</th>
+                                        <td data-title="Related query" rowspan="2">Fee payment</td>
+                                        <td data-title="Office/Section" rowspan="2">Dean Administration</td>
+                                        <td data-title="Email-Id"><a href="mailto:dean.admn@psgtech.ac.in"><u>dean.admn@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                     <td><a href="mailto:acs@psgtech.ac.in"><u>acs@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                        <th data-title="No." scope="row">2</th>
+                                        <td data-title="Related query">Examination Timetable/Fee Payment and Verification of Qualification/Transcripts</td>
+                                        <td data-title="Office/Section"><a href="https://www.psgtech.edu/COE/Home.html">Controller of Examinations/Deputy Controller of Examination</a></td>
+                                        <td data-title="Email-Id"><a href="mailto:coe@psgtech.ac.in"><u>coe@psgtech.ac.in</u></a><br>
+                                             <a href="mailto:deputy.coe@psgtech.ac.in"><u>deputy.coe@psgtech.ac.in</u></a>                                        </td>
+                                   </tr>
+                                   <tr>
+                                        <th data-title="No." rowspan="2" scope="row">3</th>
+                                        <td data-title="Related query" rowspan="2">Bona fide Certificates /Certificate for  Medium   of Instruction</td>
+                                        <td data-title="Office/Section" rowspan="2">Dean Academic</td>
+                                        <td data-title="Email-Id"><a href="mailto:dean.acad@psgtech.ac.in"><u>dean.acad@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                     <td><a href="academic@psgtech.ac.in"><u>academic@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                        <th data-title="No." rowspan="2" scope="row">4</th>
+                                        <td data-title="Related query" rowspan="2">Student Scholarships</td>
+                                        <td data-title="Office/Section" rowspan="2">Dean Administration</td>
+                                        <td data-title="Email-Id"><a href="mailto:dsection.admin@psgtech.ac.in"><u>dsection.admin@psgtech.ac.in </u></a></td>
+                                   </tr>
+                                   <tr>
+                                     <td><a href="mailto:dean.admn@psgtech.ac.in"><u>dean.admn@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <!-- <tr>
+                                        <th rowspan="2" scope="row">3</th>
+                                        <td>Bona fide Certificates /Certificate for  Medium   of Instruction</td>
+                                        <td rowspan="2">Dean Academic</td>
+                                        <td rowspan="2"><a href="mailto:dean.acad@psgtech.ac.in"><u>dean.acad@psgtech.ac.in</u></a></td>
+                                    </tr>  -->
+                                    <!-- <tr> 
+                                         
+                                        <th rowspan="2" scope="row">4</th>
+                                        <td>Scholarships</td>
+                                        <td rowspan="2">Dean Administration</td>
+                                        <td rowspan="2"><a href="mailto:dean.acad@psgtech.ac.in"><u>dean.acad@psgtech.ac.in</u></a></td>
+                                    </tr> -->
+                                    <tr>
+                                      <th data-title="No." scope="row" rowspan="4">5</th>
+                                      <td data-title="Related query" rowspan="4">Placement</td>
+                                      <td data-title="Office/Section" rowspan="4"><a href="https://www.psgtech.edu/placements/index.php">Dean- Placement 
+                                        and Training<br>Associate Dean- Placement and Training<br>
+                                        Internships</a></td>
+                                      <td data-title="Email-Id"><a href="mailto:placement@psgtech.ac.in"><u>placement@psgtech.ac.in</u></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td data-title="Email-Id"><a href="mailto:dean.pat@psgtech.ac.in"><u>dean.pat@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                     <td><a href="mailto:associatedean.pat@psgtech.ac.in" target="_blank"><u>associatedean.pat@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                        <td><a href="mailto:internship.pat@psgtech.ac.in" target="_blank"><u>internship.pat@psgtech.ac.in</u></a><a href="mailto:placement@psgtech.ac.in"></a></td>
+                                   </tr>
+                                   <tr>
+                                     <th rowspan="2" scope="row" data-title="No.">6</th>
+                                     <td rowspan="2" data-title="Related query">Hostel </td>
+                                     <td rowspan="2" data-title="Office/Section">Warden - Mens Hostel <br>
+                                     Warden - Ladies Hostel  </td>
+                                     <td><a href="mailto:Warden.gh@psgtech.ac.in" target="_blank"><u>warden.gentshostel@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                     <td><a href="mailto:warden.lh@psgtech.ac.in" target="_blank"><u>warden.ladieshostel@psgtech.ac.in</u></a></td>
+                                   </tr>
+                                   <tr>
+                                     <th data-title="No." scope="row">7</th>
+                                     <td data-title="Related query">&nbsp;Alumni activities&nbsp;and details</td>
+                                     <td data-title="Office/Section">The General Secretary, <a href="https://alumni.psgtech.ac.in/">PSG Tech Alumni&nbsp;Association</a></td>
+                                     <td><u><a href="mailto:alumni@psgtech.ac.in" target="_blank"><u>alumni@psgtech.ac.in</u></a></u></td>
+                                   </tr>
+                                   </tbody>
+                              </table>
+							  </div>     
+                              <br><br>
+                              <br><br>
+							  
+							  <div class="icon-bar col-md-3" style="text-align: center;">
+							  <a href="https://www.psgtech.edu"><i class="fa fa-home" style="font-size:48px;color:grey"></i>
+							  </a>
+							  </div>
+							  
+                         <div class="col-md-3" style="text-align: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="44" fill="currentColor" class="bi bi-file-earmark-post" viewBox="0 0 16 16">
+                                   <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"></path>
+                                   <path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5z"></path>
+                              </svg>
+                              <p style="align:center;">Post Box No. 1611,<br>Peelamedu,<br>Coimbatore - 641004</p>
+                         </div>
+						 
+                         <div class="col-md-3" style="text-align: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="44" fill="currentColor" class="bi bi-telephone-inbound" viewBox="0 0 16 16">
+                                   <path d="M15.854.146a.5.5 0 0 1 0 .708L11.707 5H14.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 1 0v2.793L15.146.146a.5.5 0 0 1 .708 0zm-12.2 1.182a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"></path>
+                              </svg>
+                              <p style="align:center;">0422-2572177,<br>0422-2572477,<br>0422-4344777</p>
+                         </div>
+                         <div class="col-md-3" style="text-align: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="44" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+                                   <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"></path>
+                                   <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"></path>
+                              </svg>  
+                              <p style="align:center;">0422-2573833</p>   
+                         </div>
+                         <!-- <div class="col-md-3" style="text-align: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="38" height="44" fill="currentColor" class="bi bi-mailbox2" viewBox="0 0 16 16">
+                                   <path d="M9 8.5h2.793l.853.854A.5.5 0 0 0 13 9.5h1a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5H9v1z"/>
+                                   <path d="M12 3H4a4 4 0 0 0-4 4v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V7a4 4 0 0 0-4-4zM8 7a3.99 3.99 0 0 0-1.354-3H12a3 3 0 0 1 3 3v6H8V7zm-3.415.157C4.42 7.087 4.218 7 4 7c-.218 0-.42.086-.585.157C3.164 7.264 3 7.334 3 7a1 1 0 0 1 2 0c0 .334-.164.264-.415.157z"/>
+                              </svg>
+                              <p><a href="mailto:principal@psgtech.edu">principal@psgtech.edu</a>,<br/> <a href="mailto:principal@psgtech.ac.in"> principal@psgtech.ac.in</a><br/> 
+
+                         </div> -->
+				</div>
+			</div>
+		</div>
+  </div></main>
+		
+  <!--************************************
+				Main End
+		*************************************--> 
+  <!--************************************
+				Footer Start
+		*************************************-->
+<footer id="tg-footer" class="tg-footer tg-haslayout">
+<div class="tg-lineseparator">
+</div>
+    <div class="tg-footermiddlebar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetcompanyinfo">
+              <div class="tg-widgetcontent"> <strong class="tg-logo"><a href="https://psgtech.edu"><img src="../images/logo2.png" alt="image description"></a></strong>
+                <ul class="tg-infolist mt20">
+                  <li> <i class="icon-location"></i>
+                    <address>
+                    Post Box No. 1611<br>
+                    Peelamedu<br>
+                    Coimbatore - 641004
+                    </address>
+                  </li>
+                  <li> <i class="icon-phone-handset"></i> <span>0422-2572177, 2572477, 4344777</span> </li>
+                  <li> <i class="icon-printer"></i> <span>0422-2592277</span> </li>
+                  <li> <a href="cont.php"> <i class="icon-envelope"></i> <span>Contact Us</span> </a> </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+           <div id="map"><a href="https://www.google.com/maps/place/PSG+College+Of+Technology/@11.024689,77.002127,13z/data=!4m5!3m4!1s0x0:0x137d95bfd8909293!8m2!3d11.0246887!4d77.0021273?hl=en-US"><img src="../images/psggoogle.jpg" width="250" height="250" border="0"></a></div>
+
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetcoursecategories">
+              <div class="tg-widgettitle">
+                <h3>My PSG</h3>
+              </div>
+              <div class="tg-widgetcontent">
+                <ul>
+              <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li>
+			        <li><a href="http://mail.psgtech.ac.in/cgi-bin/openwebmail/openwebmail.pl">Webmail</a></li>
+              <li><a href="http://www.psgtech.edu/lib1/lib.html">Library</a></li> -->
+              <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li> -->
+                  <li><a href="https://library.psgtech.ac.in/">Library</a></li> <!-- Modified by MKM-20-06-2022  -->
+                  <li><a href="psgcrs/">Community Radio</a></li>
+              <!--<li>PSG Tech News</li>
+                  <li>Virtual Tour</li> -->
+                  <li><a href="http://accounts.google.com/">PSG Mail</a></li>
+                  <li><a href="MandatoryCommittee.php">UGC/AICTE Mandatory Committees</a></li>
+                  <li><a href="./websiteUrls.php">Our Websites</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetflickrgallery">
+              <div class="tg-widgettitle">
+                <h3>Glance at PSG</h3>
+              </div>
+              <div class="tg-widgetcontent">
+		            <a href="Glances/index.html"> <img src="../images/glances2.jpg"> </a> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tg-footerbar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <span class="tg-copyright">Copyright © 2026 - PSG. All Rights Reserved</span> </div>
+         <!--  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <span class="tg-copyright pull-right">Designed & Developed by PSG Software Technologies & NMC</span> </div> -->
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--************************************
+				Footer End
+		*************************************-->
+</div>
+<!--************************************
+			Wrapper End
+	*************************************-->
+<script src="../js/vendor/jquery-library.js"></script> 
+<script src="../js/vendor/bootstrap.min.js"></script> 
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/isotope.pkgd.js"></script> 
+<script src="../js/prettyPhoto.js"></script>
+<!-- <script src="js/countdown.js"></script> 22.05.2024 -->
+<script src="../js/collapse.js"></script>
+<script src="../js/moment.js"></script>
+<script src="../js/main.js"></script>
+<!--- READ TEXT <sript src="js/readtxt.js"></script> --></body></html>
