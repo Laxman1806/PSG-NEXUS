@@ -3,3 +3,7 @@ node_modules/
 .DS_Store
 *.log
 *.pdf
+*.mp4
+*.zip
+*.tar
+*.gz

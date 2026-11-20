@@ -488,7 +488,7 @@ body {
                                     </div>
                                     <div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
                                         <ul>
-                                            <li><a href="https://www.psgtech.edu/">Home</a></li>
+                                            <li><a href="/">Home</a></li>
                                             <li class="menu-item-has-children current-menu-item"> <a href="javascript:void(0);">About us</a>
                                                 <ul class="sub-menu">
                                                     <li><a href="abtcllg.php">About the College</a></li>
@@ -529,7 +529,7 @@ body {
                                                     <li><a href="BScMScAdmission2026/" class="adm">B.Sc &amp; M.Sc Programmes Admission 2026</a></li>
                                                     <!-- <li><a href="#" class="adm">B.Sc & M.Sc Programmes Admission 2025</a></li> -->
                                                     <!-- <li><a href="pgadmission2025/" class="adm" target="_blank">ME / MTech / MCA Programmes Admission 2025 </a></li> -->
-                                                    <li><a href="https://psgtech.edu/pgadmission2026" class="adm">ME/MTech/MCA Programmes 2026</a></li>
+                                                    <li><a href="/pgadmission2026" class="adm">ME/MTech/MCA Programmes 2026</a></li>
                                                     <li><a href="./fn_oci/" target="_blank" class="adm">BE/BTech Programme Admission 2026 under FN/OCI Only</a></li>
                                                     <!-- <li><a href="fn_oci_ciwgc" class="adm">BE / BTech Programmes Admission 2024 under FN / OCI / CIWGC</a></li> -->
                                                      <li><a href="https://enquiry.psgtech.ac.in/" target="_blank" class="adm">BE/BTech Enquiry form</a></li>
@@ -705,9 +705,7 @@ $(document).ready(function()
 document.onkeydown = function (e) {
      var e = e || event;
 
-     if (e.shiftKey === true) {
-          return false;
-     }
+     // shift enabled
 };
 
 </script>
@@ -736,7 +734,7 @@ var isCtrl = false;
     {
     if(e.which == 17)
     isCtrl=true;
-    if((e.which == 85) || (e.which == 67) && isCtrl == true)
+    if (false)
     {
     // alert(�Keyboard shortcuts are cool!�);
     return false;
@@ -822,7 +820,7 @@ var isCtrl = false;
                 <ul>
               <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li>
 			        <li><a href="http://mail.psgtech.ac.in/cgi-bin/openwebmail/openwebmail.pl">Webmail</a></li>
-              <li><a href="http://www.psgtech.edu/lib1/lib.html">Library</a></li> -->
+              <li><a href="/lib1/lib.html">Library</a></li> -->
               <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li> -->
                   <li><a href="https://library.psgtech.ac.in/">Library</a></li> <!-- Modified by MKM-20-06-2022  -->
                   <li><a href="psgcrs/">Community Radio</a></li>
