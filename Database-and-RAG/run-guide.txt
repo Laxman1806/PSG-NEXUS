@@ -1,0 +1,23 @@
+run guide for psg nexus
+
+---------
+Step 2: Open PowerShell and start the server:
+npm.cmd run dev
+
+
+Open:
+
+http://localhost:3000/
+
+Check the database status:
+
+http://localhost:3000/health
+
+Step 3: Open a second PowerShell terminal and, once MongoDB reports connected, run:
+npm.cmd run ingest
+
+
+This will crawl the downloaded website, generate embeddings and replace the old MongoDB chunks. The existing collection and vector index will be preserved.
+
+Step 4: Test RAG:
+node scripts/demo-rag.js

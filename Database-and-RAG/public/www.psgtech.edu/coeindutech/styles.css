@@ -1,0 +1,361 @@
+/*
+Design by Metamorphosis Design
+http://www.metamorphozis.com
+Released for free under a Creative Commons Attribution 2.5 License
+*/
+
+*
+{
+border: 0;
+margin: 0;
+}
+
+img
+{
+border: 0px;
+}
+
+
+a{
+	color: #711419;
+	text-decoration:none;
+}
+
+a:hover{
+	text-decoration: underline;
+	color: #000000;
+}
+
+body{
+	font: 12px Arial, Helvetica, sans-serif;
+	color: #000000;
+	background: url(images/bg.gif) ;
+	line-height:20px;
+}
+
+
+#main{
+	width: 1002px;
+	margin: 0px auto;
+	padding: 0px 0px 0px 0px;
+	background:#FFFFFF;
+	background: url(images/big_bg.jpg/index.html) bottom no-repeat #FFFFFF;
+	
+}
+
+
+#header { width:1002px;
+padding: 0px 0px 0px 0px;
+height: 378px;
+}
+
+#buttons{
+	width: 1000px;
+	background: url(images/menu.jpg) left top repeat-x;
+	text-align:center;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	height:69px;
+}
+
+#buttons .but {
+	float:left;
+	background: url(images/but_razd.jpg) right center no-repeat;
+	height:69px;
+}
+
+#buttons a {
+	font-family: Georgia, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight:normal;
+	display: block;
+	float: left;
+	width: 150px;   /*198px;*/
+	height: 44px;
+	text-decoration: none;
+	color: #FFFFFF;
+	padding-top: 25px;
+	text-align: center;
+	margin-right: 2px;
+}
+
+#buttons a:hover {
+	text-decoration: underline;
+	background:url(images/over.jpg) repeat-x;
+}
+
+#logo{
+	background: url(images/coebanner.jpg) center top no-repeat;
+	height: 284px;
+	padding: 25px 0px 0px 736px;
+}
+
+#logo a {
+	text-decoration: none;
+	text-transform: lowercase;
+	font-style: italic;
+	font-size: 16px;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+
+#logo H2 a{
+	font-size: 10px;
+}
+
+#bg_top {
+	background: url(images/bg_top.jpg/index.html) left top no-repeat;	
+	height:304px;
+	width:317px;
+	float:left;}
+	
+#text_top {
+	color:#000000;
+	width:234px;
+	margin: 11px 0px 0px 19px;}
+	
+.tit_top {
+font-family:Georgia, "Times New Roman", Times, serif;
+font-size: 16px;
+color:#486501;
+font-weight: 900;}
+
+#cont_top { 
+	background: url(images/cont_top.jpg) top repeat-x;
+	width:1000px;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+}
+
+#cont_bot { 
+	background: url(images/cont_bot.jpg) bottom repeat-x;
+	width:986px;
+	padding: 7px;
+}
+
+#content{
+	width: 100%;
+	padding: 7px 0px 7px 0px;
+	background: url(images/cont_bg.png);
+}
+
+
+#razd {
+background:url(images/razd.gif) 232px repeat-y;
+width: 972px;
+min-height: 500px;
+padding: 0px 6px 3px 8px;
+}
+
+#razdNew {
+width: 972px;
+min-height: 500px;
+padding: 0px 6px 3px 8px;
+}
+
+
+#left{
+	width: 219px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px;
+	float:left;
+	background: url(images/tit.png) left 28px repeat-x;
+}
+
+#left .list 
+{
+	list-style: none;
+	padding-left: 31px;
+	padding-top: 5px;
+	margin: 0px;
+	display:block;
+	background: url(images/fish.png) 6px 4px no-repeat;
+}
+
+
+#center{float:left;
+padding: 0px 0px 0px 0px;
+width:512px;
+background: url(images/tit.png) left 28px repeat-x;
+margin: 0px 0px 0px 11px;
+}
+
+.text{
+	padding: 7px 4px 0px 7px;
+}
+
+.img {	float:left;
+		margin: 5px 17px 5px 0px;
+}
+
+span {	color:#1C4B14;
+		font-weight:bold;
+}
+
+.color { color:#347818;}
+
+.dot { background:url(images/dot.gif) center repeat-x;
+height:20px; }
+
+.dat { text-decoration:underline;}
+
+H1{
+	font-family: Georgia, Arial, Helvetica, sans-serif;
+	font-size:18px;
+	font-weight:normal;
+	color: #354905;
+	padding-bottom: 35px;
+	padding-left: 7px;
+	padding-top: 5px;
+	text-align:center;
+}
+
+H2{
+	font-family: Georgia, Arial, Helvetica, sans-serif;
+	font-size:18px;
+	font-weight:normal;
+	color: #354905;
+	padding-bottom: 35px;
+	padding-left: 4px;
+	padding-top: 5px;
+	text-align:left;
+}
+
+.read{
+	text-align:right;
+	padding-right:0px;
+	padding-top: 4px;
+}
+.read_top{
+	text-align:right;
+	padding-right:30px;
+	padding-top: 10px;
+}
+
+.right{
+float:right;
+width: 219px;
+padding-right: 0px;
+background: url(images/tit.png) left 28px repeat-x;
+}
+
+
+
+.right ul 
+{
+	list-style: none;
+	padding-left:0px;
+	padding-top:0px;
+	margin: 0px;
+	display:block;
+	padding-bottom: 0px;
+}
+
+.right li{
+	padding-top: 5px;
+	background: url(images/fish.png) 6px 4px no-repeat;
+	padding-left: 36px;
+}
+
+#footer{
+	height: 45px;
+	width: 1000px;
+	font-size: 10px;
+	color: #FFFFFF;
+	padding-top: 8px;
+	text-align: center;
+	clear:both;
+	padding: 10px 0px 10px 0px;
+	background: url(images/footer.jpg) left top repeat-x;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+}
+
+#footer a{
+	color: #FFFFFF;
+	font-size: 10px;
+	text-decoration: none;
+}
+
+#footer a:hover{
+	color: #FFFFFF;
+	font-size: 10px;
+	text-decoration: underline;
+}
+
+<style>
+/* Navbar container */
+.navbar {
+  min-width: 13%;
+  overflow: hidden;
+  background-color: #000066; /*#333;#69A2B7*/
+  font-family: Verdana; /*Arial;*/
+}
+
+/* Links inside the navbar */
+.navbar a {
+	 min-width: 13%;
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  min-width: 13%;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #6275b3;  /*red;#69A2B7*/
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #000066;  /*#f9f9f9;#6666CC*/
+  min-width: 15%;  /*160px;*/
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #6275b3;  /*#ddd; */
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+</style>
