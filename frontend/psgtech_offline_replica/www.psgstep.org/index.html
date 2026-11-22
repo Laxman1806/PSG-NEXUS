@@ -1,0 +1,402 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<title></title>
+
+	<link rel="icon" href="images/logo/psg_step.png" type="image/png" sizes="16x16">
+	
+	<!----------------------------CSS------------------------------------------------------------->
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+        
+	<!------------------------------Nivo -slider--------------------------------------------------->
+	
+	<link rel="stylesheet" type="text/css" href="css/nivo-slider.css">
+	
+	<link rel="stylesheet" href="css/nivo_themes/default/default.css" type="text/css" media="screen">
+    
+        <!------------------------------------end------------------------------------------------------>
+	
+	<!--- Base Class--->		
+	<link rel="stylesheet" type="text/css" href="fortknox/gate/css/base.css">
+		
+	<!--- Light Window Class --->	
+	<link rel="stylesheet" type="text/css" href="css/light_window.css">
+	
+	<!--- jQuery Class --->	
+	<link rel="stylesheet" type="text/css" href="fortknox/lib_v2/js/jquery_ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css">
+	
+	<!--- Hint Class --->	
+	<link rel="stylesheet" type="text/css" href="fortknox/lib_v2/css/hint.css">	
+	
+	<!--- jQuery Addon Q tip Class --->	
+	<link rel="stylesheet" type="text/css" href="fortknox/lib_v2/jquery_addon/qtip/jquery.qtip.min.css/index.html">
+	
+	<!------------------------End Of CSS----------------------------------------------------------------->
+	
+	
+	<!----------------------------------- JavaScript External----------------------------------------------------->
+	
+	<script language="javascript" type="text/javascript" src="js/jquery/jquery.min.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="js/jquery/jquery.nivo.slider.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="js/jquery/jquery_cycle.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/js/jquery_addon/qtip/jquery.qtip.min.js"></script>
+	
+	<!----------------------------------- JavaScript Internal----------------------------------------------------->
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/js/general.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="js/normalize.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/js/d_series.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/js/more.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/js/ajax.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/gate/js/show.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/js/lightwindow_v2.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="fortknox/lib_v2/comp/key/key.js"></script>
+					
+	<!--- Inline -->
+	
+	<script language="javascript" type="text/javascript">
+				
+				var V 		= 	new Object({});
+				
+				V.menu_id	= 	'1';
+				
+				V.sub_menu_focus_color		=	'#fcfcff';
+				
+						var P_V 	=	new Array();
+		
+						P_V['expand'] 	= '<img src=images/icon/control_play_down.png>';
+						
+						P_V['collapse'] = '<img src=images/icon/control_play.png>';
+						
+				// jquerey
+				
+				$(function() {
+				
+						$("li.sub_menu").hide();
+					      
+						$("td.navigation").delegate("li.menu_II", "click", function() {
+							
+							
+						
+								P_V['current_background'] 	=	(this.innerHTML.indexOf('control_play.png')>0)?P_V['expand']:P_V['collapse'];
+						      
+								P_V['menu_title_temp']  	=	this.innerHTML.split('>');
+							      
+								this.innerHTML			=	P_V['current_background']+P_V['menu_title_temp'][1];
+      
+								$(this).next().toggle("fast").siblings(".sub_menu").hide("fast");
+								
+								
+						});
+					
+						
+						if (V.menu_id==1) {
+							
+									
+							$(window).load(function() {
+				
+								$('#slider').nivoSlider({ controlNav: false,
+											  animSpeed: 500,
+									                  pauseTime: 3000
+											  });
+																
+								$('#f_news').cycle({								
+									fx		:  'scrollUp', 
+									speed		:  900,  
+									delay  		:  2500,
+									pause           :  1									
+								});
+								
+								$('#p_news').cycle({
+								
+									fx		:  'scrollUp', 
+									speed		:  900,  
+									delay  		:  2000,
+									pause           :  1									
+								});
+								
+								$('#quick_link').cycle({
+								
+									fx		:  'scrollUp', 
+									speed		:  900,  
+									delay  		:  1500,
+									pause           :  1									
+								});
+																	
+							});
+									
+						} // end of is home page
+			
+				}); // end
+
+	</script>
+	
+</head>
+
+<body>
+	
+			<table cellpadding="0" cellspacing="0" border="0" align="center">
+				
+				<tbody><tr>
+						
+					<td id="layout">
+	
+					<div id="header">
+							
+					</div>	
+					
+			<table style="width:100%" cellpadding="0" cellspacing="0">
+				
+				<tbody><tr>
+				
+				<!-----------------------Left  menu ------------------------------------------------------>
+				
+				<td class="left_menu" id="left_menu">
+						<!--<div class="left_menu" id="left_menu" >-->
+							
+							<a id="parent_menu_1" class="menu" href="index.php?page_id=1">															
+													Home 
+												 </a><a id="parent_menu_2" class="menu" href="index.php?page_id=2">															
+													About PSG Tech 
+												 </a><a id="parent_menu_3" class="menu" href="index.php?page_id=3">															
+													About PSG-STEP 
+												 </a><a id="parent_menu_4" class="menu" href="index.php?page_id=4">															
+													Incubation Facility 
+												 </a><a id="parent_menu_5" class="menu" href="index.php?page_id=5&amp;sub_id=24&amp;default=24">															
+													Incubatee Profile 
+												 </a><a id="parent_menu_242" class="menu" href="index.php?page_id=242">															
+													DST-NIDHI Centre of Excellence in Advanced Technologies 
+												 </a><a id="parent_menu_202" class="menu" href="index.php?page_id=202">															
+													DST NIDHI - PRAYAS 
+												 </a><a id="parent_menu_209" class="menu" href="index.php?page_id=209">															
+													DST NIDHI - EIR 
+												 </a><a id="parent_menu_228" class="menu" href="index.php?page_id=228">															
+													MeitY TIDE 2.0  
+												 </a><a id="parent_menu_224" class="menu" href="index.php?page_id=224">															
+													BIRAC - SPARSH 
+												 </a><a id="parent_menu_247" class="menu" href="index.php?page_id=247">															
+													BIRAC BioNEST Initiatives 
+												 </a><a id="parent_menu_249" class="menu" href="index.php?page_id=249">															
+													iDEX Partner Incubator 
+												 </a><a id="parent_menu_6" class="menu" href="index.php?page_id=6&amp;sub_id=27&amp;default=27">															
+													Funding 
+												 </a><a id="parent_menu_243" class="menu" href="index.php?page_id=243">															
+													StartupTN Initiatives 
+												 </a><a id="parent_menu_248" class="menu" href="index.php?page_id=248">															
+													Catalysts 
+												 </a><a id="parent_menu_9" class="menu" href="index.php?page_id=9">															
+													Capacity Development Programmes 
+												 </a><a id="parent_menu_10" class="menu" href="index.php?page_id=10">															
+													Asia Pacific Incubation Network 
+												 </a><a id="parent_menu_12" class="menu" href="index.php?page_id=12&amp;sub_id=72&amp;default=72">															
+													Achievements  
+												 </a><a id="parent_menu_125" class="menu" href="index.php?page_id=125">															
+													News &amp; Events 
+												 </a><a id="parent_menu_14" class="menu" href="index.php?page_id=14">															
+													Press Coverage 
+												 </a><a id="parent_menu_15" class="menu" href="index.php?page_id=15">															
+													Contact 
+												 </a>
+							
+						<!--</div>-->
+				</td>
+				
+				<!--------------------------- bar rea------------------------------------------------------>	
+				<td class="bar_area" id="bar_area">		
+						<!--<div class="bar_area" id="bar_area">-->
+							
+							<table width="100%" cellpadding="0" cellspacing="0" border="0">
+							
+							<tbody><tr><td class="navigation"></td></tr>
+							
+							</tbody></table>
+							
+							<div id="home_quote">													       						       
+							
+							       <h2><i>"Let there be charity, so that others can share my family's prosperity"</i></h2>
+
+<p><i>- PS Govindasamy Naidu</i></p>
+
+							
+							</div>
+									
+						<!--</div>-->
+				</td>
+				<!--------------------------------Bar Content End------------------------------------------>
+				
+				<!-------------------------------- content area ------------------------------------------->
+				<td class="content" id="content">
+				
+				<!--<div class="content" id="content">-->
+					
+						<h1></h1>
+						
+							
+							<div class="slider-wrapper theme-default">							
+							   <div id="slider" class="nivoSlider">									
+									
+										
+												<a href="https://d2r.psgstep.org/" title="For More Detail.."><img src="images/home_banner/176.jpg/index.html" target="_blank" alt="No image" title="Dream2Reality Idea Competition"></a>							
+												
+									        
+									
+							   </div>
+							</div>
+						
+				<!--------------------------------Content Area End------------------------------------------------>
+				
+				<!--------------------------------Future news--------------------------------------------------->
+					
+						
+				<!--------------------------------Future news End----------------------------------------------->
+				
+				<!--------------------------------News&events----------------------------------------------------->
+					
+						
+					<!--------------------------------News&events End----------------------------------------------->
+						
+						
+						<!--------------------------------HardLink for career based on banner---------------------------------------------------->						
+						<!-----Hardcoded content
+						<h3 class="align_RM"> Careers</h3>							
+						<div class="home_ticker" id="home_ticker" name="home_ticker">
+									<div id="quick_link">									
+												<span>	  
+												   <dl>												
+													<dt>Hiring Program Executive</dt>												
+													<dd><a href="docs/ProjectExecutive_Advertisement_August_2020_ii.pdf" target="_blank">Click here for Application</a></dd>												        
+												   </dl>
+												</span>					
+									</div>
+						</div>
+						------->
+						<!--------------------------------HardLink---------------------------------------------------->
+				
+				
+						<!--------------------------------Quick Link---------------------------------------------------->
+						
+						
+					<!--------------------------------Quick Link---------------------------------------------------->
+						
+					<!---------------------------------PAGE CONTENT------------------------------------>
+					
+					<!--------------------------------HardLink for career based on banner---------------------------------------------------->						
+						
+						
+					<h2>PSG-STEP</h2><iframe width="500" height="255" src="https://www.youtube.com/embed/htb1kPSvj38" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+<p>&nbsp;</p>
+<h2>About Us</h2>
+
+<p>The&nbsp;<font color="#0000CD"><b>PSG-Science &amp; Technology Entrepreneurial Park (PSG-STEP</b>)</font> was established in the year 1998 with the support from Department of Science &amp; Technology, Government of India, IDBI and ICICI at PSG College of Technology to promote technology based enterprises in the areas of software, electronic products, hi-tech mechanical products, and eco-friendly textile products &amp; bio-technology using the core strengths of PSG College of Technology.</p>
+
+<p>&nbsp;</p>
+
+						
+						
+					<!---------------------------------PAGE CONTENT End ----------------------------------->
+						
+					<!---------------------------------TMPL_VAR PAGE_ID------------------------------------>
+									
+								
+									
+						
+						
+					</td>
+				</tr>
+				<!---------------------------------PAGE CONTENT------------------------------------>
+
+				</tbody></table>
+			
+				<!--- footer --->
+				
+				<div class="footer"><big>©</big>&nbsp;2026, PSG STEP.
+						<a class="badge" href="http://www.fibenis.org" target="_blank">Implemented with Fibenis</a>
+				</div>
+				
+				
+				</td>
+					<!--- End of Content--->
+				
+		            </tr>				
+		</tbody></table>
+		
+		<div id="inner_frame_area" name="inner_frame_area" class="light_window" style="height:600px;display:none;">
+ 
+				<table border="0" align="center" style="width:95%">
+					<tbody><tr>
+						<td width="90%" class="header" id="inner_frame_title">Create Invoice </td>
+						<td width="10%" class="exit" align="right" id="exit" valign="top" height="40px">
+							<a href="JavaScript:inner_frame.hide();">x</a>&nbsp;&nbsp;
+						</td>
+						<td></td>
+					</tr>
+					<tr>				
+						<td colspan="2">
+							<div id="error_div">
+								<iframe id="inner_frame" name="inner_frame" src="" width="100%" height="520px" style="border:none;">
+								</iframe>
+							</div>
+					</td>		
+					</tr>
+				</tbody></table>
+		</div>
+	   
+	        <script language="javascript" type="text/javascript">
+	   
+	   		/*	var inner_frame   = new light_window({ 'element_id'  : 'inner_frame_area',
+								       'bg_color'    : '#242424',
+								       'layer_index' : '',
+								       'opacity'     : 80,
+								       'width'       : 0,
+								       'height'	     : 0,
+								       'top'	     : 0
+								});*/
+				
+				
+						// Parent
+						
+					
+						V.parent_menu_id 		  =	 '1';
+					  
+						V.parent_menu_element 		  = 	ELEMENT('parent_menu_'+V.parent_menu_id);
+						
+					  	V.parent_menu_element.className   = 	'menu_over';	
+						  
+						// Sub Menu
+						
+						
+						
+						// End of Menu, Submenu, Child Menu Pre-selection
+					
+						
+						
+						
+				                 
+		</script>
+		
+		
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59762810-1', 'auto');
+  ga('send', 'pageview');
+
+</script></body></html>

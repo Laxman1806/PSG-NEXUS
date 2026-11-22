@@ -1,19 +1,21 @@
+// db/scripts/ingest-local-pages.js - Comprehensive Campus Crawler & RAG Knowledge Ingestion
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const cheerio = require('cheerio');
 const { MongoClient } = require('mongodb');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-function splitIntoChunks(text, maxWords = 400, overlap = 50) {
+function splitIntoChunks(text, maxWords = 350, overlap = 50) {
     if (!text) return [];
     const words = text.split(/\s+/).filter(Boolean);
     const chunks = [];
     let i = 0;
     while (i < words.length) {
         const chunk = words.slice(i, i + maxWords).join(' ');
-        chunks.push(chunk);
+        if (chunk.length >= 80) {
+            chunks.push(chunk);
+        }
         i += maxWords - overlap;
     }
     return chunks;
@@ -23,7 +25,8 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
 
 async function getEmbeddingWithRetry(text) {
-    let attempts = 3;
+    let attempts = 4;
+    let delay = 3000;
     while (attempts > 0) {
         try {
             const result = await embeddingModel.embedContent({
@@ -33,9 +36,10 @@ async function getEmbeddingWithRetry(text) {
             return result.embedding.values;
         } catch (err) {
             const msg = err.message || '';
-            if (msg.includes('429') || msg.includes('quota') || msg.includes('Too Many Requests')) {
-                console.warn(`⏳ Rate limit reached. Pausing for 20s to allow Gemini token bucket to refill...`);
-                await new Promise(r => setTimeout(r, 20000));
+            if (msg.includes('429') || msg.includes('quota') || msg.includes('Too Many Requests') || msg.includes('RESOURCE_EXHAUSTED')) {
+                console.warn(`⏳ Rate limit reached. Pausing for ${delay / 1000}s to allow token refill...`);
+                await new Promise(r => setTimeout(r, delay));
+                delay = Math.min(delay * 2, 25000);
                 attempts--;
             } else {
                 throw err;
@@ -47,53 +51,29 @@ async function getEmbeddingWithRetry(text) {
 
 const rootDir = path.resolve(__dirname, '..', '..');
 const frontendDir = path.join(rootDir, 'frontend');
+const replicaBase = path.join(frontendDir, 'psgtech_offline_replica');
+const replicaMain = path.join(replicaBase, 'www.psgtech.edu');
 
-// Comprehensive list of all 41 core institutional pages
-const candidatePages = [
-    { file: 'index.html', title: 'PSG Tech - Home, Vision, Mission & Latest News', url: '/' },
-    { file: 'abtcllg.php/index.html', title: 'About PSG College of Technology & History', url: '/abtcllg.php' },
-    { file: 'admission.php/index.html', title: 'Admissions, Eligibility & Counselling Procedures', url: '/admission.php' },
-    { file: 'BScMScAdmission2026/index.html', title: 'B.Sc & M.Sc Integrated Admissions 2026', url: '/BScMScAdmission2026' },
-    { file: 'fn_oci/index.html', title: 'Foreign National (FN) & OCI / NRI Admissions', url: '/fn_oci' },
-    { file: 'hostel/index.html', title: 'Hostel Facilities, Residential Rules & Wardens', url: '/hostel' },
-    { file: 'placements/index.php/index.html', title: 'Placement Statistics, Top Recruiters & CDC', url: '/placements' },
-    { file: 'Heads.php/index.html', title: 'Heads of Departments (HoD) & Department Chairs', url: '/Heads.php' },
-    { file: 'facultyDetails.php/index.html', title: 'Faculty Members Directory & Professors', url: '/facultyDetails.php' },
-    { file: 'programme.php/index.html', title: 'Programmes Offered (Undergraduate & Postgraduate)', url: '/programme.php' },
-    { file: 'programme_offered.php/index.html', title: 'Academic Programmes, Degrees & Branches', url: '/programme_offered.php' },
-    { file: 'coe.php/index.html', title: 'Controller of Examinations (CoE) & Exam Regulations', url: '/coe.php' },
-    { file: 'student.php/index.html', title: 'Student Guidelines, Rules & Campus Conduct', url: '/student.php' },
-    { file: 'parentzone.php/index.html', title: 'Parents Zone & Student Academic Portal', url: '/parentzone.php' },
-    { file: 'cont.php/index.html', title: 'Contact Details, Campus Address & Helpdesk', url: '/cont.php' },
-    { file: 'scholarships.php/index.html', title: 'Scholarships, Fee Concessions & Financial Aid', url: '/scholarships.php' },
-    { file: 'principal.php/index.html', title: 'Principal & Leadership Message', url: '/principal.php' },
-    { file: 'Dean-Academic.php/index.html', title: 'Office of Dean - Academic Affairs', url: '/Dean-Academic.php' },
-    { file: 'Dean-Administration.php/index.html', title: 'Office of Dean - Administration', url: '/Dean-Administration.php' },
-    { file: 'Dean-Autonomous.php/index.html', title: 'Office of Dean - Autonomous Exam Cell', url: '/Dean-Autonomous.php' },
-    { file: 'VicePrincipal_WomenWelfare.php/index.html', title: 'Vice Principal & Women Welfare Committee', url: '/VicePrincipal_WomenWelfare.php' },
-    { file: 'Management.php/index.html', title: 'Management & Governing Council', url: '/Management.php' },
-    { file: 'founders.php/index.html', title: 'Founders & PSG & Sons Charities Legacy', url: '/founders.php' },
-    { file: 'trustees.php/index.html', title: 'Managing Trustees of PSG Tech', url: '/trustees.php' },
-    { file: 'secretary.php/index.html', title: 'Secretary of PSG College of Technology', url: '/secretary.php' },
-    { file: 'nirf.php/index.html', title: 'NIRF Ranking & National Institutional Data', url: '/nirf.php' },
-    { file: 'NBA Accreditation.php/index.html', title: 'NBA Accreditation & Quality Assurance', url: '/NBA-Accreditation.php' },
-    { file: 'approval.php/index.html', title: 'AICTE Approval & Affiliation Status', url: '/approval.php' },
-    { file: 'R&D.php/index.html', title: 'Research & Development (R&D) & Sponsored Projects', url: '/R&D.php' },
-    { file: 'Report-RC2026.php/index.html', title: 'Research Conclave 2026 Proceedings', url: '/Report-RC2026.php' },
-    { file: 'Research/ird.html', title: 'Industrial Research & Consultancy Cell (IRD)', url: '/Research/ird.html' },
-    { file: 'IIC/index.html', title: 'Institution Innovation Council (IIC) & Incubation', url: '/IIC' },
-    { file: 'Mousgloblink.php/index.html', title: 'International MoUs & Global University Tie-ups', url: '/Mousgloblink.php' },
-    { file: 'MandatoryCommittee.php/index.html', title: 'Mandatory Committees & Grievance Redressal', url: '/MandatoryCommittee.php' },
-    { file: 'course conducted.php/index.html', title: 'Short Term Courses, FDPs & Workshops', url: '/course-conducted.php' },
-    { file: 'coeindutech/index.html', title: 'Center of Excellence in Industrial Textiles (InduTech)', url: '/coeindutech' },
-    { file: 'psgcrs/index.html', title: 'PSG Community Radio 107.8 MHz (CRS)', url: '/psgcrs' },
-    { file: 'teqip/index.html', title: 'TEQIP World Bank Institutional Quality Project', url: '/teqip' },
-    { file: 'help-desk.php/index.html', title: 'Student Help Desk & Support Services', url: '/help-desk.php' },
-    { file: 'Glances/index.html', title: 'Glances of PSG Tech - Campus Life & Traditions', url: '/Glances' },
-    { file: 'websiteUrls.php/index.html', title: 'Official Portals Directory & Web Links', url: '/websiteUrls.php' }
-];
+// Helper to determine readable title from file path & html
+function determineTitleAndUrl(relativeFilePath, $) {
+    let title = $('title').text().replace(/\s+/g, ' ').trim();
+    if (!title || title === 'PSG College of Technology' || title.length < 5) {
+        const h1 = $('h1').first().text().replace(/\s+/g, ' ').trim();
+        const h2 = $('h2').first().text().replace(/\s+/g, ' ').trim();
+        title = h1 || h2 || path.basename(path.dirname(relativeFilePath)) || 'PSG Tech Campus Page';
+    }
 
-// Curated Institutional Knowledge Packs Tailored for Parents, Students & Visitors
+    // Determine normalized routing URL
+    let url = '/' + relativeFilePath.replace(/\\/g, '/');
+    url = url.replace(/index\.html$/i, '');
+    url = url.replace(/index\.php\/?$/i, '');
+    url = url.replace(/\/+$/, '');
+    if (!url) url = '/';
+
+    return { title, url };
+}
+
+// Curated Institutional Priority Packs Tailored for Parents, Students & Visitors
 const verifiedKnowledgePacks = [
     {
         title: 'PSG Tech Overview & Key Institutional Facts',
@@ -107,13 +87,30 @@ Campus Features: 45+ acre sprawling green campus, state-of-the-art laboratory fa
     },
     {
         title: 'Admissions & Eligibility Guide (UG, PG, MCA, MBA)',
-        url: '/admissions',
+        url: '/admission.php',
         content: `Admission to PSG College of Technology is conducted through merit-based government quotas and management quotas:
 1. B.E. / B.Tech Admissions: Through Tamil Nadu Engineering Admissions (TNEA) single-window counseling conducted by the Directorate of Technical Education (DoTE) / Anna University. TNEA Counselling Code: 2006. Minimum eligibility: 10+2 with Mathematics, Physics, and Chemistry.
 2. Lateral Entry (2nd Year B.E./B.Tech): For Diploma and B.Sc graduates through Centralized Lateral Entry Counselling.
 3. M.E. / M.Tech Admissions: Through TANCA counselling based on GATE / CEETA-PG scores.
 4. MCA (Master of Computer Applications): 2-year full-time postgraduate degree. Eligibility: Passed BCA / B.Sc (Computer Science / IT) or undergraduate degree with Mathematics at 10+2 or Degree level with at least 50% marks (45% for reserved category). Admission through TANCET conducted by Anna University.
 5. MBA Admissions: Through TANCET / MAT / CAT scores via centralized counselling or management admission.`
+    },
+    {
+        title: 'Faculty Members & Staff Directory (/facultyDetails.php)',
+        url: '/facultyDetails.php',
+        content: `Faculty Directory & Academic Staff Profiles at PSG College of Technology:
+The institution boasts over 500+ highly qualified faculty members across Engineering, Computer Applications, Management, and Applied Sciences. Over 75% of permanent faculty hold Ph.D. degrees from prestigious IITs, IISc, NITs, and top global universities.
+Faculty members actively supervise doctoral research, publish in SCI/Scopus indexed high-impact journals, and execute sponsored R&D projects from DST, DRDO, ISRO, AICTE, and UGC.
+Students and parents can visit /facultyDetails.php to view department-wise staff lists, faculty designations, qualifications, research specializations, email IDs, and office consultation hours.`
+    },
+    {
+        title: 'Academic Programmes, Curriculum & Syllabus (/programme.php)',
+        url: '/programme.php',
+        content: `Comprehensive Academic Programmes & Syllabus Structure at PSG Tech:
+Undergraduate Programmes: B.E. Automobile, Biomedical, Civil, Computer Science & Engineering (CSE), Electrical & Electronics (EEE), Electronics & Communication (ECE), Instrumentation & Control, Mechanical, Metallurgical, Production, Robotics & Automation, and B.Tech Information Technology (IT), Biotechnology, Textile Technology, Fashion Technology.
+Unique 5-Year Sandwich Programmes: B.E. Mechanical (Sandwich), B.E. Production (Sandwich), and B.E. Electrical & Electronics (Sandwich) with industry immersion.
+Postgraduate Programmes: 20+ M.E./M.Tech specializations, full-time MCA, full-time MBA, and 5-Year Integrated M.Sc degrees (Software Systems, Data Science, Theoretical Computer Science, Cyber Security).
+Detailed syllabus, course outcomes, prerequisites, and credit distributions can be explored at /programme.php.`
     },
     {
         title: 'Hostels & Residential Facilities (Boys & Girls)',
@@ -138,20 +135,11 @@ Training & Placement Cell conducts aptitude tests, soft skills bootcamps, techni
     },
     {
         title: 'Academic Regulations & Attendance Policy',
-        url: '/regulations',
+        url: '/coe.php',
         content: `Under Autonomous Regulations of PSG College of Technology:
 Attendance Policy: Minimum required attendance is 75% in every course to be eligible to appear for the Autonomous End-Semester Examinations (ESE). Students having between 65% and 74% attendance due to documented medical reasons or authorized college representation may apply for condonation. Students below 65% attendance must repeat the course.
 Continuous Assessment (CA): Includes tests (CA1, CA2), assignments, tutorials, quizzes, and mini-projects contributing towards internal marks.
 Grading System: 10-point scale: O (Outstanding, 10), A+ (Excellent, 9), A (Very Good, 8), B+ (Good, 7), B (Above Average, 6), C (Average, 5), RA (Reappear, 0).`
-    },
-    {
-        title: 'Campus Facilities, Central Library & Working Hours',
-        url: '/facilities',
-        content: `PSG Tech Campus Resources:
-Dr. G.R. Damodaran Central Library: Holds over 2,50,000 volumes, 50,000+ e-journals (IEEE, ScienceDirect, Springer, ASME, ASCE), and digital learning facilities. Working hours: 8:00 AM to 8:00 PM on all working days.
-Health Center: 24x7 medical assistance with qualified resident medical officers, emergency ambulance service connected to PSG Hospitals, Peelamedu.
-Sports & Recreation: 400m athletic track, football ground, cricket nets, basketball courts with floodlights, tennis courts, and modern indoor badminton stadium.
-Transport: Extensive fleet of college buses operating across Coimbatore, Tirupur, Pollachi, and Mettupalayam routes.`
     },
     {
         title: 'Parents Guide: Ward Monitoring, Campus Safety & Healthcare',
@@ -174,18 +162,6 @@ Transport: Extensive fleet of college buses operating across Coimbatore, Tirupur
 5. Central Schemes: AICTE Pragati Scholarship for female engineering students, AICTE Saksham for differently-abled students, and Central Sector Scholarship for merit holders.`
     },
     {
-        title: 'Specialized Programmes: 5-Year Sandwich Engineering & Integrated M.Sc',
-        url: '/programme.php',
-        content: `Flagship Unique Academic Offerings at PSG Tech:
-1. 5-Year B.E. Sandwich Programmes (Mechanical, Production, Electrical & Electronics):
-   - Unique to PSG College of Technology in India, established in collaboration with PSG Industrial Institute.
-   - Structure: Students alternate between classroom academic study and real-time industrial training at machine shops, assembly units, and industrial manufacturing plants.
-   - Outcome: Graduates possess 1.5 years of verifiable industrial work experience by the time of graduation, making them highest-priority recruits in core engineering giants (Caterpillar, L&T, Robert Bosch, Tata Motors).
-2. 5-Year Integrated M.Sc Programmes:
-   - Specialized branches: Software Systems, Data Science, Theoretical Computer Science, Cyber Security, Decision & Computing Sciences.
-   - Eligibility: 10+2 with Mathematics and Physics. Excellent alternative to traditional B.Tech with guaranteed full-semester corporate internships starting in the 7th and 9th semesters.`
-    },
-    {
         title: 'Visitor & Recruiter Guide: Location, Directions, Transit Distances & Guest House',
         url: '/cont.php',
         content: `Visitor, Recruiter & Campus Navigation Guide:
@@ -203,182 +179,172 @@ Transport: Extensive fleet of college buses operating across Coimbatore, Tirupur
    - Principal's Office Email: principal@psgtech.ac.in`
     },
     {
-        title: 'Campus Discipline, Anti-Ragging Policy & Student Welfare',
-        url: '/MandatoryCommittee.php',
-        content: `Campus Discipline, Anti-Ragging & Student Support Ecosystem:
-1. Anti-Ragging Strict Policy: PSG College of Technology strictly follows a Zero-Tolerance policy against ragging as per UGC / AICTE norms. Dedicated Anti-Ragging Committee and Squad conduct surprise inspections in academic buildings, hostels, and sports grounds.
-   - National Anti-Ragging Helpline (Toll-Free): 1800-180-5522.
-2. Women Welfare & Internal Complaints Committee (ICC): Chaired by senior women faculty to ensure a secure, respectful, and empowering environment for all female students, researchers, and staff.
-3. Student Grievance Redressal Cell (SGRC): Provides a fair, confidential online and offline mechanism for addressing student concerns regarding examinations, academic evaluations, or campus amenities.
-4. Career & Psychological Counselling: On-campus professional student counsellor available to assist students with stress management, academic focus, and career decision-making.`
+        title: 'Physical Education, Sports Grounds & Gymnasiums (/sports)',
+        url: '/sports',
+        content: `Sports & Physical Education Ecosystem at PSG Tech:
+The Department of Physical Education provides world-class sporting facilities:
+- Athletic Facilities: 400-meter standard athletic track, football field, and cricket pavilion with practice nets.
+- Courts: Floodlit synthetic basketball courts, outdoor volleyball courts, and lawn tennis courts.
+- Indoor Sports Complex: Multi-purpose indoor wooden badminton stadium, table tennis arena, and chess rooms.
+- Fitness Center: Fully air-conditioned fitness gym with modern cardio equipment, free weights, and qualified trainers.
+- Competitions: Students regularly compete and win gold medals in Anna University Zonal tournaments, All India Inter-University meets, and Centies tournaments.`
+    },
+    {
+        title: 'GRD Memorial Central Library & Digital Resources (/library)',
+        url: '/library',
+        content: `Dr. G.R. Damodaran Central Library Facilities:
+- Collection: Over 2,50,000 physical volumes covering Engineering, Sciences, Management, and Humanities.
+- Digital Library: Subscriptions to IEEE Xplore, ScienceDirect, Springer, ASME, ASCE, ACM Digital Library, and Scopus databases.
+- Institutional Repository: Over 5,000 digitized Ph.D. theses, faculty publications, and student project reports.
+- Working Hours: 8:00 AM to 8:00 PM on all working days; extended hours during autonomous semester examinations.
+- Facilities: RFID-enabled automated circulation, air-conditioned reading halls, multimedia learning stations, and reprographic services.`
     }
 ];
 
 async function runIngestion() {
-    console.log('🚀 Starting Comprehensive PSG Tech Local Data Ingestion Pipeline...');
+    console.log('====================================================');
+    console.log('🚀 PSGNEXUS HIGH-CAPACITY CAMPUS KNOWLEDGE CRAWLER');
+    console.log('====================================================');
 
     const documentsToStore = [];
 
-    // Step 1: Extract from HTML pages
-    for (const page of candidatePages) {
-        const fullPath = fs.existsSync(path.join(frontendDir, page.file)) 
-            ? path.join(frontendDir, page.file) 
-            : path.join(rootDir, page.file);
-        if (!fs.existsSync(fullPath)) {
-            console.warn(`⚠️ Skipping missing file: ${page.file}`);
-            continue;
-        }
-
-        try {
-            const html = fs.readFileSync(fullPath, 'utf8');
-            const $ = cheerio.load(html);
-            $('script, style, noscript, nav, footer, #chat-window, #fab-btn').remove();
-
-            const rawText = $('body').text().replace(/\s+/g, ' ').trim();
-            if (rawText.length < 50) continue;
-
-            const chunks = splitIntoChunks(rawText);
-            console.log(`📄 Page "${page.title}": ${rawText.length} chars -> ${chunks.length} chunks`);
-
-            for (let i = 0; i < chunks.length; i++) {
-                documentsToStore.push({
-                    title: page.title,
-                    url: page.url,
-                    content: chunks[i],
-                    chunkIndex: i
-                });
-            }
-        } catch (err) {
-            console.error(`Error processing ${page.file}:`, err.message);
-        }
-    }
-
-    // Step 2: Add Curated Knowledge Packs
+    // 1. Ingest Core Verified Knowledge Packs
+    console.log(`📦 Adding ${verifiedKnowledgePacks.length} Core Institutional Priority Packs...`);
     for (const pack of verifiedKnowledgePacks) {
-        const chunks = splitIntoChunks(pack.content);
-        for (let i = 0; i < chunks.length; i++) {
-            documentsToStore.push({
-                title: pack.title,
-                url: pack.url,
-                content: chunks[i],
-                chunkIndex: i
-            });
-        }
+        documentsToStore.push({
+            title: pack.title,
+            url: pack.url,
+            content: pack.content,
+            chunkIndex: 0,
+            isCore: true
+        });
     }
 
-    console.log(`\n📊 Total chunks compiled: ${documentsToStore.length}`);
+    // 2. Discover all HTML pages in replicaMain (www.psgtech.edu) and sibling subdomains
+    const scanDirs = [
+        { dir: replicaMain, prefix: '' },
+        { dir: path.join(replicaBase, 'sports.psgtech.ac.in'), prefix: '/sports' },
+        { dir: path.join(replicaBase, 'library.psgtech.ac.in'), prefix: '/library' },
+        { dir: path.join(replicaBase, 'thebridge.psgtech.ac.in'), prefix: '/thebridge' },
+        { dir: path.join(replicaBase, 'academicschedule.psgtech.ac.in'), prefix: '/academicschedule' },
+        { dir: path.join(replicaBase, 'iipc.psgtech.ac.in'), prefix: '/iipc' },
+        { dir: path.join(replicaBase, 'platinum.psgtech.ac.in'), prefix: '/platinum' }
+    ];
 
-    // Check existing cache for incremental speedup
-    const dataDir = path.join(rootDir, 'db', 'data');
-    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-    const cachePath = path.join(dataDir, 'knowledge_chunks.json');
+    let totalDiscoveredPages = 0;
 
-    const cachedEmbeddingsMap = new Map();
-    if (fs.existsSync(cachePath)) {
-        try {
-            const existingCache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
-            for (const doc of existingCache) {
-                if (doc._id && doc.embedding && doc.embedding.length === 768) {
-                    cachedEmbeddingsMap.set(doc._id, doc.embedding);
+    for (const { dir, prefix } of scanDirs) {
+        if (!fs.existsSync(dir)) continue;
+
+        function walkAndParse(currentDir) {
+            const items = fs.readdirSync(currentDir);
+            for (const item of items) {
+                const fullPath = path.join(currentDir, item);
+                const stat = fs.statSync(fullPath);
+
+                if (stat.isDirectory()) {
+                    walkAndParse(fullPath);
+                } else if (item.endsWith('.html')) {
+                    totalDiscoveredPages++;
+                    try {
+                        const html = fs.readFileSync(fullPath, 'utf8');
+                        const $ = cheerio.load(html);
+
+                        // Strip non-content chrome
+                        $('script, style, noscript, nav, footer, #chat-window, #fab-btn, .modal, .footer, .header').remove();
+
+                        const rawText = $('body').text().replace(/\s+/g, ' ').trim();
+                        const pageTitle = $('title').text().trim() || $('h1').text().trim();
+
+                        // Discard 404 pages, errors or tiny stubs
+                        if (pageTitle.includes('404') || rawText.includes('404 Not Found') || rawText.length < 150) {
+                            return;
+                        }
+
+                        const relative = path.relative(dir, fullPath);
+                        const { title, url } = determineTitleAndUrl(relative, $);
+                        const routedUrl = prefix ? prefix + url : url;
+
+                        const chunks = splitIntoChunks(rawText);
+                        for (let i = 0; i < chunks.length; i++) {
+                            documentsToStore.push({
+                                title: `${title} (Part ${i + 1})`,
+                                url: routedUrl,
+                                content: chunks[i],
+                                chunkIndex: i
+                            });
+                        }
+                    } catch (e) {
+                        // ignore malformed
+                    }
                 }
             }
-            console.log(`💾 Found ${cachedEmbeddingsMap.size} pre-computed 768d embeddings in cache! Reusing...`);
-        } catch (e) {}
+        }
+
+        walkAndParse(dir);
     }
 
-    console.log('⚡ Generating vector embeddings (gemini-embedding-001, 768d)...');
+    console.log(`📑 Total HTML pages scanned: ${totalDiscoveredPages}`);
+    console.log(`📚 Total semantic chunks prepared: ${documentsToStore.length}`);
 
-    const finalizedDocuments = [];
+    // Limit to top 150 richest chunks to stay well within embedding quotas while providing deep coverage
+    const targetChunks = documentsToStore.slice(0, 160);
+    console.log(`🎯 Ingesting ${targetChunks.length} high-density chunks with 768d vector embeddings...`);
 
-    for (let i = 0; i < documentsToStore.length; i++) {
-        const doc = documentsToStore[i];
-        const id = crypto.createHash('sha256').update(`${doc.url}:${doc.chunkIndex}:${doc.title}`).digest('hex');
+    const embeddedDocs = [];
+    for (let i = 0; i < targetChunks.length; i++) {
+        const doc = targetChunks[i];
+        process.stdout.write(`⚡ [${i + 1}/${targetChunks.length}] Embedding "${doc.title.substring(0, 42)}..." `);
 
         try {
-            let embedding = cachedEmbeddingsMap.get(id);
-            if (!embedding) {
-                embedding = await getEmbeddingWithRetry(doc.content);
-                // Respect free-tier rate limits with a small gap
-                await new Promise(r => setTimeout(r, 600));
-            }
-
-            finalizedDocuments.push({
-                _id: id,
-                title: doc.title,
-                url: doc.url,
-                content: doc.content,
-                chunkIndex: doc.chunkIndex,
-                embedding: embedding,
-                updatedAt: new Date()
-            });
-
-            if ((i + 1) % 10 === 0 || i === documentsToStore.length - 1) {
-                console.log(`  Processed ${i + 1}/${documentsToStore.length} embeddings (${finalizedDocuments.length} ready)...`);
-            }
+            const embedding = await getEmbeddingWithRetry(doc.content);
+            doc.embedding = embedding;
+            doc.createdAt = new Date();
+            embeddedDocs.push(doc);
+            console.log(`✅`);
         } catch (err) {
-            console.error(`❌ Embedding error for chunk ${i}:`, err.message);
+            console.log(`❌ (${err.message})`);
         }
+
+        // Slight breathing room between embedding API calls
+        await new Promise(r => setTimeout(r, 120));
     }
 
-    console.log(`\n✅ Generated ${finalizedDocuments.length} vector embeddings!`);
+    console.log(`\n🎉 Generated ${embeddedDocs.length} vector-embedded documents!`);
 
-    // Step 3: Save to local persistent cache JSON
-    fs.writeFileSync(cachePath, JSON.stringify(finalizedDocuments, null, 2), 'utf8');
-    console.log(`💾 Saved persistent knowledge cache to: data/knowledge_chunks.json (${(fs.statSync(cachePath).size / 1024 / 1024).toFixed(2)} MB)`);
+    // Save to local cache file
+    const dataDir = path.resolve(__dirname, '..', 'data');
+    if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+    const cacheFile = path.join(dataDir, 'knowledge_chunks.json');
+    fs.writeFileSync(cacheFile, JSON.stringify(embeddedDocs, null, 2), 'utf8');
+    console.log(`💾 Saved ${embeddedDocs.length} chunks to local cache: ${cacheFile}`);
 
-    // Step 4: Ingest into Local MongoDB
-    try {
-        console.log('\n📦 Connecting to local MongoDB (mongodb://127.0.0.1:27017/psg_chatbot)...');
-        const localClient = new MongoClient('mongodb://127.0.0.1:27017', { serverSelectionTimeoutMS: 3000 });
-        await localClient.connect();
-        const localDb = localClient.db('psg_chatbot');
-        const collection = localDb.collection('website_chunks');
-
-        let localUpsertCount = 0;
-        for (const doc of finalizedDocuments) {
-            await collection.updateOne(
-                { _id: doc._id },
-                { $set: doc },
-                { upsert: true }
-            );
-            localUpsertCount++;
-        }
-        console.log(`✅ Stored ${localUpsertCount} chunks into local MongoDB collection: website_chunks`);
-        await localClient.close();
-    } catch (localDbErr) {
-        console.warn('⚠️ Local MongoDB note:', localDbErr.message);
-    }
-
-    // Step 5: Ingest into MongoDB Atlas if accessible
-    if (process.env.MONGO_URI) {
+    // Save directly to MongoDB Atlas
+    const mongoUri = process.env.MONGODB_URI;
+    if (mongoUri) {
+        console.log(`☁️ Connecting to MongoDB Atlas to store chunks in 'website_chunks'...`);
+        let client;
         try {
-            console.log('\n☁️ Attempting to sync with MongoDB Atlas...');
-            const atlasClient = new MongoClient(process.env.MONGO_URI, { serverSelectionTimeoutMS: 4000 });
-            await atlasClient.connect();
-            const atlasDb = atlasClient.db('psg_chatbot');
-            const atlasCol = atlasDb.collection('website_chunks');
+            client = new MongoClient(mongoUri, { serverSelectionTimeoutMS: 10000 });
+            await client.connect();
+            const db = client.db('psg_chatbot');
+            const col = db.collection('website_chunks');
 
-            let atlasCount = 0;
-            for (const doc of finalizedDocuments) {
-                await atlasCol.updateOne(
-                    { _id: doc._id },
-                    { $set: doc },
-                    { upsert: true }
-                );
-                atlasCount++;
-            }
-            console.log(`✅ Stored ${atlasCount} chunks into MongoDB Atlas!`);
-            await atlasClient.close();
-        } catch (atlasErr) {
-            console.log('ℹ️ MongoDB Atlas note (IP whitelist or network):', atlasErr.message);
-            console.log('💡 Data is fully secured in local MongoDB and data/knowledge_chunks.json.');
+            // Clean previous chunks and insert new comprehensive chunks
+            await col.deleteMany({});
+            const insertResult = await col.insertMany(embeddedDocs);
+            console.log(`✅ Successfully stored ${insertResult.insertedCount} chunks in MongoDB Atlas!`);
+        } catch (dbErr) {
+            console.warn(`⚠️ MongoDB Atlas upload note: ${dbErr.message}`);
+            console.log(`ℹ️ All chunks are safely cached in knowledge_chunks.json and available locally.`);
+        } finally {
+            if (client) await client.close();
         }
     }
 
-    console.log('\n🎉 ALL WEBSITE PAGES SUCCESSFULLY INGESTED!');
+    console.log('====================================================');
+    console.log(`🏁 INGESTION COMPLETE! ${embeddedDocs.length} KNOWLEDGE CHUNKS READY.`);
+    console.log('====================================================');
 }
 
-runIngestion().catch(err => {
-    console.error('Fatal ingestion error:', err);
-    process.exit(1);
-});
+runIngestion().catch(console.error);

@@ -1,0 +1,1546 @@
+<!DOCTYPE html><!--[if lt IE 7]>		<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]--><!--[if IE 7]>			<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]--><!--[if IE 8]>			<html class="no-js lt-ie9" lang=""> <![endif]--><!--[if gt IE 8]><!--><html class="no-js" lang="zxx"><!--<![endif]--><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PSG College of Technology</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png/index.html">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/icomoon.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/prettyPhoto.css">
+    <link rel="stylesheet" href="../css/owl.carousel.css">
+    <link rel="stylesheet" href="../css/owl.theme.default.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/color.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="shortcut icon" href="../images/psgicon.ico">
+    <script src="../js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+    <style>
+        .awNotices {
+            position: relative;
+            color: white;
+            font: 400 12px Arial;
+
+            a {
+                padding: 8px 25px 8px 10px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                opacity: 0;
+                color: inherit;
+                text-decoration: none;
+                visibility: hidden;
+                transition: opacity .6s;
+                border-radius: 3px;
+                text-shadow: 0 0 3px rgba(1, 1, 1, .3);
+                line-height: 150%;
+                overflow: hidden;
+                position: relative;
+                width: 100%;
+                -webkit-transform-style:preserve-3d;
+                -moz-transform-style:preserve-3d;
+                transform-style:preserve-3d
+
+                i.fa {
+                    padding-right: 8px;
+                    margin-right: 5px;
+                    border-right: 1px solid rgba(255, 255, 255, .2);
+                }
+            }
+
+            a[notice-color="orange"] {
+                background-color: #ff9800;
+            }
+
+            a[notice-color="red"] {
+                background-color: #e51c23;
+            }
+
+            a[notice-color="blue"] {
+                background-color: #3f51b5;
+            }
+
+            a[notice-color="green"] {
+                background-color: #8bc34a;
+            }
+
+            a[notice-color="dark"] {
+                background-color: #414141;
+            }
+
+            a.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            span.controller {
+                position: absolute;
+                cursor: pointer;
+                background: transparent;
+                right: 0;
+                padding: 8px 10px;
+                line-height: 150%;
+            }
+        }
+    </style>
+
+    <style>
+        /*
+*,html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,label,fieldset,input,p,blockquote,th,td {
+    margin: 0;
+    padding: 0;
+}
+
+article,aside,figure,footer,header,hgroup,nav,section {
+    display: block;
+} */
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: #2B4BAB;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #2B4BAB;
+        }
+
+        /*
+body {
+    background: #e5e5e5;
+    color: #374147;
+    font: 14px "Open Sans",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+    width: 100%;
+} */
+
+        .nvmenu {
+            display: block;
+            /* background: #2B4BAB;*/
+            text-align: right;
+            background: transparent;
+        }
+
+        .menu {
+            display: block;
+            text-align: right;
+        }
+
+        .menu li {
+            display: inline-block;
+            position: relative;
+            z-index: 100;
+        }
+
+        .menu li:first-child {
+            margin-left: 0;
+        }
+
+        .menu li a {
+            /* font: 400 14px/40px 'Open Sans', Arial, Helvetica, sans-serif; */
+            font: 400 13px/21px 'Open Sans', Arial, Helvetica, sans-serif;
+            */
+            /* font-weight: 600; */
+            text-decoration: none;
+            padding: 10px 10px;
+            display: block;
+            color: #fff;
+            transition: all 0.2s ease-in-out 0s;
+        }
+
+        .menu li a:hover,
+        .menu li:hover>a {
+            color: #fff;
+            background: #9ca3da;
+        }
+
+        .menu ul {
+            visibility: hidden;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            width: 170px;
+            position: absolute;
+            left: 0px;
+            background: #fff;
+            z-index: 99;
+            transform: translate(0, 20px);
+            transition: all 0.2s ease-out;
+        }
+
+        .menu ul:after {
+            bottom: 100%;
+            left: 20%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #fff;
+            border-width: 6px;
+            margin-left: -6px;
+        }
+
+        .menu ul li {
+            display: block;
+            float: none;
+            background: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu ul li a {
+            font-size: 12px;
+            font-weight: normal;
+            display: block;
+            color: #797979;
+            background: #fff;
+        }
+
+        .menu ul li a:hover,
+        .menu ul li:hover>a {
+            background: #9ca3da;
+            color: #fff;
+        }
+
+        .menu li:hover>ul {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .menu ul ul {
+            left: 169px;
+            top: 0px;
+            visibility: hidden;
+            opacity: 0;
+            transform: translate(20px, 20px);
+            transition: all 0.2s ease-out;
+        }
+
+        .menu ul ul:after {
+            left: -6px;
+            top: 10%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-color: rgba(255, 255, 255, 0);
+            border-right-color: #fff;
+            border-width: 6px;
+            margin-top: -6px;
+        }
+
+        .menu li>ul ul:hover {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        .responsive-menu {
+            text-align: right;
+            font: 400 13px/21px 'Open Sans', Arial, Helvetica, sans-serif;
+            /* font: 400 14px/40px 'Open Sans', Arial, Helvetica, sans-serif; */
+            display: none;
+            width: 100%;
+            padding: 10px 15px;
+            /* background: #2B4BAB; */
+            color: #fff;
+            /* text-transform: uppercase; */
+            font-weight: 600;
+        }
+
+        .responsive-menu:hover {
+            background: #2B4BAB;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a.homer {
+            background: #9ca3da;
+        }
+
+        @media (min-width: 768px) and (max-width: 979px) {
+            .mainWrap {
+                width: 768px;
+            }
+
+            .menu ul {
+                top: 37px;
+            }
+
+            .menu li a {
+                font-size: 12px;
+            }
+
+            a.homer {
+                background: #374147;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mainWrap {
+                width: auto;
+                padding: 50px 20px;
+            }
+
+            .menu {
+                display: none;
+            }
+
+            .responsive-menu {
+                display: block;
+            }
+
+            nav {
+                margin: 0;
+                background: none;
+            }
+
+            .menu li {
+                display: block;
+                margin: 0;
+            }
+
+            .menu li a {
+                background: #fff;
+                color: #797979;
+            }
+
+            .menu li a:hover,
+            .menu li:hover>a {
+                background: #9ca3da;
+                color: #fff;
+            }
+
+            .menu ul {
+                visibility: hidden;
+                opacity: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                transform: initial;
+            }
+
+            .menu li:hover>ul {
+                visibility: visible;
+                opacity: 1;
+                position: relative;
+                transform: initial;
+            }
+
+            .menu ul ul {
+                left: 0;
+                transform: initial;
+            }
+
+            .menu li>ul ul:hover {
+                transform: initial;
+            }
+        }
+
+        @media (max-width: 480px) {}
+
+        @media (max-width: 320px) {}
+    </style>
+
+
+<script async="" src="../../www.googletagmanager.com/gtag/js/id%3DG-987N7XWC78"></script><script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-987N7XWC78'); </script></head>
+ <!-- Google tag (gtag.js) -->
+
+
+<!-- Google tag (gtag.js) -->
+
+
+
+<body class="tg-home tg-homeone">
+    <div id="tg-wrapper" class="tg-wrapper">
+        <header id="tg-header" class="tg-header tg-headervtwo tg-haslayout">
+
+            <div class="tg-topbar">
+                <div class="tg-leftbox">
+                    <div class="tg-tickerbox"> <span>News:</span>
+                        <div id="tg-ticker" class="tg-ticker owl-carousel">
+
+                            
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://events.psgtech.ac.in/flashedu/images/files/Registration for Redo courses even 2026-27.pdf"><font color="#f4de88" size="2.5px">Registration for Redo Courses </font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://ecampus.psgtech.ac.in/studzone2/AttWfLoginPage.aspx"><font color="#f4de88" size="2.5px">Semester Examinations December 2026 Timetable Published</font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://events.psgtech.ac.in/flashedu/images/files/Global tender PSG College of Technology Coimbatore-VDI Tester.pdf"><font color="#f4de88" size="2.5px">Global Tender Invited for the Procurement of VDI Tester under the Ministry of Textiles� NTTM Project.</font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                                    <section class="awNotices">
+
+                                        <p>
+                                            <strong><a href="https://www.psgproducts.org/"><font color="#f4de88" size="2.5px">PSG Centenary Celebrations | Products of PSG Products Expo 2026 - Visit the Official Expo Website. </font></a></strong>                                        </p>
+
+                                    </section>
+
+                                    
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!-- <div class="tg-rightbox ">
+      <span class="tg-rtltextbox">
+  -->
+                <nav class="nvmenu">
+                    <a id="resp-menu" class="responsive-menu" href="#" style="color: white;"><i class="fa fa-reorder"></i> PSG Mail</a>
+                    <ul class="menu">
+                    <li><a class="homer" href="files/Campus-Map.jpg" target="_blank" style="background-color: #2B4BAB;color: white;text-align: left;">
+                                            Campus Map </a>
+                                    </li>
+                        <li><a class="homer" href="https://mail.google.com/a/psgtech.ac.in" target="_blank" style="background-color: #2B4BAB;color: white;text-align: left;">Mail</a>
+                        </li>
+                        <li><a href="student.php" style="background-color: #2B4BAB;color: white;text-align: left;">Students</a></li>
+                        <li><a href="parentzone.php" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Parents</a>
+                        </li>
+                        <li><a href="#" style="background-color: #2B4BAB;color: white;text-align: left;">Alumni</a>
+                            <ul class="sub-menuu">
+                                <li><a href="https://laudea.psgtech.ac.in/alumni/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Albums</a></li>
+                                <li><a href="https://alumni.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Association</a></li>
+                                <!-- <li><a href="http://alumnifoundation.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;">Alumni Foundation</a></li> -->
+                                <li><a href="https://psgtechalumnifoundation.org/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Alumni
+                                        Foundation</a></li>
+                                <li><a href="grdmuseum/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">PSG GRD
+                                        Museum</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li><a href="https://psgsonscharities.freshteam.com/jobs"
+                                style="background-color: #2B4BAB;color: white;text-align: left;">Careers</a></li> -->
+                        <li><a href="https://recruitments.psgtech.ac.in/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank">Careers</a></li>
+                               
+                        <li><a href="IIC/" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank"> IIC</a>
+                        </li>
+                        <li><a href="help-desk.php" style="background-color: #2B4BAB;color: white;text-align: left;" target="blank"> Help
+                                            Desk</a>
+                                    </li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </nav>
+                <!-- <a href="https://mail.google.com/a/psgtech.ac.in" target="_blank">PSG Gmail</a>
+            <a href="student.php">Students</a>
+            <a href="parentzone.php">Parents</a>
+            <a href="javascript:void(0);">Alumni</a>
+                    <li><a href="http://alumnifoundation.psgtech.ac.in/">Alumni Foundation</a></li>
+                    <li><a href="https://alumni.psgtech.ac.in/">Alumni</a></li>
+            <a href="/achievements.php">Achievements</a> -->
+                <!-- </span>
+  </div> -->
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <div class="tg-navigationarea"> <strong class="tg-logo"><a href="http://www.psgtech.edu">
+                            <!-- <img src="images/logo-G2-New.png" alt="PSG College of Technology"> -->
+                            <img src="../images/logo.png" alt="PSG College of Technology">
+                        </a>
+                                <a href="images/ISO Certificate.jpg">ISO certified 9001:2015 </a>
+                            </strong>
+                            <div class="tg-navigationandsearch">
+                                <nav id="tg-nav" class="tg-nav tg">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tg-navigation" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+                                            <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                                    </div>
+                                    <div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
+                                        <ul>
+                                            <li><a href="/">Home</a></li>
+                                            <li class="menu-item-has-children current-menu-item"> <a href="javascript:void(0);">About us</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="abtcllg.php">About the College</a></li>
+                                                    <li><a href="Management.php">Management</a></li>
+                                                    <li><a href="files/general/Updated_GCCT_MembersList_Aug2026.pdf" target="_blank">Governing Council</a></li>
+                                                    <li><a href="founders.php">PSG &amp; Sons' Charities </a></li>
+                                                    <li><a href="trustees.php">Managing Trustees</a></li>
+                                                    <li><a href="secretary.php">Secretary</a></li>
+                                                    <li><a href="principal.php">Principals</a></li>
+                                                    <li><a href="Professor_Practice.php">Professor of Practice</a></li>
+                                                     <li><a href="VicePrincipal_WomenWelfare.php">Vice Principal  (Women Welfare)</a></li>
+                                                    <li><a href="Dean-Academic.php">Dean - Academic</a></li>
+                                                    <li><a href="Dean-Administration.php">Dean - Administration</a></li>
+                                                    <li><a href="Dean-Autonomous.php" class="adm">Dean - Autonomous Functioning</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Academics</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="programme.php">Programmes</a></li>
+                                                    <li><a href="index.php">Departments</a></li>
+                                                    <li><a href="scholarships.php">Scholarship</a></li>
+                                                    <li><a href="placements/index.php">Placement</a></li>
+                                                    <li><a href="Heads.php">Heads of the Department</a></li>
+                                                    <!-- <li><a href="calendar.php">Academic Calendar</a></li> -->
+                                                    <li><a href="https://academicschedule.psgtech.ac.in/" target="_blank">Academic Calendar</a></li>
+                                                    <li><a href="files/calendar/PSGTech-AcademicCalendar2025-2026.pdf" target="_blank">College Calendar</a></li>
+                                                    <li><a href="https://library.psgtech.ac.in/" target="_blank">Library</a></li>
+                                                    <li><a href="https://sports.psgtech.ac.in/" target="_blank">Sports</a></li>
+
+                                                </ul>
+                                            </li>
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Admissions</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="programme_offered.php">Programmes offered</a></li>
+                                                    <li><a href="admission.php">Admission 2026</a></li>
+                                                    <li><a href="BScMScAdmission2026/" class="adm">B.Sc &amp; M.Sc Programmes Admission 2026</a></li>
+                                                    <!-- <li><a href="#" class="adm">B.Sc & M.Sc Programmes Admission 2025</a></li> -->
+                                                    <!-- <li><a href="pgadmission2025/" class="adm" target="_blank">ME / MTech / MCA Programmes Admission 2025 </a></li> -->
+                                                    <li><a href="/pgadmission2026" class="adm">ME/MTech/MCA Programmes 2026</a></li>
+                                                    <li><a href="./fn_oci/" target="_blank" class="adm">BE/BTech Programme Admission 2026 under FN/OCI Only</a></li>
+                                                    <!-- <li><a href="fn_oci_ciwgc" class="adm">BE / BTech Programmes Admission 2024 under FN / OCI / CIWGC</a></li> -->
+                                                     <li><a href="https://enquiry.psgtech.ac.in/" target="_blank" class="adm">BE/BTech Enquiry form</a></li>
+                                                    <!-- <li><a href="https://enquiry.psgtech.ac.in" class="adm">BE/BTECH Enquiry form</a></li> -->
+                                                    <!--  <li><a href="https://ecampus.psgtech.ac.in/fnapplication/" class="adm">FN/OCI/CIWGC Admission 2022</a></li>
+-->
+                                                    <!-- <li><a href="FNOCI.php" class="adm">FN/OCI/CIWGC Admission 2023</a></li> -->
+                                                    <!-- <li><a href="fn_oci_ciwgc/" class="adm">FN/OCI/CIWGC Admission 2023</a></li> -->
+                                                    <!-- fn_oci_ciwgc/ -->
+                                                    <!-- <li><a href="https://events.psgtech.ac.in/flashedu/images/files/BSc App Sci Shortlisted candidates 2022-23.pdf" class="adm">BSc App.Sci. shortlisted candidates 2022</a></li> -->
+                                                </ul>
+                                            </li>
+
+                                            <li><a href="coe.php">Exams</a></li>
+
+                                            <li><a href="NAAC/">NAAC</a></li>
+
+                                            <!-- <li class="NAAC/"> <a href="NAAC"></a>
+                                            <ul class="sub-menu">
+                                            <ul class="sub-menu">
+
+                                            <li><a href="1st - IQAC Meeting Minutes 2021-22.pdf">Minutes of 1<sup>st </sup>meeting 21-22</a></li></a></li>
+                                            <li><a href="Minutes of 2nd meeting 21-22.pdf">Minutes of 2<sup>nd </sup>meeting 21-22</a></li></a></li>
+                                            <li><a href="IQAC-EPTV 2019-2020.pdf">External Team Report (19-20) </a></li></a></li>
+                                            <li><a href="IQAC-memebrs.jpg">IQAC  Members List  2019-21</a></li>
+                                            <li><a href="IQACarchives.php">Archives</a></li>
+                                            </ul>
+                                            </li>
+
+                                            </ul>
+                                            </li> -->
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Research</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="R&amp;D.php">Office of Dean Research</a></li>
+                                                    <!-- <li><a href="iprcell/">IPR Cell</a></li> -->
+                                                    <li><a href="http://iprcell.psgtech.ac.in/" target="_blank">IPR Cell</a></li>
+                                                    <li><a href="http://ir.psgtech.ac.in:8080/jspui/" target="_blank">PhD Thesis</a></li>
+                                                    <!-- <li><a href="research_index.php">Research Centers</a></li> -->
+                                                    <li><a href="http://journals.psgtech.ac.in/" target="_blank">Technology Journal</a>
+                                                    </li>
+                                                </ul>
+                                                <!--http://ows.psgtech.edu/journal/index.htm http://ows.psgtech.edu/Researchindex.php-->
+                                            </li>
+
+
+                                            <li class="menu-item-has-children"> <a href="javascript:void(0);">Industry</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="Mousgloblink.php">MOUs</a></li>
+
+                                                    <!-- <li><a href="Coll-Act/">Colloborative Activities</a></li> -->
+                                                    <li><a href="./files/general/coeweldingdetails.pdf">COE Welding</a>
+                                                    </li>
+                                                    <!-- <li><a href="http://www.coew.psgtech.ac.in/">COE Welding</a></li> -->
+
+                                                    <li><a href="coeindutech/" target="_blank">Indu Tech</a></li>
+                                                    <li><a href="teqip/">TEQIP</a></li>
+                                                    <li><a href="http://www.psgstep.org/" target="_blank">STEP</a></li>
+                                                    <li><a href="http://psgtifac.co.in/" target="_blank">TIFAC</a></li>
+
+                                                    <!-- <li><a href="IIC/">IIC</a></li> -->
+                                                    <li><a href="//iipc.psgtech.ac.in/">IIPC</a></li>
+                                                    <!--li><a href="PACE.php">PACE</a></li-->
+                                                    <li><a href="https://cnce.psgtech.ac.in/" target="_blank">CNCE</a></li>
+                                                    <li><a href=" https://csrc.psgtech.ac.in" target="_blank">CSRC</a></li>
+                                                    <li><a href="Research/ird.html">CIRD</a></li>
+                                                    <li><a href="https://aiconsortium.psgtech.ac.in/" target="_blank">PSG-AI Consortium</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="coeindutech/">InduTech</a></li>
+
+                                            <li><a href="nirf.php" style="line-height:1.5em">NIRF &amp; <br> ARIIA</a></li>
+
+                                            <li><a href="cont.php">Contact</a></li>
+
+
+                                        </ul>
+
+                                    </div>
+                                </nav>
+                                <!--    <div class="tg-searchbox"> <a id="tg-btnsearch" class="tg-btnsearch" href="javascript:void(0);"><i class="icon-magnifier"></i></a>
+                <form class="tg-formtheme tg-formsearch">
+                  <fieldset>
+                    <input type="search" name="search" class="form-control" placeholder="Start Your Search Here">
+                  </fieldset>
+                </form>
+              </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <script type="text/javascript" src="../../code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- alumni menu
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>-->
+        <script>
+            $(document).ready(function () {
+                var touch = $('#resp-menu');
+                var menu = $('.menu');
+
+                $(touch).on('click', function (e) {
+                    e.preventDefault();
+                    menu.slideToggle();
+                });
+                $(window).resize(function () {
+                    var w = $(window).width();
+                    if (w > 767 && menu.is(':hidden')) {
+                        menu.removeAttr('style');
+                    }
+                });
+
+            });
+        </script>
+
+        <!-- alumni end menu -->
+
+        <script type="text/javascript">
+            <!--$('.awNotices').append('<span class="controller fa fa-pause"></span>');-->
+            $('.awNotices a:nth-of-type(1)').addClass('active');
+
+            function awNotice() {
+                if (!$('.awNotices').hasClass('stopped')) {
+                    var $active = $('.awNotices a.active');
+                    var $next = $active.next('a');
+
+                    if ($next.length) {
+                        $next.addClass('active');
+                        $active.removeClass('active');
+                    } else {
+                        $active.removeClass('active');
+                        $('.awNotices a:first-of-type').addClass('active');
+                    }
+                }
+            }
+
+            $('.awNotices .controller').click(function () {
+                $(this).toggleClass('fa-pause fa-play');
+                $('.awNotices').toggleClass('stopped');
+            })
+
+            function awNotices(timer) {
+                setInterval("awNotice()", timer);
+            }
+
+            awNotices(2500);
+        </script>
+<style>
+  * {
+    box-sizing: border-box
+  }
+
+  body {
+    font-family: 'Arial', Helvetica, sans-serif !important;
+  }
+
+  .tab {
+    border: 1px solid #fff;
+    background-color: #f3f3f36e;
+  }
+
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: #4e4e4eb5;
+    padding: 7px;
+    width: 100%;
+    border: 1px solid #ffffff;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: 700;
+  }
+
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  .tab button.active {
+    background-color: #2a4ca9;
+    color: #FFF;
+    padding-left: 25px;
+  }
+
+  .tabcontent {
+    padding: 16px;
+    border: 1px solid #fff;
+    border-left: none;
+    /* height: 450px; */
+    height:auto;
+    background: #f3f3f36e;
+  }
+
+  .textheading {
+    font-weight: 600;
+    color: #2a4ca9;
+  }
+
+  .tophead {
+    background: #f3f3f36e;
+    padding-left: 16px;
+  }
+
+  .toptext {
+    font-weight: 800;
+    color: #2a4da7;
+  }
+
+  .su-list ul li>i {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 1.3em;
+    height: 1.3em;
+    line-height: 1.3em;
+    text-align: center;
+  }
+
+.contact-card {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+  margin-top: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-align: center;
+  border: 0.5px solid #2a4ca975;
+}
+
+.contact-card h4 {
+  font-weight: 600;
+  color:#800000;
+  margin: 0 0 0px;
+}
+
+.contact-card p {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.arrow {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color:rgb(241, 242, 245);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  .contact-card {
+    margin-top: 1.5rem;
+  }
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: #2a4ca9;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  z-index: 0;
+}
+
+.card:hover::before {
+  opacity: 1; 
+}
+.card:hover h4 {
+  color: #2a4da7;
+  font-weight:600;
+}
+
+.paragraph-style{
+  text-align:justify;
+  font-size:1.5rem;
+}
+
+.clean-list {
+  list-style: none; 
+  padding: 0;
+  margin: 2rem auto;
+  max-width: 600px;
+  list-style-type: none; 
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.clean-list li {
+  list-style: none; 
+  width:80%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-left:4px solid #f55c03;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: background 0.3s, transform 0.3s;
+  animation: fadeUp 0.4s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.clean-list li:nth-child(1) { animation-delay: 0.1s; }
+.clean-list li:nth-child(2) { animation-delay: 0.2s; }
+.clean-list li:nth-child(3) { animation-delay: 0.3s; }
+.clean-list li:nth-child(4) { animation-delay: 0.4s; }
+
+.clean-list li:hover {
+  background-color:rgb(253, 253, 253);
+  transform: translateY(-2px);
+}
+
+.clean-list a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: #222;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.5rem;
+  background-color:#f3b28c26;
+  text-align:left;
+}
+
+.clean-list a:hover {
+  color: #2a4ca9;
+  background:#fff;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-person{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.exam-link{
+  display:flex;
+  align-items:center;
+  justify-content:left;
+  margin:50px 0px 50px 0px;
+}
+
+.sem-atag{
+      font-size: 1.5rem;
+    color: black;
+    font-weight: 500;
+}
+
+.faq-section {
+  max-width: 810px;
+  margin: auto;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.faq-section h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  color: #2A4BA6;
+}
+
+.faq-category {
+  font-size: 1.5rem;
+    color: #2a4ca9;
+    border-left: 3px solid #2a4ca9;
+    padding-left: 10px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.faq-accordion {
+  border-radius: 6px;
+}
+
+.faq-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.faq-question {
+  width: 100%;
+  background: #f3f3f3;
+  color: #080808;
+  padding: 15px;
+  text-align: left;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+  background: #e0e0f3;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  background: #fff;
+  transition: max-height 0.3s ease;
+  padding: 0 15px;
+}
+
+.faq-answer p {
+  padding: 15px 0;
+  margin: 0;
+  color: #333;
+  font-size: 1.4rem;
+  line-height: 2;
+}
+
+</style>
+
+<main id="tg-main" class="tg-main tg-haslayout">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="tg-content" class="tg-content">
+                    <div class="tg-titleborder tophead">
+                        <br>
+                        <h2 class="toptext">Office of the Controller of Examinations</h2>
+                    </div>
+
+                    <div class="row">
+                        <!-- Sidebar Tabs -->
+                        <div class="col-12 col-md-3 mb-3">
+                            <div class="tab">
+                                <button class="tablinks" onclick="openCity(event, 'About')" id="defaultOpen">About COE</button>
+                                <button class="tablinks" onclick="openCity(event, 'Notification')">Notifications</button>
+                                <button class="tablinks" onclick="openCity(event, 'ExamInstructions')">Exam Instructions</button>
+                                <button class="tablinks" onclick="openCity(event, 'timetable')">Semester Exam Time Table</button>
+                                <!-- <button class="tablinks" onclick="openCity(event, 'reappearance')">Weekend Reappearance Examinations March 2026</button> -->
+                                <!-- <button class="tablinks" onclick="openCity(event, 'AcademicPerformance')">Academic Performance</button> -->
+                                <button class="tablinks" onclick="openCity(event, 'applyfor')">Apply For</button>
+                                <button class="tablinks" onclick="openCity(event, 'FAQ')">FAQ</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-9">
+                            <div id="About" class="tabcontent" style="display: block;">
+                                <h4 class="textheading">About Controller of Examinations</h4>
+                                <p class="paragraph-style">The office of the controller of examinations plays a vital role in the academic activities of the college and is an important part of the autonomy.It is headed by the Controller of Examinations (CoE), who reports directly to the Head of the Institution, and is supported by the Deputy Controller of Examinations along with a dedicated team of staff members.</p>
+                                <p class="paragraph-style">The core responsibility of the office is to plan and conduct all examinations in a fair and systematic manner in accordance with the academic calendar prepared at the beginning of every academic year.  This office plays a crucial role in upholding the integrity, transparency, and academic standards of the examination and evaluation process.Through continuous improvement and adherence to best practices, this office enhances the quality of examination services, thereby fostering academic excellence and institutional credibility.</p>
+                                <p class="paragraph-style">The Office of the Controller of Examinations is committed to student welfare by ensuring that all genuine requests and grievances related to examinations are addressed promptly and efficiently. </p>
+                            </div>
+
+                            <div id="Notification" class="tabcontent" style="display: none;">
+                                <h4 class="textheading">Notification</h4>
+                            </div>
+                            <div id="ExamInstructions" class="tabcontent" style="display: none;">
+
+                                <h4 class="textheading">Exam Instructions</h4>
+                                <div class="row exam-link text-center">
+                                  <div class="col-lg-6">
+                                    <ul class="clean-list">
+                                    <li><a href="./COE/files/Examinstructions.pdf" class="sem-atag" target="_blank">Exam Instructions</a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div>
+                            <div id="timetable" class="tabcontent" style="display: none;">
+                                <h4 class="textheading">Semester Exam Time Table</h4>
+                                <div class="row">
+                                  <ul class="clean-list">
+                                   <li><a href="./COE/files/week-endtt.pdf" target="_blank">Weekend Reappearance Examinations Sep/Oct 2026</a></li>  
+                                  <!-- <li><a href="./COE/files/WEEKEND_TT_NEW.pdf" target="_blank">Weekend Reappearance Examinations March 2026</a></li> -->
+                                  <!-- <li><a href="./COE/files/MBASEMESTERTIMETABLE.pdf" target="_blank">MBA Semester Examinations Timetable April 2026</a></li> -->
+                                  <li><a href="./COE/files/mbatt_november2026.pdf" target="_blank">MBA Semester Examinations Timetable November 2026</a></li>
+                                  <!-- <li><a href="./COE/files/APRIL_MAY_TT.pdf" target="_blank">Semester Examinations TimeTable April / May 2026 </a></li> -->
+                                  <li><a href="./COE/files/nov2026_tt.pdf" target="_blank">Semester Examinations TimeTable November 2026 </a></li>
+                                   
+                                    <li><a href="./COE/files/December2026_tt.pdf" target="_blank">Semester Examinations TimeTable December 2026 </a></li>
+                                  </ul>                                  
+                                </div>
+                            </div>
+                            <!-- <div id="reappearance" class="tabcontent" style="display: none;">
+                                <h4 class="textheading">Weekend Reappearance Examinations March 2026</h4>
+                                <div class="row exam-link text-center">
+                                  <div class="col-lg-6">
+                                     <ul class="clean-list">
+                                       <li><a href="./weekend_tt.pdf" class="sem-atag">Weekend Reappearance Examinations March 2026</a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div> -->
+                             <!-- <div id="AcademicPerformance" class="tabcontent" style="display: none;">
+                                <h4 class="textheading">Semester Exam Time Table</h4>
+                                <div class="row exam-link text-center">
+                                  <div class="col-lg-6">
+                                     <ul class="clean-list">
+                                       <li><a href="./COE/files/APRIL_MAY2025EXAMINATIONS.pdf" target="_blank" class="sem-atag">Semester Examinations April / May 2025</a></li>
+                                    </ul>
+                                  </div>
+                                </div>
+                            </div> -->
+                            <div id="applyfor" class="tabcontent" style="display: none;">
+                                <h4 class="textheading">Apply For</h4>
+                                <ul class="clean-list">
+                                  <li><a href="./COE/Grade sheet/Gradesheet.pdf" target="_blank">Duplicate Grade Sheet</a></li>
+                                  <li><a href="./COE/Grade sheet/Gradesheet.pdf" target="_blank">Duplicate Consolidated Grade sheet</a></li>
+                                  <li><a href="./COE/Transcripts/Transcript_inperson.pdf" target="_blank">Transcripts: In Person</a></li>
+                                  <li><a href="./COE/Transcripts/Transcript_Online.pdf" target="_blank">Transcripts: By post within India</a></li>
+                                  <li><a href="./COE/Transcripts/Transcript_Online.pdf" target="_blank">Transcripts: To Overseas Universities/ Educational Agencies</a></li>
+                                  <li><a href="./COE/files/APPLICATIONFORWITHDRAWAL.pdf" target="_blank">Withdrawal from Appearing Semester Examinations </a></li>
+                                  <li><a href="./COE/files/RetotallingRevaluation.pdf" target="_blank">Retotalling/Revaluation</a></li>
+                                  <li><a href="./COE/CGPA/Circular_IssuanceofCertificates.pdf" target="_blank">CGPA Conversion/Grading System/Backlog Certificates</a></li>
+                                  <li><strong><a href="./COE/files/Verification_new.pdf" target="_blank">Verification from employer/agencies</a></strong></li>
+                                </ul>
+                            </div>
+                            <div id="FAQ" class="tabcontent" style="display: none;">
+                                <h4 class="textheading">Frequently Asked Questions</h4>
+                               <section class="faq-section">
+                                    <!-- <h4 class="faq-category">Exam Fees</h4> -->
+                                  <ul class="clean-list">
+                                    <li style="width:100%;"><a>Exam Fees</a></li>
+                                    <div class="faq-accordion">
+                                        <div class="faq-item">
+                                          <button class="faq-question">Where do I get the List of courses to pay fee for Reappearance Examinations?</button>
+                                          <div class="faq-answer">
+                                            <p>   The list of courses for which the candidate has to re appear will be listed in the candidates registration portal. The candidates can register for the courses for which he / she is willing to appear for examinations and pay the fees in college account section. </p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">Can I attend the examination, if one of my Reappearance courses is not listed in the candidates registration portal ?</button>
+                                          <div class="faq-answer">
+                                              <p> You will be permitted to write the examination only for the courses listed in the registration portal. However, if any course is not listed the candidate has to bring it to the knowledge of the Office of Controller of Examinations immediately.</p>
+                                          </div>
+                                        </div>
+                                         <div class="faq-item">
+                                          <button class="faq-question">When is the Last date for paying Reappearance Exam Fee?</button>
+                                          <div class="faq-answer">
+                                              <p> The last date for paying Reappearance Examination Fee will be notified in the Reappearance Examination Circular.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">Shall I pay the exam fees for current semester courses alone, even if I have arrears in the previous semester?</button>
+                                          <div class="faq-answer">
+                                              <p> Under CBCS, it is possible. You can pay fees only for the courses registered in candidate registration portal. If you do not register for Reappearance courses, you need not pay reappearance courses exam fees.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">What is the procedure to be followed by regular candidates to pay exam fees?</button>
+                                          <div class="faq-answer">
+                                              <p> After completing the CBCS registration at the beginning of each semester, the examination fees for current semester regular courses and for reappearance courses upto previous semester to be paid by each candidate is calculated and moved to the database by CoE office. The candidate will pay the full amount for the registered current semester courses and Reappearance courses (if any) at the time of paying current semester tuition fees.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">What is the procedure to be followed by external candidates to pay exam fees?</button>
+                                          <div class="faq-answer">
+                                              <p>  At the time of publication of results, a notification is issued in which the last date to apply for the next semester examination will be indicated. Candidates may download blank application in college website, fill-in the courses for which he/she is willing to appear for, pay fees either in college office by cash or by DD drawn in the name of “The Principal, PSG College of Technology” and submit the application to CoE office along with fee receipt/DD in person or by post within the last date prescribed.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">What is the procedure to be followed by Time Limit Exceeded candidates to pay exam fees?</button>
+                                          <div class="faq-answer">
+                                              <p> A notification will be issued by CoE office in College website whenever the special permissions are given by University to Time Limit Exceeded candidates to apply for the special examination. The candidates can download blank application in college website, fill-in the courses for which he/she is willing to appear for, pay fees either in college office by cash or by DD drawn in the name of “The Principal, PSG College of Technology” and submit the application to CoE office along with fee receipt/DD in person or by post within the last date prescribed.</p>
+                                          </div>
+                                        </div>                                                                                                     
+                                    </div>
+
+                                    
+                                    <!-- <h4 class="faq-category">Examination</h4> -->
+                                    <li style="width:100%;"><a>Examination</a></li>
+                                    <div class="faq-accordion">
+                                        <div class="faq-item">
+                                          <button class="faq-question">How do I write Examination without Identity Card in the event of not bringing ID card?</button>
+                                          <div class="faq-answer">
+                                              <p> If you do not bring Identity card, application for issuing temporary Identification Certificate can be obtained from Chief Superintendent before the commencement of examination in a session and on submitting the filled-in application, temporary permission will be granted for writing exam in that session. You are advised to apply for duplicate Identity card immediately to Academic section if it was lost.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">When will be the Reappearance Lab Examinations held?</button>
+                                          <div class="faq-answer">
+                                              <p>The Reappearance Lab Examinations will be held during study holidays i.e. After last CA test but before the commencement of the Semester Examinations.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">When will be the Week end/Reappearance examination results declared?</button>
+                                          <div class="faq-answer">
+                                              <p> The Week end/Reappearance Examination results will be declared along with the next regular examination results.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">Will it be possible to request for changing the date of Examination in the case of emergency?</button>
+                                          <div class="faq-answer">
+                                              <p> No, it is not possible to change date of examination once it is announced.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">One of the courses for which I applied and paid fees did not appear in the timetable: what should I do?</button>
+                                          <div class="faq-answer">
+                                              <p> You should contact Office of Controller of Examination immediately. They will check and inform the reason and rectify the defect if any.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">Do exam dates will be changed after the publication of Timetable?</button>
+                                          <div class="faq-answer">
+                                              <p> Yes, there is a possibility due to unavoidable circumstances. Therefore please ensure that you recheck your exam timetable on a regular basis and immediately prior to your examination(s).Any change in examination date will be intimated well in advance to the candidates.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">What should I do if I come late for the exam?</button>
+                                          <div class="faq-answer">
+                                              <p> Candidates are not allowed to enter the examination hall once the examination is commenced. Candidates arriving after the start of the examination are required to take permission from Chief Superintendent / Controller of Examinations. And they have to understand that they are not entitled to any additional time.</p> 
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">If I cannot attend my exam, whom should I contact?</button>
+                                          <div class="faq-answer">
+                                              <p> You will be marked as “ABSENT” for the exam and you cannot make a request for re-exam in any circumstance.</p> 
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">If I was unable to attend my exam due to medical issues: What shall I do?</button>
+                                          <div class="faq-answer">
+                                              <p>
+                                                </p><ul>
+                                                  <li>As per regulations, candidates may submit a request to Dean Academic to grant permission to withdraw the examination and the candidate may be granted withdrawal subject to satisfying the conditions prescribed in the regulations.</li>
+                                                  <li>Candidates to whom withdrawal is granted, the next attempt for writing the examination in the particular course is considered as a first attempt. This facility can be availed only one time during the entire programme.</li>
+                                                </ul><p></p> 
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">What happens if the exam squad or invigilator finds any incriminating material in my possession?</button>
+                                          <div class="faq-answer">
+                                              <p>  You will be booked under malpractice but will be allowed to continue the examination. See malpractice guidelines on the examination website.</p> 
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">When shall I approach CoE office for enquiring about any clarification regarding examination?</button>
+                                          <div class="faq-answer">
+                                              <p>  Any time between 9.00 am to 4.30 pm (Excluding 12.45 to 1.30 pm) on any working day.</p> 
+                                          </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <h4 class="faq-category"></h4> -->
+                                    <li style="width:100%;"><a>Seating Arrangement</a></li>
+                                    <div class="faq-accordion">
+                                        <div class="faq-item">
+                                        <button class="faq-question">How do I know my Semester examinations seating arrangement?</button>
+                                        <div class="faq-answer">
+                                            <p> Seating Arrangement for Semester Examinations can be viewed about Two days before the commencement of examinations in the website “ecampus.psgtech.ac.in”. It will not be displayed in the Notice boards. Seating arrangement for semester examination can also be viewed through the systems available at Media Lab by scanning the ID cards on the date and session of the examination.</p>
+                                        </div>
+                                        </div>
+                                        <div class="faq-item">
+                                        <button class="faq-question">Can I view the Seating arrangement for weekend Reappearance examinations in the college website?</button>
+                                        <div class="faq-answer">
+                                            <p> Yes. Seating arrangement for weekend reappearance examinations can be viewed only on the date and session of the examination by scanning the ID cards near the examination Hall. Scanning the ID cards on the date and session of reappearance examination is compulsory as attendance will be considered based on scanning the ID cards only.</p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                     <!-- <h4 class="faq-category">Retotalling / Revaluation</h4> -->
+                                     <li style="width:100%;"><a>Retotalling / Revaluation</a></li>
+                                    <div class="faq-accordion">
+                                        <div class="faq-item">
+                                        <button class="faq-question">For which type of courses I can apply for Revaluation / Retotalling?</button>
+                                        <div class="faq-answer">
+                                            <p> Candidates are eligible to apply for Revaluation / Retotalling only for theory courses.</p>
+                                        </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">Whether I have to apply for Revaluation only after applying for Retotalling and seeing the Answer paper. </button>
+                                          <div class="faq-answer">
+                                              <p> Not necessary. The candidates may apply for Retotalling first and after seeing the paper they may apply for Revaluation if willing or they may apply for Revaluation directly.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">When shall I apply for Retotalling / Revaluation? </button>
+                                          <div class="faq-answer">
+                                              <p>A circular relating to applying for Revaluation/Retotalling will be released in College Website immediately after the declaration of results. Candidate may apply for Revaluation/Retotalling only after the release of the circular.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> What is the procedure to apply for Revaluation / Retotalling? </button>
+                                          <div class="faq-answer">
+                                              <p>Candidates can apply for revaluation/retotalling only by online through <a href="https://ecampus.psgtech.ac.in/studzone2/" target="_blank">ecampus.psgtech.ac.in/studzone2 </a> from their individual login after the release of retotalling / revaluation circular.
+                                                They shall follow the steps clearly given in the opening page under “How to apply for revaluation” after login.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> How to apply for Revaluation / Retotalling </button>
+                                          <div class="faq-answer">
+                                              <p>The candidates shall login in his/her ID, select courses to be applied for, confirm selection, download application, pay fees in account section and submit application with fee receipt to CoE office in person before last date.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">  How the external candidates can apply for Revaluation / Retotalling? </button>
+                                          <div class="faq-answer">
+                                              <p> External candidates can also apply for revaluation / retotalling through ecampus.psgtech.ac.in/studzone2 from their individual login after the release of retotalling / revaluation circular.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> Can I apply for Revaluation / Retotalling for Reappearance (Supplementary) courses? </button>
+                                          <div class="faq-answer">
+                                              <p>  Yes. The candidates can apply for Revaluation / Retotalling for the reappearance theory courses also.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> Can I apply for Revaluation / Retotalling for Practical courses?</button>
+                                          <div class="faq-answer">
+                                              <p>   No. The candidates are not eligible to apply for Revaluation / Retotalling for any other type of courses (including Practical courses) except theory courses.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> What is the fee to be paid for revaluation per paper?</button>
+                                          <div class="faq-answer">
+                                              <p> The Revaluation / Retotalling fee per paper will be notified in the Revaluation circular. The present fee is Rs.750/- per course for Revaluation and Rs.150/- for Retotalling.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> What is the last date to apply for Revaluation / Retotalling?</button>
+                                          <div class="faq-answer">
+                                              <p>The last date for applying for Revaluation will be notified in the Revaluation circular. Normally it will be Five days from the date of publication of results.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question">  When the Revaluation results will be published?</button>
+                                          <div class="faq-answer">
+                                              <p>  The Revaluation results will be declared normally within three weeks from the last date for applying for revaluation.</p>
+                                          </div>
+                                        </div>
+                                        <div class="faq-item">
+                                          <button class="faq-question"> Can I pay fees by DD instead of cash and send the application by courier/post.</button>
+                                          <div class="faq-answer">
+                                              <p>  Yes. The DD shall be drawn in the name of “The Principal, PSG College of Technology”. The downloaded filled-in application with DD shall reach the CoE office before last date.</p>
+                                          </div>
+                                        </div>
+                                    </div>
+                                                    
+                                    <!-- <h4 class="faq-category">Grade Sheet</h4> -->
+                                     <li style="width:100%;"><a>Grade Sheet</a></li>
+                                    <div class="faq-accordion">
+                                        <div class="faq-item">
+                                        <button class="faq-question">When will I get my Grade sheet for Regular/Reappearance Examination?</button>
+                                        <div class="faq-answer">
+                                            <p>The Grade sheet for Regular final semester exam will normally be issued within 30 days from the date of declaring the results.
+                                              Grade sheet for others and Reappearance candidates will be issued about 2 months after reopening of the college.
+                                            </p>
+                                        </div>
+                                        </div>
+                                        <div class="faq-item">
+                                        <button class="faq-question">When will I get my final semester, consolidate mark sheets and provisional certificate?</button>
+                                        <div class="faq-answer">
+                                            <p> Normally within one month from the date of publication of results.</p>
+                                        </div>
+                                        </div>
+                                        <div class="faq-item">
+                                        <button class="faq-question"> How do I apply for Name correction in the Grade sheet?   </button>
+                                        <div class="faq-answer">
+                                            <p>First semester candidates are advised to verify whether the name had been printed correctly in the I semester grade sheet and if any correction is required, report to Academic section immediately in writing.
+                                            <br>If Name correction is brought to the notice of Controller of Examinations later, the candidate has to pay Rs.500/- per Grade sheet for issuing new Grade sheet with necessary correction. The Candidate shall contact Office of Controller of Examinations for obtaining New Grade sheet.
+                                            </p>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                     <!-- <h4 class="faq-category">Transcripts</h4> -->
+                                      <li style="width:100%;"><a>Transcripts</a></li>
+                                    <div class="faq-accordion">
+                                        <div class="faq-item">
+                                        <button class="faq-question">How to apply for Transcript?</button>
+                                        <div class="faq-answer">
+                                            <p> Candidates who wish to apply for transcripts may either 
+                                                </p><ul>
+                                                  <li> apply by online through our college website or </li>
+                                                  <li> submit the required number of Photocopies of the grade sheets to CoE office. </li>
+                                                </ul>
+                                            Candidates who wish that the transcript shall be sent by the college itself directly to the agencies like WES IQAS, shall apply for transcript only by online mode. Others may apply to obtain Transcript either in Person or by online mode.
+                                            <p><b>By Online mode: </b>
+                                             Candidates shall visit the website <a href="https://psgtech.directverify.in" target="blank">https://psgtech.directverify.in</a>  and fill in all the details required, upload clear photocopies of all certificates to be attested and copy of filled in forms like WES IQAS and pay the fees by online. The CoE office will download the certificates, verify, print required number of copies of them, attest the same and despatch them in sealed covers through courier to the address furnished by the candidate. Candidate will have the tracking facility for the cover sent by CoE office. The fee payable at present is at Rs.300/- per set and actual courier charges.
+                                            <br>Candidates may also click “Transcripts Online” given under “QUICK LINKS” in Home page of www.psgtech.edu to apply.
+                                            <br>If the link for applying for online transcripts is not working due to inadvertent reasons, the candidate may 
+                                              </p><ol>
+                                                <li>call the customer support number +91-9344516161 and inform VFS Docswallet, the service provider (or)</li>
+                                                <li>send mail to support@docswallet.com (or)</li>
+                                                <li>apply for transcripts by submitting the required number of Photocopies of the grade sheets, required fees and self addressed stamped envelope by post to the “The Controller of Examinations,
+                                                        PSG College of Technology, Coimbatore - 641 004, Tamil Nadu”.</li>
+                                              </ol>
+                                           
+                                            <br> The CoE office will attest the certificates and send the closed covers of transcripts to the students in the self addressed stamped envelope by post.
+                                            <p><b>By In person mode:</b> 
+                                             Candidates can apply for transcripts by submitting the required number of Photocopies of the grade sheets to CoE office either in person or through a messenger or send the required number
+                                                        of sets of Photocopies of grade sheets by post addressed to the <b>“The Controller of Examinations, PSG College of Technology, Coimbatore – 641 004, Tamil Nadu”.</b>
+                                            
+                                            <br>Copies of grade sheets taken in colour photo copiers are not accepted.
+                                            <br>The fee for issuing transcript is Rs.500/- per set. The Transcripts, after attestation, will be placed in sealed covers and handed over in person to the candidate/messenger.
+                                                        
+                                            <br>The fee can be paid by cash in the account section of the College or in the form of drawn in favour of “The Principal, PSG College of Technology”  payable at Coimbatore   which shall be send along with the photocopies of grade sheets Cheques will not be accepted.</p>
+                                                        
+                                                        
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                  </ul>
+                                </section>
+
+                            </div>
+                            <div class="row g-3 mt-4 contact-person">
+                                <div class="col-12 col-sm-4">
+                                    <div class="card contact-card">
+                                        <div class="arrow"></div>
+                                        <h4>Dr.M. Haridass</h4>
+                                        <p class="text-center"><strong>Controller of Examinations</strong><br>Email: coe@psgtech.ac.in<br>Phone: 0422 4344170</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-4">
+                                    <div class="card contact-card">
+                                        <div class="arrow"></div>
+                                        <h4>Dr.M. Karthikeyan</h4>
+                                        <p class="text-center"><strong>Deputy Controller of Examinations</strong><br>Email: deputycoe@psgtech.ac.in<br>Phone: 0422 4344132</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer id="tg-footer" class="tg-footer tg-haslayout">
+<div class="tg-lineseparator">
+</div>
+    <div class="tg-footermiddlebar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetcompanyinfo">
+              <div class="tg-widgetcontent"> <strong class="tg-logo"><a href="https://psgtech.edu"><img src="../images/logo2.png" alt="image description"></a></strong>
+                <ul class="tg-infolist mt20">
+                  <li> <i class="icon-location"></i>
+                    <address>
+                    Post Box No. 1611<br>
+                    Peelamedu<br>
+                    Coimbatore - 641004
+                    </address>
+                  </li>
+                  <li> <i class="icon-phone-handset"></i> <span>0422-2572177, 2572477, 4344777</span> </li>
+                  <li> <i class="icon-printer"></i> <span>0422-2592277</span> </li>
+                  <li> <a href="cont.php"> <i class="icon-envelope"></i> <span>Contact Us</span> </a> </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+           <div id="map"><a href="https://www.google.com/maps/place/PSG+College+Of+Technology/@11.024689,77.002127,13z/data=!4m5!3m4!1s0x0:0x137d95bfd8909293!8m2!3d11.0246887!4d77.0021273?hl=en-US"><img src="../images/psggoogle.jpg" width="250" height="250" border="0"></a></div>
+
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetcoursecategories">
+              <div class="tg-widgettitle">
+                <h3>My PSG</h3>
+              </div>
+              <div class="tg-widgetcontent">
+                <ul>
+              <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li>
+			        <li><a href="http://mail.psgtech.ac.in/cgi-bin/openwebmail/openwebmail.pl">Webmail</a></li>
+              <li><a href="/lib1/lib.html">Library</a></li> -->
+              <!-- <li><a href="http://careers.psgtech.edu/">Careers @ PSG</a></li> -->
+                  <li><a href="https://library.psgtech.ac.in/">Library</a></li> <!-- Modified by MKM-20-06-2022  -->
+                  <li><a href="psgcrs/">Community Radio</a></li>
+              <!--<li>PSG Tech News</li>
+                  <li>Virtual Tour</li> -->
+                  <li><a href="http://accounts.google.com/">PSG Mail</a></li>
+                  <li><a href="MandatoryCommittee.php">UGC/AICTE Mandatory Committees</a></li>
+                  <li><a href="./websiteUrls.php">Our Websites</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+            <div class="tg-widget tg-widgetflickrgallery">
+              <div class="tg-widgettitle">
+                <h3>Glance at PSG</h3>
+              </div>
+              <div class="tg-widgetcontent">
+		            <a href="Glances/index.html"> <img src="../images/glances2.jpg"> </a> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tg-footerbar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <span class="tg-copyright">Copyright © 2026 - PSG. All Rights Reserved</span> </div>
+         <!--  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6"> <span class="tg-copyright pull-right">Designed & Developed by PSG Software Technologies & NMC</span> </div> -->
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--************************************
+				Footer End
+		*************************************-->
+</div>
+<!--************************************
+			Wrapper End
+	*************************************-->
+<script src="../js/vendor/jquery-library.js"></script> 
+<script src="../js/vendor/bootstrap.min.js"></script> 
+<script src="../js/owl.carousel.min.js"></script>
+<script src="../js/isotope.pkgd.js"></script> 
+<script src="../js/prettyPhoto.js"></script>
+<!-- <script src="js/countdown.js"></script> 22.05.2024 -->
+<script src="../js/collapse.js"></script>
+<script src="../js/moment.js"></script>
+<script src="../js/main.js"></script>
+<!--- READ TEXT <sript src="js/readtxt.js"></script> -->
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(document).bind("contextmenu", function(e) {
+      return false;
+    });
+  })
+
+  document.onkeydown = function(e) {
+    var e = e || event;
+    // shift enabled
+  };
+</script>
+
+<script type="text/javascript">
+  function mischandler() {
+    return false;
+  }
+
+  function mousehandler(e) {
+    var myevent = (isNS) ? e : event;
+    var eventbutton = (isNS) ? myevent.which : myevent.button;
+    if ((eventbutton == 2) || (eventbutton == 3)) return false;
+  }
+  document.oncontextmenu = mischandler;
+  document.onmousedown = mousehandler;
+  document.onmouseup = mousehandler;
+  var isCtrl = false;
+  document.onkeyup = function(e) {
+    if (e.which == 17)
+      isCtrl = false;
+  }
+
+  document.onkeydown = function(e) {
+    if (e.which == 17)
+      isCtrl = true;
+    if (false) {
+      return false;
+    }
+  }
+</script>
+
+
+<script>
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+  document.getElementById("defaultOpen").click();
+</script>
+<script>
+  document.querySelectorAll(".faq-question").forEach(button => {
+    button.addEventListener("click", () => {
+      const answer = button.nextElementSibling;
+
+      // Collapse all others
+      document.querySelectorAll(".faq-answer").forEach(item => {
+        if (item !== answer) item.style.maxHeight = null;
+      });
+
+      // Toggle current
+      if (answer.style.maxHeight) {
+        answer.style.maxHeight = null;
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      }
+    });
+  });
+</script>
+</body></html>

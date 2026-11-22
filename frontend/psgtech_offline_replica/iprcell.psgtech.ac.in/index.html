@@ -1,0 +1,50 @@
+<html><head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>IPR</title>
+        <script type="text/javascript" src="js/incl.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/dropdown.css">
+    </head>
+    <body>
+        <div w3-include-html="menu.html" class="topnav" align="center"></div>
+        <div class="hero-image">
+            <div class="hero-text">
+                <img src="assets/poster1.png" alt="iprcell">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <center>
+                    <h2>Downloads</h2>
+                    <p>
+                        Access the following menus to download IPR Agreements, Policies and Invention Disclosure Form.
+                    </p>
+                    <button class="button">
+                        <a href="./Doc/iprcell.pdf" download="">IP<br>Policy</a>
+                    </button>
+                    <button class="button">
+                        <a href="../Doc/Invention Disclosure Form (IDF).pdf" download="">Invention Disclosure Form</a>
+                    </button>
+                    <button class="button">
+                        <a href="../Doc/nda.pdf" download="">Non Disclosure Agreement</a>
+                    </button>
+                    <button class="button">
+                        <a href="../Doc/ia.pdf" download="">Inventors<br>Agreement</a>
+                    </button>
+                </center>
+            </div>
+            <div class="column_update">
+                <center>
+                    <h2 style="color: #0008b0">Announcements</h2>
+                </center>
+                <marquee behaviour="scroll" direction="down" scrollamount="4" id="announcements" onmouseover="this.stop();" onmouseout="this.start();"></marquee>
+            </div>
+        </div>
+        <script>
+            includeHTML();
+        </script>
+    
+
+</body></html>
