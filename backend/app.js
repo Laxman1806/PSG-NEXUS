@@ -24,6 +24,31 @@ const replicaMain = path.join(replicaRoot, 'www.psgtech.edu');
 // Determine primary web directory (prefer www.psgtech.edu if available)
 const primaryWebDir = fs.existsSync(replicaMain) ? replicaMain : frontendPath;
 
+// Helper to serve HTML files with guaranteed chatbot script and stylesheet injection
+function sendHtmlWithChatbot(res, filePath) {
+    try {
+        let html = fs.readFileSync(filePath, 'utf8');
+        if (!html.includes('chatbot.js') && !html.includes('script.js')) {
+            const snippet = `
+<!-- PSGNEXUS AI Campus Guide & Session Integration -->
+<link rel="stylesheet" href="/css/chatbot.css">
+<script src="/js/chatbot.js" defer></script>
+`;
+            if (html.includes('</body>')) {
+                html = html.replace('</body>', `${snippet}\n</body>`);
+            } else if (html.includes('</html>')) {
+                html = html.replace('</html>', `${snippet}\n</html>`);
+            } else {
+                html += snippet;
+            }
+        }
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(html);
+    } catch (err) {
+        return res.sendFile(filePath);
+    }
+}
+
 // Root path serves the replicated homepage with embedded chatbot
 app.get('/', (req, res) => {
     const candidates = [
@@ -31,7 +56,7 @@ app.get('/', (req, res) => {
         path.join(frontendPath, 'index.html')
     ];
     for (const p of candidates) {
-        if (fs.existsSync(p)) return res.sendFile(p);
+        if (fs.existsSync(p)) return sendHtmlWithChatbot(res, p);
     }
     res.status(404).send('PSG Tech Replica index.html not found');
 });
@@ -54,7 +79,7 @@ subdomains.forEach(({ prefix, folder }) => {
         app.use(prefix, express.static(subPath));
         app.get(prefix, (req, res) => {
             const idx = path.join(subPath, 'index.html');
-            if (fs.existsSync(idx)) return res.sendFile(idx);
+            if (fs.existsSync(idx)) return sendHtmlWithChatbot(res, idx);
             res.redirect(prefix + '/');
         });
     }
@@ -75,24 +100,27 @@ app.use((req, res, next) => {
         // 1. Direct path/index.html (e.g. /facultyDetails.php -> /facultyDetails.php/index.html)
         const directDirIndex = path.join(dir, cleanPath, 'index.html');
         if (fs.existsSync(directDirIndex)) {
-            return res.sendFile(directDirIndex);
+            return sendHtmlWithChatbot(res, directDirIndex);
         }
 
         // 2. Direct path/index.php/index.html (e.g. /placements -> /placements/index.php/index.html)
         const phpDirIndex = path.join(dir, cleanPath, 'index.php', 'index.html');
         if (fs.existsSync(phpDirIndex)) {
-            return res.sendFile(phpDirIndex);
+            return sendHtmlWithChatbot(res, phpDirIndex);
         }
 
         // 3. Direct path.html (e.g. /about -> /about.html)
         const directHtml = path.join(dir, cleanPath + '.html');
         if (fs.existsSync(directHtml)) {
-            return res.sendFile(directHtml);
+            return sendHtmlWithChatbot(res, directHtml);
         }
 
-        // 4. Direct file exists (e.g. /images/logo2.png, /css/main.css)
+        // 4. Direct file exists (e.g. /images/logo2.png, /css/main.css, or raw HTML)
         const directFile = path.join(dir, cleanPath);
         if (fs.existsSync(directFile) && fs.statSync(directFile).isFile()) {
+            if (directFile.endsWith('.html') || directFile.endsWith('.htm')) {
+                return sendHtmlWithChatbot(res, directFile);
+            }
             return res.sendFile(directFile);
         }
     }

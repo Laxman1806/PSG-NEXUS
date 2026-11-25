@@ -140,7 +140,7 @@ async function searchWebsite(question) {
         }));
 
         ranked.sort((a, b) => b.score - a.score);
-        const topResults = ranked.filter(r => r.score >= 0.50).slice(0, 3);
+        const topResults = ranked.filter(r => r.score >= 0.35).slice(0, 3);
 
         if (topResults.length > 0) {
             console.log(`🔍 Retrieved ${topResults.length} chunks via local Semantic Engine (score: ${topResults[0].score.toFixed(3)})`);

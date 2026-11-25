@@ -245,9 +245,13 @@
     color: #334155;
 }
 
-.psg-nav-timer {
-    font-size: 11px;
-    color: #0284c7;
-    font-weight: 600;
-    margin-top: 6px;
+.psg-confirm-btn {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+}
+
+.psg-confirm-btn:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #075985 100%) !important;
+    transform: translateY(-1px) scale(1.02);
 }

@@ -3,8 +3,8 @@ const { getDB } = require('../../db/connection');
 const { searchWebsite } = require('../../db/searchService');
 const { generateAnswer } = require('../services/geminiService');
 
-// Greeting check regex
-const GREETING_REGEX = /^(hi|hello|hey|greetings|good\s*(morning|afternoon|evening)|who\s*are\s*you|what\s*can\s*you\s*do)\b/i;
+// Greeting check regex (only matches standalone greetings, not questions with a greeting prefix)
+const GREETING_REGEX = /^(hi|hello|hey|hey there|greetings|good\s*(morning|afternoon|evening)|who\s*are\s*you|what\s*can\s*you\s*do)[\s!.,?]*$/i;
 
 const WELCOME_REPLY = `Hello! I am **PSG Nexus**, the official AI campus assistant for **PSG College of Technology**, Coimbatore. 👋
 
@@ -76,23 +76,15 @@ const CAMPUS_PAGES = [
     }
 ];
 
-// Helper function to resolve navigation intent from user prompt
+// Helper function to resolve navigation target from user prompt or keywords
 function resolveNavigationIntent(userText) {
     if (!userText) return null;
     const lower = userText.toLowerCase();
 
-    // Check if user specifically requested to move/navigate/go/visit/see a page
-    const navTriggerRegex = /(go\s*to|move\s*to|take\s*me\s*to|navigate\s*to|open\s*(the)?\s*page|page\s*(where|were|for)|link\s*(to|for)|view\s*(the)?\s*page|show\s*(me)?\s*(the)?\s*page|where\s*(is|are|can\s*i\s*find)\s*(the)?\s*(page|profile|syllabus))/i;
-
-    const hasNavIntent = navTriggerRegex.test(lower);
-
     for (const page of CAMPUS_PAGES) {
         for (const kw of page.keywords) {
             if (lower.includes(kw)) {
-                // If explicit navigation intent OR user directly asks for the page
-                if (hasNavIntent || lower.startsWith('where ') || lower.includes('page')) {
-                    return { url: page.url, label: page.label };
-                }
+                return { url: page.url, label: page.label };
             }
         }
     }
@@ -147,6 +139,17 @@ async function handleChat(req, res) {
         const navMatch = botAnswer.match(/\[\[NAVIGATE:(.*?)\|(.*?)\]\]/);
         if (navMatch) {
             navigation = { url: navMatch[1].trim(), label: navMatch[2].trim() };
+        }
+        // Always strip raw navigation tags from prose
+        botAnswer = botAnswer.replace(/\[\[NAVIGATE:(.*?)\|(.*?)\]\]/g, '').trim();
+
+        // If no explicit navigation yet, check if top source maps to a campus page
+        if (!navigation && sources && sources.length > 0 && sources[0].url && sources[0].url !== '/') {
+            const topUrl = sources[0].url;
+            const matchedPage = CAMPUS_PAGES.find(p => p.url === topUrl);
+            if (matchedPage) {
+                navigation = { url: matchedPage.url, label: matchedPage.label };
+            }
         }
 
         if (navigation) {

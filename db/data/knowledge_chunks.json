@@ -775,7 +775,8 @@
       0.006204329,
       -0.018463414
     ],
-    "createdAt": "2026-11-20T09:36:44.444Z"
+    "createdAt": "2026-11-20T09:36:44.444Z",
+    "_id": "2e1a29b9aa9e98a75d088dcfe2d86f6f217c3e28db03eb49c14086b90391c2e4"
   },
   {
     "title": "Faculty Members & Staff Directory (/facultyDetails.php)",
@@ -1553,7 +1554,8 @@
       0.01579623,
       -0.018268159
     ],
-    "createdAt": "2026-11-20T09:36:45.337Z"
+    "createdAt": "2026-11-20T09:36:45.337Z",
+    "_id": "23cc0742f87458851ca5bffaf6ca769001412546a5e87cad8f68e89b2fc1fe1d"
   },
   {
     "title": "Academic Programmes, Curriculum & Syllabus (/programme.php)",
@@ -2331,7 +2333,8 @@
       0.017828692,
       0.008110231
     ],
-    "createdAt": "2026-11-20T09:36:46.181Z"
+    "createdAt": "2026-11-20T09:36:46.181Z",
+    "_id": "7f538730de5bf7aa091c99acc4d288bc1f677e78be2e5ccb9ec6d5c5bfa1e91f"
   },
   {
     "title": "Hostels & Residential Facilities (Boys & Girls)",
@@ -3109,7 +3112,8 @@
       0.0031935724,
       0.0031292043
     ],
-    "createdAt": "2026-11-20T09:36:47.054Z"
+    "createdAt": "2026-11-20T09:36:47.054Z",
+    "_id": "bab4d047fdcface8b725e9158fdf251e2a2534c9dbc43d9eaead06747e5d0c19"
   },
   {
     "title": "Placements & Career Guidance Highlights",
@@ -3887,7 +3891,8 @@
       0.02355858,
       0.00823543
     ],
-    "createdAt": "2026-11-20T09:36:47.909Z"
+    "createdAt": "2026-11-20T09:36:47.909Z",
+    "_id": "c0c47e587068a68ccad9968ac6f0172c4c1ce889eb8d0b247be486fda1ed935b"
   },
   {
     "title": "Academic Regulations & Attendance Policy",
@@ -4665,7 +4670,8 @@
       0.010184006,
       -0.0010931235
     ],
-    "createdAt": "2026-11-20T09:36:48.779Z"
+    "createdAt": "2026-11-20T09:36:48.779Z",
+    "_id": "d0cf0f93260ad3c276bd8b993ad4cbf87cc67636c2df8c4da3392e0d4c68e3b7"
   },
   {
     "title": "Parents Guide: Ward Monitoring, Campus Safety & Healthcare",
@@ -5443,7 +5449,8 @@
       -0.0021892437,
       -0.035895377
     ],
-    "createdAt": "2026-11-20T09:36:49.452Z"
+    "createdAt": "2026-11-20T09:36:49.452Z",
+    "_id": "8fcae6340e243c74bf071489733d335755359de71b07face8f68080a8d2a57c1"
   },
   {
     "title": "Tuition Fees, Scholarships & Financial Concessions",
@@ -6221,7 +6228,8 @@
       0.019120485,
       -0.017644027
     ],
-    "createdAt": "2026-11-20T09:36:50.369Z"
+    "createdAt": "2026-11-20T09:36:50.369Z",
+    "_id": "f153810fb1780dbc16fb89a50a78bc02f5e5ea350dc05f9f47f7129f51231712"
   },
   {
     "title": "Visitor & Recruiter Guide: Location, Directions, Transit Distances & Guest House",
@@ -6999,7 +7007,8 @@
       0.0072884145,
       -0.023766374
     ],
-    "createdAt": "2026-11-20T09:36:51.158Z"
+    "createdAt": "2026-11-20T09:36:51.158Z",
+    "_id": "8e91633c10112f0d0c73deb95241fba2a083c5f2c1e2ffe1d6c7184cd383c82d"
   },
   {
     "title": "Physical Education, Sports Grounds & Gymnasiums (/sports)",
@@ -7777,7 +7786,8 @@
       0.017507022,
       0.0086379405
     ],
-    "createdAt": "2026-11-20T09:36:52.050Z"
+    "createdAt": "2026-11-20T09:36:52.050Z",
+    "_id": "95d2c39727d857e8ac63c7680d5d443be043c4464536e1c8fe252f12418ae6e4"
   },
   {
     "title": "GRD Memorial Central Library & Digital Resources (/library)",
@@ -8555,7 +8565,8 @@
       0.04885809,
       0.00914466
     ],
-    "createdAt": "2026-11-20T09:36:52.944Z"
+    "createdAt": "2026-11-20T09:36:52.944Z",
+    "_id": "41e96facebfd547922ec5a8cb042cacdfcd3151a3cdc0453037fb8443fe0366e"
   },
   {
     "title": "About the College (Part 1)",
@@ -9332,7 +9343,8 @@
       -0.00026199163,
       -0.0066977753
     ],
-    "createdAt": "2026-11-20T09:36:53.712Z"
+    "createdAt": "2026-11-20T09:36:53.712Z",
+    "_id": "fd16b66f031ff2d565b40b19f03a0b1ae901af93f2b2422978320a1d062d0fa3"
   },
   {
     "title": "About the College (Part 2)",
@@ -10109,7 +10121,8 @@
       0.0014581044,
       0.00692777
     ],
-    "createdAt": "2026-11-20T09:36:56.341Z"
+    "createdAt": "2026-11-20T09:36:56.341Z",
+    "_id": "b4a490ca48d46cdcdff0bb3207a6f2ee4ec2e6456ff061c31b7f57564323b45f"
   },
   {
     "title": "About the College (Part 3)",
@@ -10886,7 +10899,8 @@
       0.013770683,
       -0.00797553
     ],
-    "createdAt": "2026-11-20T09:36:57.224Z"
+    "createdAt": "2026-11-20T09:36:57.224Z",
+    "_id": "296a0d05719fbc3518d12290b730e9cca7f57ca94a806d03f48a5e1d513a7e43"
   },
   {
     "title": "ADMISSION PROCEDURE (Part 1)",
@@ -11663,7 +11677,8 @@
       -0.006851175,
       -0.017955847
     ],
-    "createdAt": "2026-11-20T09:36:58.159Z"
+    "createdAt": "2026-11-20T09:36:58.159Z",
+    "_id": "03905a579059852f0f8024f584e126083293a4c9731378a8d5a9df1c0cf13f3e"
   },
   {
     "title": "APPROVALS (Part 1)",
@@ -12440,7 +12455,8 @@
       0.00837253,
       -0.0024930914
     ],
-    "createdAt": "2026-11-20T09:36:58.999Z"
+    "createdAt": "2026-11-20T09:36:58.999Z",
+    "_id": "39723c9add0420dc7f3cc56a2331541869c4f1f3807749bf461b0701901fd6c1"
   },
   {
     "title": "B.Sc & M.Sc Programmes Admission - PSG College of Technology (Part 1)",
@@ -13217,7 +13233,8 @@
       0.0034473282,
       -0.023910727
     ],
-    "createdAt": "2026-11-20T09:37:00.053Z"
+    "createdAt": "2026-11-20T09:37:00.053Z",
+    "_id": "0031524c103943d9d40860b986ead60b81ad5d73116ca6655dd81a07b14efaf5"
   },
   {
     "title": "B.Sc & M.Sc Programmes Admission - PSG College of Technology (Part 2)",
@@ -13994,7 +14011,8 @@
       0.012962138,
       -0.024439821
     ],
-    "createdAt": "2026-11-20T09:37:00.920Z"
+    "createdAt": "2026-11-20T09:37:00.920Z",
+    "_id": "a9979f31ddf620a4dc4674ee5b3dc088339a0ab7ef9a035528278cafa3d3dbc2"
   },
   {
     "title": "B.Sc & M.Sc Programmes Admission - PSG College of Technology (Part 3)",
@@ -14771,7 +14789,8 @@
       0.0131934285,
       -0.015205091
     ],
-    "createdAt": "2026-11-20T09:37:04.894Z"
+    "createdAt": "2026-11-20T09:37:04.894Z",
+    "_id": "394b1042e57f9b168d3f2a0a231f4f911cdc723810a5c0afaa66179d25847824"
   },
   {
     "title": "B.Sc & M.Sc Programmes Admission - PSG College of Technology (Part 4)",
@@ -15548,7 +15567,8 @@
       0.028695097,
       -0.023130639
     ],
-    "createdAt": "2026-11-20T09:37:08.481Z"
+    "createdAt": "2026-11-20T09:37:08.481Z",
+    "_id": "8176d696f4180a7750fbac4a4b1655e29028c6c73792003e53ed9acd021c9321"
   },
   {
     "title": "BALANCE SHEETS (Part 1)",
@@ -16325,7 +16345,8 @@
       0.012287701,
       0.009617694
     ],
-    "createdAt": "2026-11-20T09:37:11.932Z"
+    "createdAt": "2026-11-20T09:37:11.932Z",
+    "_id": "7f4bf61b8a7a785415acb7ba82a01ee9d20fede49d2b7ead117a493753a8545e"
   },
   {
     "title": "Office of the Controller of Examinations (Part 1)",
@@ -17102,7 +17123,8 @@
       -0.002358683,
       -0.00878608
     ],
-    "createdAt": "2026-11-20T09:37:12.930Z"
+    "createdAt": "2026-11-20T09:37:12.930Z",
+    "_id": "429dea3759db6b846a381bdacd42cc19cdcf3ada818c38502a36c4db2c680040"
   },
   {
     "title": "Office of the Controller of Examinations (Part 2)",
@@ -17879,7 +17901,8 @@
       -0.00043205993,
       -0.0094634835
     ],
-    "createdAt": "2026-11-20T09:37:15.650Z"
+    "createdAt": "2026-11-20T09:37:15.650Z",
+    "_id": "906f703c197fabfd2902eb6479ac6ea0964e3dfbec6670525423eef45ceacb5a"
   },
   {
     "title": "Office of the Controller of Examinations (Part 3)",
@@ -18656,7 +18679,8 @@
       -0.011496742,
       -0.029612778
     ],
-    "createdAt": "2026-11-20T09:37:16.888Z"
+    "createdAt": "2026-11-20T09:37:16.888Z",
+    "_id": "3de226805a9db4033080c329fda29460d6adff50fc7d99c0c34149103b191f8b"
   },
   {
     "title": "Office of the Controller of Examinations (Part 4)",
@@ -19433,7 +19457,8 @@
       0.010415032,
       -0.01647686
     ],
-    "createdAt": "2026-11-20T09:37:18.233Z"
+    "createdAt": "2026-11-20T09:37:18.233Z",
+    "_id": "67c65b7b9e49e1a6035b1c6a2cf02cf5f37b5da200b79bb057420bff6f01d808"
   },
   {
     "title": "Office of the Controller of Examinations (Part 5)",
@@ -20210,7 +20235,8 @@
       -0.0026882659,
       -0.014824938
     ],
-    "createdAt": "2026-11-20T09:37:20.609Z"
+    "createdAt": "2026-11-20T09:37:20.609Z",
+    "_id": "75fb8f048a182f4b79b62c7ecf4d67ae3f018f735ee50c340ea0d7a1ba3f007d"
   },
   {
     "title": "Office of the Controller of Examinations (Part 6)",
@@ -20987,7 +21013,8 @@
       0.011080964,
       -0.018129045
     ],
-    "createdAt": "2026-11-20T09:37:21.457Z"
+    "createdAt": "2026-11-20T09:37:21.457Z",
+    "_id": "e10b7b4a9574e5ed4b33ecf35a49620a6e182864f248e41c1557fcb4f1b2faa1"
   },
   {
     "title": "Office of the Controller of Examinations (Part 7)",
@@ -21764,7 +21791,8 @@
       0.006231194,
       -0.030522088
     ],
-    "createdAt": "2026-11-20T09:37:22.394Z"
+    "createdAt": "2026-11-20T09:37:22.394Z",
+    "_id": "26ec1de63345361110eb50ea3a73141d5114eac96ff8a43a6e6e16f2c931b3f1"
   },
   {
     "title": "Office of the Controller of Examinations (Part 8)",
@@ -22541,7 +22569,8 @@
       -0.013438935,
       -0.020114413
     ],
-    "createdAt": "2026-11-20T09:37:27.903Z"
+    "createdAt": "2026-11-20T09:37:27.903Z",
+    "_id": "da5293e8901917bbd6d71933f4902560bb3f7f7a88d9f7614df7b54a28d599e5"
   },
   {
     "title": "Office of the Controller of Examinations (Part 9)",
@@ -23318,7 +23347,8 @@
       -0.0114633115,
       -0.013806655
     ],
-    "createdAt": "2026-11-20T09:37:33.793Z"
+    "createdAt": "2026-11-20T09:37:33.793Z",
+    "_id": "17ca261c8ade976d448e619acd5ef2a6154ce71961557fca4f85bc1608cb37a1"
   },
   {
     "title": "PSG TECHS::COE InduTech - Welcome (Part 1)",
@@ -24095,7 +24125,8 @@
       -0.005972001,
       -0.006934591
     ],
-    "createdAt": "2026-11-20T09:37:36.654Z"
+    "createdAt": "2026-11-20T09:37:36.654Z",
+    "_id": "a67e6a9fcfda87bcba18d93411af144835574e7eb57070bd1c5866cc0b1d0af2"
   },
   {
     "title": "cont.php (Part 1)",
@@ -24872,7 +24903,8 @@
       -0.0018718141,
       -0.020351183
     ],
-    "createdAt": "2026-11-20T09:37:37.576Z"
+    "createdAt": "2026-11-20T09:37:37.576Z",
+    "_id": "240a77bb1695a15c334f4fd869a4b02d1b0a115be10d615cfca6ede9d9bc3d5f"
   },
   {
     "title": "Announcements (Part 1)",
@@ -25649,7 +25681,8 @@
       0.012575643,
       0.0032822348
     ],
-    "createdAt": "2026-11-20T09:37:38.429Z"
+    "createdAt": "2026-11-20T09:37:38.429Z",
+    "_id": "7406620818443aacb8701c60e986239f5953b59cc9d18cba22518121600b9021"
   },
   {
     "title": "Dean - Academic (Part 1)",
@@ -26426,7 +26459,8 @@
       0.0037606845,
       0.0006052706
     ],
-    "createdAt": "2026-11-20T09:37:39.089Z"
+    "createdAt": "2026-11-20T09:37:39.089Z",
+    "_id": "167a1dc61214a13e1f34e1af2e321a5d371dc0032799314b4e40b4f14984eec9"
   },
   {
     "title": "Dean - Administration (Part 1)",
@@ -27203,7 +27237,8 @@
       -0.0032439893,
       -0.0059044715
     ],
-    "createdAt": "2026-11-20T09:37:39.673Z"
+    "createdAt": "2026-11-20T09:37:39.673Z",
+    "_id": "4cc76270a67eb74f93ac721017f14cc7516da0e9e7396c9ff28adabebbf9aa54"
   },
   {
     "title": "Dean - Autonomous Functioning (Part 1)",
@@ -27980,7 +28015,8 @@
       -0.011367172,
       -0.009904073
     ],
-    "createdAt": "2026-11-20T09:37:40.296Z"
+    "createdAt": "2026-11-20T09:37:40.296Z",
+    "_id": "e89ced539b31b07054aa62f56a7680d02b22cbbce27eb417b509400b27821e88"
   },
   {
     "title": "IEEE SC 12951 | Home (Part 1)",
@@ -28757,7 +28793,8 @@
       0.009454824,
       -0.011071531
     ],
-    "createdAt": "2026-11-20T09:37:41.164Z"
+    "createdAt": "2026-11-20T09:37:41.164Z",
+    "_id": "b85ca27d703342a21bda53a734227d95935fa8f84138376fbf7f73fca417191f"
   },
   {
     "title": "facultyDetails.php (Part 1)",
@@ -29534,7 +29571,8 @@
       0.015307808,
       0.004680739
     ],
-    "createdAt": "2026-11-20T09:37:42.132Z"
+    "createdAt": "2026-11-20T09:37:42.132Z",
+    "_id": "0a30af4e9d4acaf46211d17f9f8745ce301f125e1552438973645c7d95ae78e0"
   },
   {
     "title": "facultyDetails.php (Part 2)",
@@ -30311,7 +30349,8 @@
       0.016219001,
       -0.006722249
     ],
-    "createdAt": "2026-11-20T09:37:47.643Z"
+    "createdAt": "2026-11-20T09:37:47.643Z",
+    "_id": "44b4057634701009423cf30c16f5410d6c28e6c297fefab9a1070fac148d7347"
   },
   {
     "title": "facultyDetails.php (Part 3)",
@@ -31088,7 +31127,8 @@
       0.011444291,
       -0.012405614
     ],
-    "createdAt": "2026-11-20T09:37:53.784Z"
+    "createdAt": "2026-11-20T09:37:53.784Z",
+    "_id": "e44b2947a96de478db628b63e12acff9ff9f71d20f513e21c57f155d451c6066"
   },
   {
     "title": "facultyDetails.php (Part 4)",
@@ -31865,7 +31905,8 @@
       0.014015964,
       -0.0042779
     ],
-    "createdAt": "2026-11-20T09:37:58.635Z"
+    "createdAt": "2026-11-20T09:37:58.635Z",
+    "_id": "51286e7cf644a88195de47e34f9f11c034af4c97c462588e31cf01bbe6112736"
   },
   {
     "title": "facultyDetails.php (Part 5)",
@@ -32642,7 +32683,8 @@
       0.012534172,
       -0.01182565
     ],
-    "createdAt": "2026-11-20T09:37:59.561Z"
+    "createdAt": "2026-11-20T09:37:59.561Z",
+    "_id": "77cbde262057b38cab7f0c9af86f140cb5ba10daf0382c1d15562d55f780d64f"
   },
   {
     "title": "facultyDetails.php (Part 6)",
@@ -33419,7 +33461,8 @@
       0.015824094,
       -0.0075766323
     ],
-    "createdAt": "2026-11-20T09:38:00.477Z"
+    "createdAt": "2026-11-20T09:38:00.477Z",
+    "_id": "1356c3764ad53a07ce03467b853858f07f0af08c989f699171ee6fe7dba07f93"
   },
   {
     "title": "facultyDetails.php (Part 7)",
@@ -34196,7 +34239,8 @@
       0.016650742,
       -0.009196604
     ],
-    "createdAt": "2026-11-20T09:38:03.780Z"
+    "createdAt": "2026-11-20T09:38:03.780Z",
+    "_id": "3dae4b19f3859db6b2a1c89b7503b29eea9e985d9f6d7ee65b6ffa7edb9e3e89"
   },
   {
     "title": "facultyDetails.php (Part 8)",
@@ -34973,7 +35017,8 @@
       0.012577148,
       -0.015473539
     ],
-    "createdAt": "2026-11-20T09:38:04.712Z"
+    "createdAt": "2026-11-20T09:38:04.712Z",
+    "_id": "2eb3f509fef66d8a9a62551a55ec30eedbb9e4a2e2017377b6d922e8fba0442d"
   },
   {
     "title": "facultyDetails.php (Part 9)",
@@ -35750,7 +35795,8 @@
       0.016281132,
       0.001565071
     ],
-    "createdAt": "2026-11-20T09:38:05.697Z"
+    "createdAt": "2026-11-20T09:38:05.697Z",
+    "_id": "46ddab90c31d1980c4540572289fb5e78c93f26c7e841c8c2d14425931b6251d"
   },
   {
     "title": "facultyDetails.php (Part 10)",
@@ -36527,7 +36573,8 @@
       0.022601925,
       -0.009679053
     ],
-    "createdAt": "2026-11-20T09:38:08.002Z"
+    "createdAt": "2026-11-20T09:38:08.002Z",
+    "_id": "d243a7a03824c6e632bf6429108366ba3dc116ce365b7234ac2ee76a2e1d012a"
   },
   {
     "title": "facultyDetails.php (Part 11)",
@@ -37304,7 +37351,8 @@
       0.019188559,
       -0.009339476
     ],
-    "createdAt": "2026-11-20T09:38:08.887Z"
+    "createdAt": "2026-11-20T09:38:08.887Z",
+    "_id": "fea1b670ca180c509c0b0106c8672b83e1d80daf4d6933c78ec9345fb3414d98"
   },
   {
     "title": "facultyDetails.php (Part 12)",
@@ -38081,7 +38129,8 @@
       0.025729854,
       -0.009906944
     ],
-    "createdAt": "2026-11-20T09:38:13.927Z"
+    "createdAt": "2026-11-20T09:38:13.927Z",
+    "_id": "093ced18554804bce648bc781375050be71942b257ce3eb354dbb893cebce566"
   },
   {
     "title": "facultyDetails.php (Part 13)",
@@ -38858,7 +38907,8 @@
       0.021803861,
       -0.0018133209
     ],
-    "createdAt": "2026-11-20T09:38:21.922Z"
+    "createdAt": "2026-11-20T09:38:21.922Z",
+    "_id": "6fa8f17209526cafcb4812f283f3fedd89c36dc1c2e7d63479a06b7a4e574594"
   },
   {
     "title": "facultyDetails.php (Part 14)",
@@ -39635,7 +39685,8 @@
       0.017462147,
       -0.00512424
     ],
-    "createdAt": "2026-11-20T09:38:22.932Z"
+    "createdAt": "2026-11-20T09:38:22.932Z",
+    "_id": "4c525ece11ffeecf375b420dbf499a3cd8bb630fe7ad549b2d15be8c186203c3"
   },
   {
     "title": "facultyDetails.php (Part 15)",
@@ -40412,7 +40463,8 @@
       0.020646807,
       -0.013535489
     ],
-    "createdAt": "2026-11-20T09:38:23.999Z"
+    "createdAt": "2026-11-20T09:38:23.999Z",
+    "_id": "aca3197f07b71b2561636ad859fda25b76a7812d9383495f0005cdd2dfa3197f"
   },
   {
     "title": "facultyDetails.php (Part 16)",
@@ -41189,7 +41241,8 @@
       0.017016502,
       -0.0151020065
     ],
-    "createdAt": "2026-11-20T09:38:24.975Z"
+    "createdAt": "2026-11-20T09:38:24.975Z",
+    "_id": "6abbbaa2342e253247ed2fa4c8731eeac0e2bcf24e7f5ab43fef5cbf0e45104d"
   },
   {
     "title": "facultyDetails.php (Part 17)",
@@ -41966,7 +42019,8 @@
       0.00845356,
       -0.018792931
     ],
-    "createdAt": "2026-11-20T09:38:25.901Z"
+    "createdAt": "2026-11-20T09:38:25.901Z",
+    "_id": "6ac871165d87b64447a3a94391c2ec9c026464a896d18c806907f4f4893ca8b9"
   },
   {
     "title": "PSG Tech - FN / OCI Admissions 2026 (Part 1)",
@@ -42743,7 +42797,8 @@
       0.0002087657,
       -0.007880838
     ],
-    "createdAt": "2026-11-20T09:38:26.930Z"
+    "createdAt": "2026-11-20T09:38:26.930Z",
+    "_id": "a05ac840282e850f3b3751d412f81a803aff824f33d116ac266414382ec68e4a"
   },
   {
     "title": "PSG Tech - FN / OCI Admissions 2026 (Part 2)",
@@ -43520,7 +43575,8 @@
       0.0032338863,
       -0.02249808
     ],
-    "createdAt": "2026-11-20T09:38:29.460Z"
+    "createdAt": "2026-11-20T09:38:29.460Z",
+    "_id": "eb992fe07210673c81d64c91c72529384921f509f58b8113332b3e76e015e926"
   },
   {
     "title": "PSG Tech - FN / OCI Admissions 2026 (Part 3)",
@@ -44297,7 +44353,8 @@
       -0.012809385,
       -0.025711298
     ],
-    "createdAt": "2026-11-20T09:38:30.351Z"
+    "createdAt": "2026-11-20T09:38:30.351Z",
+    "_id": "575bb187370de33cbfd216eb3339ae91fbf2d577660ed6c022c31d7d2a10e6b2"
   },
   {
     "title": "PSG Tech - FN / OCI Admissions 2026 (Part 4)",
@@ -45074,7 +45131,8 @@
       0.007167927,
       -0.026480146
     ],
-    "createdAt": "2026-11-20T09:38:34.901Z"
+    "createdAt": "2026-11-20T09:38:34.901Z",
+    "_id": "ef01b179f21a3a08f479a617e85a9cbb3114a50fc90997fc6490ce4673620d96"
   },
   {
     "title": "Founders (Part 1)",
@@ -45851,7 +45909,8 @@
       -0.0041159643,
       0.0054701287
     ],
-    "createdAt": "2026-11-20T09:38:38.085Z"
+    "createdAt": "2026-11-20T09:38:38.085Z",
+    "_id": "bc50db56a62de49cd29c1341f4ea955506c6ff5add5bee604800f05562c018a8"
   },
   {
     "title": "Glances of PSG (Part 1)",
@@ -46628,7 +46687,8 @@
       0.0047689346,
       -0.010505822
     ],
-    "createdAt": "2026-11-20T09:38:39.336Z"
+    "createdAt": "2026-11-20T09:38:39.336Z",
+    "_id": "ca24cc029c0961a1764e6f8afe340ac3f60fe5602c5c00539ae8acbcfad88139"
   },
   {
     "title": "Head of the Departments (Part 1)",
@@ -47405,7 +47465,8 @@
       0.017194375,
       0.007369088
     ],
-    "createdAt": "2026-11-20T09:38:40.693Z"
+    "createdAt": "2026-11-20T09:38:40.693Z",
+    "_id": "3a8431e9a262d4cd9d5a5091232925396434012272aeede0b5213bfc0275572a"
   },
   {
     "title": "help-desk.php (Part 1)",
@@ -48182,7 +48243,8 @@
       0.011000096,
       -0.013039596
     ],
-    "createdAt": "2026-11-20T09:38:42.352Z"
+    "createdAt": "2026-11-20T09:38:42.352Z",
+    "_id": "2cca5d08f944961e4d43f06091406b78a06fc1e756eba42fc1cca68fee9b3074"
   },
   {
     "title": "hostel (Part 1)",
@@ -48959,7 +49021,8 @@
       0.0032984847,
       0.0014116641
     ],
-    "createdAt": "2026-11-20T09:38:42.987Z"
+    "createdAt": "2026-11-20T09:38:42.987Z",
+    "_id": "006a8d65ceb4c51f48187041ccdd079907deaead4ac4c8c226f1d04c2b27e920"
   },
   {
     "title": "Institution's Innovation Council (IC201810412) (Part 1)",
@@ -49736,7 +49799,8 @@
       0.0031941757,
       -0.006737392
     ],
-    "createdAt": "2026-11-20T09:38:44.125Z"
+    "createdAt": "2026-11-20T09:38:44.125Z",
+    "_id": "0d0df8bfe75c08363d66910b2495b71db058847146ba6fb134a8b0fce805cb33"
   },
   {
     "title": "Institution's Innovation Council (IC201810412) (Part 2)",
@@ -50513,7 +50577,8 @@
       0.0039213235,
       0.0072124316
     ],
-    "createdAt": "2026-11-20T09:38:44.815Z"
+    "createdAt": "2026-11-20T09:38:44.815Z",
+    "_id": "95689c0d472dfe22df71c699d95f9ae4f24620b5cb26b70c528963448b87d9cc"
   },
   {
     "title": "Welcome to PSG College of Technology (Part 1)",
@@ -51290,7 +51355,8 @@
       0.011825161,
       -0.009266511
     ],
-    "createdAt": "2026-11-20T09:38:45.731Z"
+    "createdAt": "2026-11-20T09:38:45.731Z",
+    "_id": "c78ea628cd64a967a08dcdb646019a783e87939eec0be43012783e0d1aab47ad"
   },
   {
     "title": "Welcome to PSG College of Technology (Part 2)",
@@ -52067,7 +52133,8 @@
       0.022679647,
       -0.004359314
     ],
-    "createdAt": "2026-11-20T09:38:46.805Z"
+    "createdAt": "2026-11-20T09:38:46.805Z",
+    "_id": "ac357efabeb55a9cb1eb871a9fa31f80db440cf07e861065cd3497dfe9b53e12"
   },
   {
     "title": "Academic Departments (Part 1)",
@@ -52844,7 +52911,8 @@
       0.019847218,
       0.00896928
     ],
-    "createdAt": "2026-11-20T09:38:47.835Z"
+    "createdAt": "2026-11-20T09:38:47.835Z",
+    "_id": "22048690f9807b9a978af0fe06f650424be88152db130db3e28b885500228f6e"
   },
   {
     "title": "The Management (Part 1)",
@@ -53621,7 +53689,8 @@
       0.00497283,
       0.0025926237
     ],
-    "createdAt": "2026-11-20T09:38:54.061Z"
+    "createdAt": "2026-11-20T09:38:54.061Z",
+    "_id": "12c03716b9e7040a1fae3468d72f421f9f21b213d855356add716f84738f5541"
   },
   {
     "title": "UGC / AICTE Mandatory Committees (Part 1)",
@@ -54398,7 +54467,8 @@
       0.0059470963,
       -0.0040937895
     ],
-    "createdAt": "2026-11-20T09:38:57.574Z"
+    "createdAt": "2026-11-20T09:38:57.574Z",
+    "_id": "7587a0289548d28c516d7a06b45b082c3adbccc0b662696c3172cd4c53b996c8"
   },
   {
     "title": "PSG College of TechnologyPSG College of Technology (Part 1)",
@@ -55175,7 +55245,8 @@
       0.016661856,
       -0.004608799
     ],
-    "createdAt": "2026-11-20T09:39:00.127Z"
+    "createdAt": "2026-11-20T09:39:00.127Z",
+    "_id": "4732196f95b3fd9d672f3f77369d2348f6b8086b584c3d2ffbdbfc8b4f5971ea"
   },
   {
     "title": "NBA Accreditation (Part 1)",
@@ -55952,7 +56023,8 @@
       0.011663734,
       -0.00029017928
     ],
-    "createdAt": "2026-11-20T09:39:01.545Z"
+    "createdAt": "2026-11-20T09:39:01.545Z",
+    "_id": "b748f5c3e04c8f67e55332468ce33c782c062bc10cee7ac14606663a0e77f941"
   },
   {
     "title": "NIRF Ranking (Part 1)",
@@ -56729,7 +56801,8 @@
       0.018277898,
       -0.0051924647
     ],
-    "createdAt": "2026-11-20T09:39:02.445Z"
+    "createdAt": "2026-11-20T09:39:02.445Z",
+    "_id": "1656862c5dd2c4dad8d810cbf583178bc20a860291aaf081ef89add874b332d6"
   },
   {
     "title": "Parent Zone (Part 1)",
@@ -57506,7 +57579,8 @@
       0.0056904457,
       -0.012872565
     ],
-    "createdAt": "2026-11-20T09:39:03.390Z"
+    "createdAt": "2026-11-20T09:39:03.390Z",
+    "_id": "11aa85ff20899bcb6c78106b16d9ffc9fd8170bbd4715db65458f4473db63e0f"
   },
   {
     "title": "PSG College of Technology::Placement & Training SectionPSG College of Technology (Part 1)",
@@ -58283,7 +58357,8 @@
       0.0052258815,
       -0.00815276
     ],
-    "createdAt": "2026-11-20T09:39:04.424Z"
+    "createdAt": "2026-11-20T09:39:04.424Z",
+    "_id": "77e0d34880a6485a3746482ca4d3cc0d113e692af4b38a7a65d3b6592688f4c6"
   },
   {
     "title": "PSG College of Technology::Placement & Training SectionPSG College of Technology (Part 2)",
@@ -59060,7 +59135,8 @@
       0.0064928317,
       -0.0025344626
     ],
-    "createdAt": "2026-11-20T09:39:05.300Z"
+    "createdAt": "2026-11-20T09:39:05.300Z",
+    "_id": "81c0d56a64dc8c2a5a615e4f4c395a715a878461871c5ccdafcf4d866cc07608"
   },
   {
     "title": "PSG College of Technology::Placement & Training SectionPSG College of Technology (Part 3)",
@@ -59837,7 +59913,8 @@
       -0.0104093095,
       -0.017535927
     ],
-    "createdAt": "2026-11-20T09:39:06.017Z"
+    "createdAt": "2026-11-20T09:39:06.017Z",
+    "_id": "81ecba4132a64021a397e2183d4a410fc5f2219eef008dea0185e2f3f792c3d0"
   },
   {
     "title": "Principal (Part 1)",
@@ -60614,7 +60691,8 @@
       -0.00220721,
       0.0017296531
     ],
-    "createdAt": "2026-11-20T09:39:06.964Z"
+    "createdAt": "2026-11-20T09:39:06.964Z",
+    "_id": "02ca5fb3124c79b41e0b27adf72a74b6f961ffaef631b68d300c5fb6569d59dc"
   },
   {
     "title": "Professor of Practice (Part 1)",
@@ -61391,7 +61469,8 @@
       -0.0065925117,
       0.01068291
     ],
-    "createdAt": "2026-11-20T09:39:07.848Z"
+    "createdAt": "2026-11-20T09:39:07.848Z",
+    "_id": "d9e97b129fead15c178fcc292e35031a7ef3b8b8979bbc8cbb42677a0530d946"
   },
   {
     "title": "Professor of Practice (Part 2)",
@@ -62168,7 +62247,8 @@
       0.013878068,
       -0.013916015
     ],
-    "createdAt": "2026-11-20T09:39:09.787Z"
+    "createdAt": "2026-11-20T09:39:09.787Z",
+    "_id": "a27fbd3cc68e1df5b0a8750f31cb937afe6078e8e2408ac59082d3ee6fae8b86"
   },
   {
     "title": "Programmes (Part 1)",
@@ -62945,7 +63025,8 @@
       0.008963304,
       0.0023409473
     ],
-    "createdAt": "2026-11-20T09:39:15.367Z"
+    "createdAt": "2026-11-20T09:39:15.367Z",
+    "_id": "4bece5f55966942825f11ab26eef98a7073515fd98e52343e9fe67616031da1e"
   },
   {
     "title": "Programmes offered (Part 1)",
@@ -63722,7 +63803,8 @@
       0.01137085,
       0.0016379372
     ],
-    "createdAt": "2026-11-20T09:39:20.301Z"
+    "createdAt": "2026-11-20T09:39:20.301Z",
+    "_id": "897adad2726d298abaa0208907eeb612e9a1241e1953bc56bf0af5191d1e5a52"
   },
   {
     "title": "PSG Community Radio | PSG Trust | PSG College of Technology | Coimbatore | India (Part 1)",
@@ -64499,7 +64581,8 @@
       -0.0018696084,
       -0.0064742025
     ],
-    "createdAt": "2026-11-20T09:39:22.703Z"
+    "createdAt": "2026-11-20T09:39:22.703Z",
+    "_id": "32977003a2db11517c7b7f4becff2953873b6f07de4615beba572b598b04ee66"
   },
   {
     "title": "Office of Dean Research (Part 1)",
@@ -65276,7 +65359,8 @@
       0.00374071,
       -0.006567042
     ],
-    "createdAt": "2026-11-20T09:39:24.295Z"
+    "createdAt": "2026-11-20T09:39:24.295Z",
+    "_id": "d2bfd914f0d76b7363909e4859570cb058c4c9876845d0fe338ef997c9bb3352"
   },
   {
     "title": "Office of Dean Research (Part 2)",
@@ -66053,7 +66137,8 @@
       0.03276532,
       -0.019472124
     ],
-    "createdAt": "2026-11-20T09:39:25.626Z"
+    "createdAt": "2026-11-20T09:39:25.626Z",
+    "_id": "5b4031b0da0064215d347fb5e68b92234549dda9daa59f87b00a85d51089975d"
   },
   {
     "title": "Office of Dean Research (Part 3)",
@@ -66830,7 +66915,8 @@
       0.013778947,
       -0.011744918
     ],
-    "createdAt": "2026-11-20T09:39:29.690Z"
+    "createdAt": "2026-11-20T09:39:29.690Z",
+    "_id": "31c2fc0abe2c69e7149c3ca7d38bd25f0cce4a9d8aafed3cdf2af1ddd17f6966"
   },
   {
     "title": "Office of Dean Research (Part 4)",
@@ -67607,7 +67693,8 @@
       0.024550047,
       -0.024849176
     ],
-    "createdAt": "2026-11-20T09:39:33.392Z"
+    "createdAt": "2026-11-20T09:39:33.392Z",
+    "_id": "a36af0c2f57fb4a41e81f361a5286be9e9c5a0e475fe0afdab628c2cca9c5644"
   },
   {
     "title": "Research Conclave 2026 (Part 1)",
@@ -68384,7 +68471,8 @@
       0.021406582,
       -0.0022407584
     ],
-    "createdAt": "2026-11-20T09:39:35.082Z"
+    "createdAt": "2026-11-20T09:39:35.082Z",
+    "_id": "9775de680c160dafd1b6d4886aef4924101b7447a6d4c28261a659c14b9c061e"
   },
   {
     "title": "Research Conclave 2026 (Part 2)",
@@ -69161,7 +69249,8 @@
       0.029387297,
       -0.0020534357
     ],
-    "createdAt": "2026-11-20T09:39:36.015Z"
+    "createdAt": "2026-11-20T09:39:36.015Z",
+    "_id": "acc0c97abee514beafcbb41d10d2075318896651aa1baff7a12b603bef53e82e"
   },
   {
     "title": "Research (Part 1)",
@@ -69938,7 +70027,8 @@
       -0.004626906,
       -0.01861718
     ],
-    "createdAt": "2026-11-20T09:39:36.952Z"
+    "createdAt": "2026-11-20T09:39:36.952Z",
+    "_id": "bd86405b59b2e61006ca52072615c848b4fe7feb5136d93bd9730dcd8aeb0196"
   },
   {
     "title": "SCHOLARSHIP (Part 1)",
@@ -70715,7 +70805,8 @@
       0.030604342,
       -0.017383652
     ],
-    "createdAt": "2026-11-20T09:39:37.804Z"
+    "createdAt": "2026-11-20T09:39:37.804Z",
+    "_id": "3e4dd0d28bf6fecd3e212c75274eace37a18b5bec4278ee3807f14b9d1fc9fa1"
   },
   {
     "title": "Secretary (Part 1)",
@@ -71492,7 +71583,8 @@
       0.005483326,
       0.0075690052
     ],
-    "createdAt": "2026-11-20T09:39:42.090Z"
+    "createdAt": "2026-11-20T09:39:42.090Z",
+    "_id": "df32e804d28f49e59e5b1a620e00f0f54796e5135279cbf47c94752eaa22ed4f"
   },
   {
     "title": "Student Zone (Part 1)",
@@ -72269,7 +72361,8 @@
       0.011016022,
       -0.0027685233
     ],
-    "createdAt": "2026-11-20T09:39:43.233Z"
+    "createdAt": "2026-11-20T09:39:43.233Z",
+    "_id": "e3b6e47744e612ff90a1be0da71fabe34c4c15a80e297e42c5dc5ebaee267620"
   },
   {
     "title": "Student Zone (Part 2)",
@@ -73046,7 +73139,8 @@
       0.014078362,
       -0.017511643
     ],
-    "createdAt": "2026-11-20T09:39:46.382Z"
+    "createdAt": "2026-11-20T09:39:46.382Z",
+    "_id": "8e01117974d915811e5e4c9d45d0ae98055baae3e86cfaf709efc3fc77cd438d"
   },
   {
     "title": "Tech Bulletin (Part 1)",
@@ -73823,7 +73917,8 @@
       0.009264321,
       0.001787269
     ],
-    "createdAt": "2026-11-20T09:39:47.253Z"
+    "createdAt": "2026-11-20T09:39:47.253Z",
+    "_id": "dea5cb04ed4e6e0c9a653b6f26ad3314855200e02018d1e0f9c92b30d8357c18"
   },
   {
     "title": "Technology Education Quality Improvement Programme (Part 1)",
@@ -74600,7 +74695,8 @@
       0.01581485,
       -0.000025529484
     ],
-    "createdAt": "2026-11-20T09:39:48.602Z"
+    "createdAt": "2026-11-20T09:39:48.602Z",
+    "_id": "d5521a2f4da211abe00cba9e6098f205f60a018ba5b424705897204c0bd4071c"
   },
   {
     "title": "Managing Trustee (Part 1)",
@@ -75377,7 +75473,8 @@
       0.008032359,
       0.007817339
     ],
-    "createdAt": "2026-11-20T09:39:55.689Z"
+    "createdAt": "2026-11-20T09:39:55.689Z",
+    "_id": "52bffb43455ffc52593ff1cf2b7bd07ef5f4b7885621a0c4fb454b8a6ca1a97e"
   },
   {
     "title": "Vice Principal (Women Welfare) (Part 1)",
@@ -76154,7 +76251,8 @@
       -0.01026882,
       -0.0021690826
     ],
-    "createdAt": "2026-11-20T09:39:56.367Z"
+    "createdAt": "2026-11-20T09:39:56.367Z",
+    "_id": "94edf4c369713e3d41f39612fc57a9f9b77b20329640072e543414261e99e071"
   },
   {
     "title": "List of web URLs and online portals (Part 1)",
@@ -76931,7 +77029,8 @@
       0.020124597,
       -0.005299086
     ],
-    "createdAt": "2026-11-20T09:39:57.376Z"
+    "createdAt": "2026-11-20T09:39:57.376Z",
+    "_id": "4dbef60cd55ec7cb9090be79417686a78765278ab9fdcb4b732538bccf090222"
   },
   {
     "title": "PSGTECHSPORTSPSGSPORTS (Part 1)",
@@ -77708,7 +77807,8 @@
       -0.0024227253,
       -0.007951751
     ],
-    "createdAt": "2026-11-20T09:39:58.599Z"
+    "createdAt": "2026-11-20T09:39:58.599Z",
+    "_id": "9b3b656c5d62996444747f426cc46b8b296611ff831494d6409d1c8f8d2109cc"
   },
   {
     "title": "PSG College of Technology | “Dr. GRD MEMORIAL LIBRARY” (Part 1)",
@@ -78485,7 +78585,8 @@
       0.028104212,
       -0.015868543
     ],
-    "createdAt": "2026-11-20T09:39:59.620Z"
+    "createdAt": "2026-11-20T09:39:59.620Z",
+    "_id": "8a5d1856e6252913b81595a1d3d870563ce980067b87a6a098dd48644afb52aa"
   },
   {
     "title": "PSG College of Technology | “Dr. GRD MEMORIAL LIBRARY” (Part 2)",
@@ -79262,7 +79363,8 @@
       0.029280527,
       -0.0033647888
     ],
-    "createdAt": "2026-11-20T09:40:00.654Z"
+    "createdAt": "2026-11-20T09:40:00.654Z",
+    "_id": "f2b8b97cfe99c899369a601f39c04690f7a014af76bd9d7a3179582e433e3183"
   },
   {
     "title": "PSG College of Technology | “Dr. GRD MEMORIAL LIBRARY” (Part 3)",
@@ -80039,7 +80141,8 @@
       0.037476115,
       -0.006360483
     ],
-    "createdAt": "2026-11-20T09:40:05.947Z"
+    "createdAt": "2026-11-20T09:40:05.947Z",
+    "_id": "d4d19551198d0640e0e71290bdbec4a85a62ff8d23c73ddb82481a52f6b840b9"
   },
   {
     "title": "The Bridge (Part 1)",
@@ -80816,7 +80919,8 @@
       0.031599157,
       0.011281253
     ],
-    "createdAt": "2026-11-20T09:40:07.135Z"
+    "createdAt": "2026-11-20T09:40:07.135Z",
+    "_id": "1d83d1f69c9c36634acebc74c00e1fc7ff5619588ccafd1f097bee566010e4ce"
   },
   {
     "title": "IIPC - PSG College of Technology (Part 1)",
@@ -81593,7 +81697,8 @@
       -0.024223289,
       -0.009892141
     ],
-    "createdAt": "2026-11-20T09:40:08.328Z"
+    "createdAt": "2026-11-20T09:40:08.328Z",
+    "_id": "0654f9310e2bc93771e855447877ff6095756aaa6d6d793fba5338ab42939e94"
   },
   {
     "title": "Platinum Jubilee Celebration (Part 1)",
@@ -82370,7 +82475,8 @@
       0.014139872,
       -0.01915356
     ],
-    "createdAt": "2026-11-20T09:40:09.546Z"
+    "createdAt": "2026-11-20T09:40:09.546Z",
+    "_id": "b6914e2a69c221e61747ee3be0261586f968b7c3d6eb7618c93dfc94c4c21d7f"
   },
   {
     "title": "Platinum Jubilee Celebration (Part 2)",
@@ -83147,6 +83253,7 @@
       0.0043245344,
       0.0028477134
     ],
-    "createdAt": "2026-11-20T09:40:10.977Z"
+    "createdAt": "2026-11-20T09:40:10.977Z",
+    "_id": "ad78fe08053ca56d3f72fe7fe4cb1fbbb3300f5d1e2ed39f1b36f4c82df1c540"
   }
 ]
