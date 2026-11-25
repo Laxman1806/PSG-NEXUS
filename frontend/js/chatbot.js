@@ -145,6 +145,23 @@ How can I help you today? You can ask a question or tell me which page you would
         return current === target;
     }
 
+    // Validate that a navigation/source URL is a safe same-origin relative path
+    function normalizeSafeInternalUrl(rawUrl) {
+        if (typeof rawUrl !== 'string') return null;
+        let cleaned = rawUrl.trim();
+        if (!cleaned) return null;
+        if (!cleaned.startsWith('/')) {
+            if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(cleaned)) {
+                return null;
+            }
+            cleaned = '/' + cleaned;
+        }
+        if (cleaned.startsWith('//') || cleaned.includes('..') || cleaned.includes('\\') || cleaned.includes(':')) {
+            return null;
+        }
+        return /^\/[a-zA-Z0-9\-_.\/& %]*$/.test(cleaned) ? cleaned : null;
+    }
+
     // Escape HTML characters
     function escapeHtml(str) {
         if (!str) return '';
@@ -168,8 +185,8 @@ How can I help you today? You can ask a question or tell me which page you would
         // Markdown bold **text**
         escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-        // Markdown links [text](url)
-        escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: underline;">$1</a>');
+        // Markdown links [text](https://...)
+        escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: underline;">$1</a>');
 
         // Bullet lists
         const lines = escaped.split('\n');
@@ -213,7 +230,8 @@ How can I help you today? You can ask a question or tell me which page you would
         try {
             const raw = sessionStorage.getItem(STORAGE_KEYS.MESSAGES);
             if (raw) {
-                conversationHistory = JSON.parse(raw);
+                const parsed = JSON.parse(raw);
+                conversationHistory = Array.isArray(parsed) ? parsed : [];
             }
         } catch (e) {
             conversationHistory = [];
@@ -222,10 +240,24 @@ How can I help you today? You can ask a question or tell me which page you would
 
     // Global navigation confirmation triggered by button click or affirmative user text
     window.confirmNavigation = function (targetUrl, targetLabel, cardId) {
+        const safeTarget = normalizeSafeInternalUrl(targetUrl);
+        if (!safeTarget) {
+            window.dismissNavigation(cardId);
+            return;
+        }
+
         window.pendingNavigation = null;
         const actionsElem = document.getElementById(`nav-actions-${cardId}`);
         if (actionsElem) {
-            actionsElem.innerHTML = `<span style="color: #0369a1; font-weight: 600; font-size: 12.5px;">🚀 Navigating to <strong>${escapeHtml(targetLabel)}</strong>... Session will continue on that page!</span>`;
+            actionsElem.textContent = '';
+            const statusSpan = document.createElement('span');
+            statusSpan.style.cssText = 'color: #0369a1; font-weight: 600; font-size: 12.5px;';
+            statusSpan.appendChild(document.createTextNode('🚀 Navigating to '));
+            const labelStrong = document.createElement('strong');
+            labelStrong.textContent = targetLabel || 'Campus Page';
+            statusSpan.appendChild(labelStrong);
+            statusSpan.appendChild(document.createTextNode('... Session will continue on that page!'));
+            actionsElem.appendChild(statusSpan);
         }
 
         // Update stored message so card doesn't prompt again on reload
@@ -237,12 +269,12 @@ How can I help you today? You can ask a question or tell me which page you would
 
         // Save session state with chat open flag and welcome intent
         sessionStorage.setItem(STORAGE_KEYS.IS_OPEN, 'true');
-        sessionStorage.setItem(STORAGE_KEYS.JUST_NAVIGATED, targetLabel);
+        sessionStorage.setItem(STORAGE_KEYS.JUST_NAVIGATED, String(targetLabel || 'Campus Page'));
         saveSession();
 
         // Redirect after brief pause to show acknowledgment
         setTimeout(() => {
-            window.location.href = targetUrl;
+            window.location.href = safeTarget;
         }, 350);
     };
 
@@ -251,7 +283,11 @@ How can I help you today? You can ask a question or tell me which page you would
         window.pendingNavigation = null;
         const actionsElem = document.getElementById(`nav-actions-${cardId}`);
         if (actionsElem) {
-            actionsElem.innerHTML = `<span style="color: #64748b; font-size: 12px; font-style: italic;">Staying on current page. Feel free to ask more questions!</span>`;
+            actionsElem.textContent = '';
+            const span = document.createElement('span');
+            span.style.cssText = 'color: #64748b; font-size: 12px; font-style: italic;';
+            span.textContent = 'Staying on current page. Feel free to ask more questions!';
+            actionsElem.appendChild(span);
         }
         const storedMsg = conversationHistory.find(m => m.id === cardId);
         if (storedMsg) {
@@ -259,6 +295,94 @@ How can I help you today? You can ask a question or tell me which page you would
         }
         saveSession();
     };
+
+    // Build navigation confirmation card safely via DOM APIs (prevents attribute/JS XSS)
+    function createNavigationCard(safeUrl, targetLabel, cardId, dismissed) {
+        const card = document.createElement('div');
+        card.className = 'psg-nav-card';
+        card.id = `nav-card-${cardId}`;
+
+        const header = document.createElement('div');
+        header.className = 'psg-nav-header';
+        const headerTitle = document.createElement('span');
+        headerTitle.textContent = '🧭 Campus Navigation';
+        const badge = document.createElement('span');
+        badge.style.cssText = 'background: #e0f2fe; color: #0284c7; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700;';
+        badge.textContent = 'CONFIRMATION';
+        header.appendChild(headerTitle);
+        header.appendChild(badge);
+
+        const desc = document.createElement('div');
+        desc.className = 'psg-nav-desc';
+        desc.appendChild(document.createTextNode('Can I redirect you to the official '));
+        const strongLabel = document.createElement('strong');
+        strongLabel.textContent = targetLabel;
+        desc.appendChild(strongLabel);
+        desc.appendChild(document.createTextNode(' page for detailed information?'));
+
+        const actions = document.createElement('div');
+        actions.className = 'psg-nav-actions';
+        actions.id = `nav-actions-${cardId}`;
+
+        if (dismissed) {
+            const handled = document.createElement('span');
+            handled.style.cssText = 'color: #64748b; font-size: 12px; font-style: italic;';
+            handled.textContent = 'Navigation decision handled.';
+            actions.appendChild(handled);
+        } else {
+            const confirmBtn = document.createElement('button');
+            confirmBtn.type = 'button';
+            confirmBtn.className = 'psg-nav-btn psg-confirm-btn';
+            confirmBtn.textContent = '👉 Yes, Redirect Me';
+            confirmBtn.addEventListener('click', () => window.confirmNavigation(safeUrl, targetLabel, cardId));
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.type = 'button';
+            cancelBtn.className = 'psg-nav-cancel';
+            cancelBtn.textContent = 'No, Stay Here';
+            cancelBtn.addEventListener('click', () => window.dismissNavigation(cardId));
+
+            actions.appendChild(confirmBtn);
+            actions.appendChild(cancelBtn);
+        }
+
+        card.appendChild(header);
+        card.appendChild(desc);
+        card.appendChild(actions);
+        return card;
+    }
+
+    // Build source citation badges safely via DOM APIs
+    function createSourcesBar(sources) {
+        const uniqueSources = [];
+        const seen = new Set();
+        for (const s of sources) {
+            const key = s.title || s.url;
+            if (!seen.has(key)) {
+                seen.add(key);
+                uniqueSources.push(s);
+            }
+        }
+
+        const bar = document.createElement('div');
+        bar.style.cssText = 'margin-top: 10px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; display: flex; flex-wrap: wrap; gap: 4px; align-items: center;';
+
+        const prefix = document.createElement('span');
+        prefix.style.cssText = 'font-weight: 600; color: #0066cc;';
+        prefix.textContent = '📍 Sources:';
+        bar.appendChild(prefix);
+
+        for (const s of uniqueSources) {
+            const safeSourceUrl = normalizeSafeInternalUrl(s.url) || '#';
+            const link = document.createElement('a');
+            link.setAttribute('href', safeSourceUrl);
+            link.style.cssText = 'background: #f1f5f9; color: #0a2c66; padding: 2px 7px; border-radius: 4px; text-decoration: none; border: 1px solid #e2e8f0; font-weight: 500; font-size: 10.5px;';
+            link.textContent = s.title || 'Campus Page';
+            bar.appendChild(link);
+        }
+
+        return bar;
+    }
 
     // Render a message into the DOM
     function renderMessageToDOM(text, sender, sources = [], navigation = null, messageId = null, dismissed = false) {
@@ -268,66 +392,26 @@ How can I help you today? You can ask a question or tell me which page you would
         if (messageId) messageDiv.id = `msg-${messageId}`;
 
         if (sender === 'bot') {
-            let contentHtml = formatMarkdown(text);
+            const textWrapper = document.createElement('div');
+            textWrapper.innerHTML = formatMarkdown(text);
+            messageDiv.appendChild(textWrapper);
 
-            // Render confirmation redirect card if navigation is suggested AND user is NOT on that page
-            if (navigation && navigation.url && !isCurrentPage(navigation.url)) {
+            // Render confirmation redirect card if navigation is valid AND user is NOT on that page
+            const safeNavUrl = navigation && navigation.url ? normalizeSafeInternalUrl(navigation.url) : null;
+            if (safeNavUrl && !isCurrentPage(safeNavUrl)) {
                 const cardId = messageId || ('nav-' + Date.now());
-                const targetUrl = navigation.url;
                 const targetLabel = navigation.label || navigation.pageTitle || 'Requested Page';
 
-                // Set active pending navigation for text confirmation
                 if (!dismissed) {
-                    window.pendingNavigation = { url: targetUrl, label: targetLabel, cardId: cardId };
+                    window.pendingNavigation = { url: safeNavUrl, label: targetLabel, cardId: cardId };
                 }
 
-                contentHtml += `
-                    <div class="psg-nav-card" id="nav-card-${cardId}">
-                        <div class="psg-nav-header">
-                            <span>🧭 Campus Navigation</span>
-                            <span style="background: #e0f2fe; color: #0284c7; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700;">CONFIRMATION</span>
-                        </div>
-                        <div class="psg-nav-desc">
-                            Can I redirect you to the official <strong>${escapeHtml(targetLabel)}</strong> page for detailed information?
-                        </div>
-                        <div class="psg-nav-actions" id="nav-actions-${cardId}">
-                            ${dismissed ? `<span style="color: #64748b; font-size: 12px; font-style: italic;">Navigation decision handled.</span>` : `
-                                <button type="button" class="psg-nav-btn psg-confirm-btn" onclick="window.confirmNavigation('${targetUrl}', '${escapeHtml(targetLabel)}', '${cardId}')">
-                                    👉 Yes, Redirect Me
-                                </button>
-                                <button type="button" class="psg-nav-cancel" onclick="window.dismissNavigation('${cardId}')">
-                                    No, Stay Here
-                                </button>
-                            `}
-                        </div>
-                    </div>
-                `;
+                messageDiv.appendChild(createNavigationCard(safeNavUrl, targetLabel, cardId, dismissed));
             }
 
-            // Append clickable source badges if present
             if (sources && sources.length > 0) {
-                const uniqueSources = [];
-                const seen = new Set();
-                for (const s of sources) {
-                    const key = s.title || s.url;
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        uniqueSources.push(s);
-                    }
-                }
-
-                contentHtml += `
-                    <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #64748b; display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">
-                        <span style="font-weight: 600; color: #0066cc;">📍 Sources:</span>
-                        ${uniqueSources.map(s => {
-                            const targetUrl = s.url ? (s.url.startsWith('/') ? s.url : '/' + s.url) : '#';
-                            return `<a href="${targetUrl}" style="background: #f1f5f9; color: #0a2c66; padding: 2px 7px; border-radius: 4px; text-decoration: none; border: 1px solid #e2e8f0; font-weight: 500; font-size: 10.5px;">${escapeHtml(s.title)}</a>`;
-                        }).join(' ')}
-                    </div>
-                `;
+                messageDiv.appendChild(createSourcesBar(sources));
             }
-
-            messageDiv.innerHTML = contentHtml;
         } else {
             messageDiv.innerText = text;
         }
@@ -419,6 +503,12 @@ How can I help you today? You can ask a question or tell me which page you would
                     replySources = data.sources || [];
                     replyNavigation = data.navigation || null;
                     if (replyText) break;
+                } else if (response.status === 400 || response.status === 429) {
+                    const data = await response.json().catch(() => null);
+                    if (data && (data.response || data.reply)) {
+                        replyText = data.response || data.reply;
+                        break;
+                    }
                 }
             } catch (err) {
                 console.warn(`Connection to ${url} failed:`, err.message);
@@ -433,7 +523,7 @@ How can I help you today? You can ask a question or tell me which page you would
         if (replyText) {
             appendMessage(replyText, 'bot', replySources, replyNavigation);
         } else {
-            appendMessage("Sorry, I'm having trouble connecting to the campus hub server. Please ensure the backend server is running (`npm start`) on port 5000.", 'bot');
+            appendMessage("Sorry, I'm having trouble connecting to the campus hub server. Please ensure the backend server is running and try again.", 'bot');
         }
 
         isSending = false;
@@ -474,22 +564,7 @@ How can I help you today? You can ask a question or tell me which page you would
             if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Event: Send button click
-        if (sendButton) {
-            sendButton.addEventListener('click', handleSend);
-        }
-
-        // Event: Enter key on input
-        if (chatInput) {
-            chatInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleSend();
-                }
-            });
-        }
-
-        // Event: Form submit
+        // Event: Form submit (handles both Submit button click and Enter key cleanly)
         if (chatForm) {
             chatForm.addEventListener('submit', function (e) {
                 e.preventDefault();

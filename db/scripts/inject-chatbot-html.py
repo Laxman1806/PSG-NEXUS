@@ -92,7 +92,8 @@ chatbot_body = '''    <!-- =====================================================
     <script src="js/script.js"></script>
 </body></html>'''
 
-target_file = r'E:\psg_nexus\PSG-NEXUS\frontend\psgtech_offline_replica\www.psgtech.edu\index.html'
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+target_file = os.path.join(repo_root, 'frontend', 'psgtech_offline_replica', 'www.psgtech.edu', 'index.html')
 
 with open(target_file, 'r', encoding='utf-8', errors='ignore') as f:
     content = f.read()
@@ -112,7 +113,8 @@ with open(target_file, 'w', encoding='utf-8') as f:
     f.write(content)
 
 # Also write to frontend/index.html
-with open(r'E:\psg_nexus\PSG-NEXUS\frontend\index.html', 'w', encoding='utf-8') as f:
+frontend_index = os.path.join(repo_root, 'frontend', 'index.html')
+with open(frontend_index, 'w', encoding='utf-8') as f:
     f.write(content)
 
 print('Chatbot injected successfully into index.html!')

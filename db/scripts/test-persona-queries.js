@@ -1,5 +1,7 @@
 // db/scripts/test-persona-queries.js
+require('dotenv').config();
 const http = require('http');
+const PORT = process.env.PORT || 5000;
 
 const queries = [
     {
@@ -21,7 +23,7 @@ function sendChat(query) {
         const payload = JSON.stringify({ message: query });
         const req = http.request({
             hostname: 'localhost',
-            port: 5000,
+            port: PORT,
             path: '/api/chat',
             method: 'POST',
             headers: {

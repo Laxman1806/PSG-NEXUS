@@ -276,9 +276,10 @@ def create_report():
     _centre("COIMBATORE \u2013 641 004", size=11, space_after=10)
 
     # PSG Logo
-    logo_path = r'E:\psg_nexus\PSG-NEXUS\frontend\psgtech_offline_replica\cnce.psgtech.ac.in\assets\img\psg-tech-logo.png'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    logo_path = os.path.join(base_dir, 'frontend', 'psgtech_offline_replica', 'cnce.psgtech.ac.in', 'assets', 'img', 'psg-tech-logo.png')
     if not os.path.exists(logo_path):
-        logo_path = r'E:\psg_nexus\PSG-NEXUS\frontend\psgtech_offline_replica\www.psgtech.edu\images\logo.png'
+        logo_path = os.path.join(base_dir, 'frontend', 'psgtech_offline_replica', 'www.psgtech.edu', 'images', 'logo.png')
     if os.path.exists(logo_path):
         p_logo = doc.add_paragraph()
         p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER

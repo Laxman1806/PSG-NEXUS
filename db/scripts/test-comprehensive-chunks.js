@@ -3,6 +3,7 @@ const path = require('path');
 const cheerio = require('cheerio');
 
 const frontendDir = path.resolve(__dirname, '../../frontend');
+const replicaMainDir = path.resolve(frontendDir, 'psgtech_offline_replica/www.psgtech.edu');
 
 function splitIntoChunks(text, maxWords = 400, overlap = 50) {
     if (!text) return [];
@@ -66,7 +67,9 @@ let totalChars = 0;
 let totalChunks = 0;
 
 for (const p of comprehensivePages) {
-    const full = path.join(frontendDir, p.file);
+    const replicaCandidate = path.join(replicaMainDir, p.file);
+    const frontendCandidate = path.join(frontendDir, p.file);
+    const full = fs.existsSync(replicaCandidate) ? replicaCandidate : frontendCandidate;
     if (!fs.existsSync(full)) {
         console.warn(`File missing: ${p.file}`);
         continue;

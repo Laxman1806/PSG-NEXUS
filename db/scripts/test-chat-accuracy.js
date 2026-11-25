@@ -1,5 +1,7 @@
 // db/scripts/test-chat-accuracy.js
+require('dotenv').config();
 const http = require('http');
+const PORT = process.env.PORT || 5000;
 
 const queries = [
     "What are the placement packages and top recruiting companies at PSG Tech?",
@@ -14,7 +16,7 @@ function sendChat(query) {
         const payload = JSON.stringify({ message: query });
         const req = http.request({
             hostname: 'localhost',
-            port: 5000,
+            port: PORT,
             path: '/api/chat',
             method: 'POST',
             headers: {

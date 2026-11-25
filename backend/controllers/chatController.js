@@ -3,6 +3,8 @@ const { getDB } = require('../../db/connection');
 const { searchWebsite } = require('../../db/searchService');
 const { generateAnswer } = require('../services/geminiService');
 
+const MAX_QUERY_LENGTH = 1000;
+
 // Greeting check regex (only matches standalone greetings, not questions with a greeting prefix)
 const GREETING_REGEX = /^(hi|hello|hey|hey there|greetings|good\s*(morning|afternoon|evening)|who\s*are\s*you|what\s*can\s*you\s*do)[\s!.,?]*$/i;
 
@@ -76,6 +78,102 @@ const CAMPUS_PAGES = [
     }
 ];
 
+// Explicit allowlist of valid internal campus navigation routes
+const ALLOWED_NAV_ROUTES = new Set([
+    ...CAMPUS_PAGES.map((p) => p.url),
+    '/',
+    '/BScMScAdmission2026',
+    '/fn_oci',
+    '/Heads.php',
+    '/principal.php',
+    '/parentzone.php',
+    '/student.php',
+    '/R&D.php',
+    '/nirf.php',
+    '/approval.php',
+    '/bshets.php',
+    '/coeindutech',
+    '/Dean-Academic.php',
+    '/Dean-Administration.php',
+    '/Dean-Autonomous.php',
+    '/founders.php',
+    '/Glances',
+    '/help-desk.php',
+    '/IIC',
+    '/Management.php',
+    '/MandatoryCommittee.php',
+    '/Mousgloblink.php',
+    '/NBA Accreditation.php',
+    '/Professor_Practice.php',
+    '/programme_offered.php',
+    '/psgcrs',
+    '/Report-RC2026.php',
+    '/Research/ird.html',
+    '/secretary.php',
+    '/tech bulletin.php',
+    '/teqip',
+    '/trustees.php',
+    '/VicePrincipal_WomenWelfare.php',
+    '/websiteUrls.php',
+    '/academicschedule',
+    '/iipc',
+    '/platinum',
+    '/thebridge',
+    '/alumni',
+    '/enquiry',
+    '/course conducted.php'
+]);
+
+/**
+ * Normalizes and validates an internal relative campus path to block external redirects and javascript: URIs.
+ */
+function sanitizeInternalPath(rawUrl) {
+    if (typeof rawUrl !== 'string') return null;
+    let cleaned = rawUrl.trim();
+    if (!cleaned) return null;
+
+    if (!cleaned.startsWith('/')) {
+        // Reject scheme-prefixed URIs (e.g. javascript:, http:, https:, data:)
+        if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(cleaned)) {
+            return null;
+        }
+        cleaned = '/' + cleaned;
+    }
+
+    // Reject protocol-relative URLs (//evil.com), traversal, backslashes, or colons
+    if (cleaned.startsWith('//') || cleaned.includes('..') || cleaned.includes('\\') || cleaned.includes(':')) {
+        return null;
+    }
+
+    if (cleaned.length > 1 && cleaned.endsWith('/')) {
+        cleaned = cleaned.slice(0, -1);
+    }
+
+    if (cleaned === '/about') {
+        cleaned = '/abtcllg.php';
+    }
+
+    return /^\/[a-zA-Z0-9\-_.\/& %]*$/.test(cleaned) ? cleaned : null;
+}
+
+/**
+ * Validates navigation targets emitted by keyword matching or LLM output against ALLOWED_NAV_ROUTES.
+ */
+function sanitizeNavigation(rawUrl, rawLabel) {
+    const safeUrl = sanitizeInternalPath(rawUrl);
+    if (!safeUrl || !ALLOWED_NAV_ROUTES.has(safeUrl)) {
+        return null;
+    }
+    const cleanLabel = String(rawLabel || '')
+        .replace(/[\u0000-\u001F\u007F]/g, '')
+        .trim()
+        .slice(0, 80);
+    return {
+        url: safeUrl,
+        label: cleanLabel || 'Campus Page'
+    };
+}
+
 // Helper function to resolve navigation target from user prompt or keywords
 function resolveNavigationIntent(userText) {
     if (!userText) return null;
@@ -94,11 +192,28 @@ function resolveNavigationIntent(userText) {
 
 async function handleChat(req, res) {
     try {
-        const userQuery = req.body.message ? req.body.message.trim() : '';
+        if (!req.body || typeof req.body !== 'object' || typeof req.body.message !== 'string') {
+            return res.status(400).json({
+                reply: "Invalid request: 'message' must be a non-empty text string.",
+                response: "Invalid request: 'message' must be a non-empty text string."
+            });
+        }
+
+        const userQuery = req.body.message
+            .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '')
+            .trim();
+
         if (!userQuery) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 reply: "Please ask a question about PSG College of Technology.",
                 response: "Please ask a question about PSG College of Technology."
+            });
+        }
+
+        if (userQuery.length > MAX_QUERY_LENGTH) {
+            return res.status(400).json({
+                reply: `Please keep your question concise (maximum ${MAX_QUERY_LENGTH} characters).`,
+                response: `Please keep your question concise (maximum ${MAX_QUERY_LENGTH} characters).`
             });
         }
 
@@ -121,7 +236,7 @@ async function handleChat(req, res) {
         if (relevantChunks && relevantChunks.length > 0) {
             sources = relevantChunks.map(c => ({
                 title: c.title,
-                url: c.url,
+                url: sanitizeInternalPath(c.url) || '/',
                 score: c.score ? Number(c.score.toFixed(3)) : undefined
             }));
 
@@ -135,10 +250,13 @@ async function handleChat(req, res) {
         // 3. Generate answer via Gemini with intelligent fallback
         let botAnswer = await generateAnswer(userQuery, contextText);
 
-        // Check if Gemini embedded [[NAVIGATE:/url|Label]]
+        // Check if Gemini embedded [[NAVIGATE:/url|Label]] and validate against allowlist
         const navMatch = botAnswer.match(/\[\[NAVIGATE:(.*?)\|(.*?)\]\]/);
         if (navMatch) {
-            navigation = { url: navMatch[1].trim(), label: navMatch[2].trim() };
+            const validatedNav = sanitizeNavigation(navMatch[1], navMatch[2]);
+            if (validatedNav) {
+                navigation = validatedNav;
+            }
         }
         // Always strip raw navigation tags from prose
         botAnswer = botAnswer.replace(/\[\[NAVIGATE:(.*?)\|(.*?)\]\]/g, '').trim();
@@ -181,9 +299,9 @@ function handleHealth(req, res) {
         navigation: 'enabled (staff profiles, syllabus, admissions, placements, hostels, coe)',
         models: {
             embedding: 'gemini-embedding-001',
-            chat: process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite (with fallback)'
+            chat: process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite (with fallback)'
         }
     });
 }
 
-module.exports = { handleChat, handleHealth };
+module.exports = { handleChat, handleHealth, sanitizeInternalPath, sanitizeNavigation };

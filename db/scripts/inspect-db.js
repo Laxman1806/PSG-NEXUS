@@ -6,13 +6,13 @@ const path = require('path');
 
 async function main() {
     console.log("--- 1. Checking MongoDB Atlas ---");
-    const atlasUri = process.env.MONGO_URI;
+    const atlasUri = process.env.MONGO_URI || process.env.MONGODB_URI;
     if (!atlasUri) {
-        console.error("Missing MONGO_URI in .env");
+        console.error("Missing MONGO_URI / MONGODB_URI in .env");
         return;
     }
 
-    const client = new MongoClient(atlasUri);
+    const client = new MongoClient(atlasUri, { serverSelectionTimeoutMS: 5000 });
     try {
         await client.connect();
         const db = client.db('psg_chatbot');

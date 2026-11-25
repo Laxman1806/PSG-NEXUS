@@ -77,7 +77,7 @@ function determineTitleAndUrl(relativeFilePath, $) {
 const verifiedKnowledgePacks = [
     {
         title: 'PSG Tech Overview & Key Institutional Facts',
-        url: '/about',
+        url: '/abtcllg.php',
         content: `PSG College of Technology (PSG Tech) is a premier government-aided, autonomous, private engineering institution established in 1951 in Peelamedu, Coimbatore, Tamil Nadu, India.
 Founded by PSG & Sons' Charities Trust under the visionary leadership of Sri G.R. Govindarajulu and Dr. G.R. Damodaran.
 Affiliation: Affiliated to Anna University, Chennai. Approved by AICTE, New Delhi.
@@ -320,7 +320,7 @@ async function runIngestion() {
     console.log(`💾 Saved ${embeddedDocs.length} chunks to local cache: ${cacheFile}`);
 
     // Save directly to MongoDB Atlas
-    const mongoUri = process.env.MONGODB_URI;
+    const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
     if (mongoUri) {
         console.log(`☁️ Connecting to MongoDB Atlas to store chunks in 'website_chunks'...`);
         let client;

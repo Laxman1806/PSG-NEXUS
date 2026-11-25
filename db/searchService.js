@@ -19,6 +19,7 @@ function magnitude(a) {
 }
 
 function cosineSimilarity(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b)) return 0;
     const magA = magnitude(a);
     const magB = magnitude(b);
     if (magA === 0 || magB === 0) return 0;
@@ -68,6 +69,8 @@ function searchByKeywords(question, chunks, limit = 3) {
         if (cleanQ.includes("placement") && titleText.includes("placement")) score += 5.0;
         if (cleanQ.includes("attendance") && titleText.includes("attendance")) score += 5.0;
         if (cleanQ.includes("admission") && titleText.includes("admission")) score += 5.0;
+        if ((cleanQ.includes("syllab") || cleanQ.includes("syllub") || cleanQ.includes("curriculum") || cleanQ.includes("programme") || cleanQ.includes("course")) && (titleText.includes("programme") || titleText.includes("syllabus") || (chunk.url || "").includes("programme"))) score += 5.0;
+        if ((cleanQ.includes("staff") || cleanQ.includes("faculty") || cleanQ.includes("hod")) && (titleText.includes("faculty") || titleText.includes("head") || (chunk.url || "").includes("faculty"))) score += 5.0;
         if ((cleanQ.includes("mca") || cleanQ.includes("mba")) && (titleText.includes("admission") || contentText.includes("mca"))) score += 5.0;
         if (cleanQ.includes("principal") && (titleText.includes("principal") || contentText.includes("principal"))) score += 5.0;
 

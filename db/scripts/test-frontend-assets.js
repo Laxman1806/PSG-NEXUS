@@ -1,5 +1,7 @@
 // db/scripts/test-frontend-assets.js
+require('dotenv').config();
 const http = require('http');
+const PORT = process.env.PORT || 5000;
 
 const endpoints = [
     '/',
@@ -22,7 +24,7 @@ const endpoints = [
 
 function checkUrl(urlPath) {
     return new Promise((resolve) => {
-        const req = http.get(`http://localhost:5000${urlPath}`, (res) => {
+        const req = http.get(`http://localhost:${PORT}${urlPath}`, (res) => {
             resolve({ path: urlPath, status: res.statusCode, contentType: res.headers['content-type'] });
         });
         req.on('error', (err) => resolve({ path: urlPath, error: err.message }));

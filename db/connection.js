@@ -44,4 +44,15 @@ function getDB() {
     return db;
 }
 
-module.exports = { connectDB, getDB };
+/**
+ * Closes the active MongoDB client connection cleanly during server shutdown.
+ */
+async function closeDB() {
+    if (client) {
+        await client.close().catch(() => {});
+        client = null;
+        db = null;
+    }
+}
+
+module.exports = { connectDB, getDB, closeDB };

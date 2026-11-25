@@ -103,12 +103,12 @@ PSG-NEXUS/
 - A valid **Google Gemini API Key** (set in `.env`)
 
 ### 2. Configuration (`.env`)
-Create or verify your `.env` file at the root:
+Copy `.env.example` to `.env` at the root and configure your own credentials:
 ```env
 PORT=5000
 GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-3.1-flash-lite
-MONGO_URI=mongodb+srv://karthiadmin:karthi2005@psgchatbotcluster.y3bqzag.mongodb.net/psg_chatbot
+GEMINI_MODEL=gemini-3.5-flash-lite
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/psg_chatbot
 MONGODB_COLLECTION=website_chunks
 VECTOR_INDEX_NAME=vector_index
 ```
