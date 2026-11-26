@@ -3,22 +3,35 @@
   "version": "1.0.0",
   "description": "PSG Nexus - Official AI Campus Assistant & Web Portal for PSG College of Technology",
   "main": "server.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
     "crawl": "node db/scripts/ingest-local-pages.js",
     "ingest": "node db/scripts/ingest-local-pages.js",
     "clean:db": "node db/scripts/clean-database.js",
-    "reset:db": "node db/scripts/clean-database.js"
+    "reset:db": "node db/scripts/clean-database.js",
+    "test": "node --test --test-concurrency=1 tests/unit/*.test.js tests/integration/*.test.js tests/security/*.test.js tests/rag/*.test.js tests/e2e/*.test.js",
+    "test:unit": "node --test tests/unit/*.test.js",
+    "test:integration": "node --test tests/integration/*.test.js",
+    "test:security": "node --test tests/security/*.test.js",
+    "test:rag": "node --test tests/rag/*.test.js",
+    "test:e2e": "node --test tests/e2e/*.test.js",
+    "eval:rag": "node tests/rag/eval-rag.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "axios": "^1.21.1",
     "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "helmet": "^8.3.0",
+    "mammoth": "^1.13.0",
     "mongodb": "^6.12.0",
-    "mongoose": "^9.12.1"
+    "multer": "^2.5.0",
+    "pdf-parse": "^1.1.1"
   }
 }

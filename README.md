@@ -1,138 +1,94 @@
-# 🏛️ PSG NEXUS — Intelligent AI Campus Chatbot for PSG College of Technology
+# PSG NEXUS — Official-Grade AI Campus Assistant for PSG College of Technology
 
-**PSG Nexus** is a unified, full-stack digital campus guide for [PSG College of Technology](https://www.psgtech.edu), Coimbatore. It combines an authentic offline multi-page replica of the official college website with a modern Retrieval-Augmented Generation (RAG) AI assistant powered by **Google Gemini** and **MongoDB Atlas Vector Search**.
+**PSG NEXUS** is an evidence-grounded, multilingual Retrieval-Augmented Generation (RAG) digital campus assistant built for evaluation and integration with **PSG College of Technology**, Coimbatore.
 
----
-
-## 👥 Team Details (Team 1)
-
-| Roll No. | Student Name | Role & Architecture Module |
-| :--- | :--- | :--- |
-| **26MX209** | **Laxman B** | **Frontend UI:** Website Replication & Chatbot Interface (`frontend/`) |
-| **26MX115** | **Mohamed Abdul Basith A A** | **Backend Architecture:** Express Server, Routes & Gemini AI (`backend/`) |
-| **26MX110** | **Karthikeyan S** | **Database & RAG:** MongoDB Atlas, Vector Embeddings & Search (`db/`) |
-
-**Faculty Guide:** Mrs. Gowri Thangam J  
-**Academic Program:** MCA (Master of Computer Applications), 1st Semester  
-**Course:** Web Application Development  
+> **Evaluation Status Notice:** PSG NEXUS has been engineered to be ready for technical evaluation and staging review. It is **not** claimed to be officially endorsed, approved, or deployed on `www.psgtech.edu` unless and until PSG College of Technology IT/Administration grants formal authorization.
 
 ---
 
-## 📁 Clean 3-Tier Project Architecture
+## Key Capabilities
 
-The project is structured into three clean, self-contained layers so anyone can immediately understand the codebase:
+- **Hybrid RAG Engine (`db/searchService.js`, `backend/services/retrievalService.js`, `backend/services/rerankingService.js`):** Combines MongoDB Atlas `$vectorSearch` (768-dim `gemini-embedding-001`), IDF-weighted lexical search, campus synonym expansion, Reciprocal Rank Fusion (RRF), metadata filtering, and multi-signal reranking.
+- **Evidence Grounding & Citations (`backend/services/answerValidationService.js`, `backend/services/citationService.js`):** Enforces strict retrieval-backed answering, detects conflicting or historical records, abstains on unverified or live-record queries (`VERIFIED`, `PARTIAL`, `INSUFFICIENT`, `CONFLICTING`, `OUTDATED`, `LIVE_DATA_REQUIRED`), and validates all citations against retrieved evidence.
+- **Safe Incremental Ingestion (`db/ingestion/`):** Extracts HTML (`#tg-main`-aware chrome removal), text-based PDFs with page numbers (and scanned-PDF detection), DOCX, TXT notices, and allowlisted institutional URLs into staging collections with versioned activation and rollback — without deleting active production chunks.
+- **Multilingual & Multi-Turn Orchestration (`backend/services/chatOrchestrator.js`):** Supports English, Tamil (`[\u0B80-\u0BFF]`), and Tanglish with follow-up query rewriting, explicit navigation intent separation, and HMAC-isolated server-side conversations.
+- **Institutional UI (`frontend/`):** Accessible, responsive chat launcher (`frontend/js/chatbot.js`, `frontend/css/chatbot.css`) using safe DOM node rendering (no `innerHTML` on model text, no inline `onclick`), paired with protected Knowledge Administration REST APIs (`/api/admin/*`) for document upload/approval, retrieval inspection, analytics, and audit logs.
+- **Security Hardening (`backend/middleware/`):** `helmet` CSP headers, allowlisted CORS, request ID correlation, `express-rate-limit`, input length/type validation, SSRF host allowlisting, path-traversal guards, timing-safe admin key verification, and log secret redaction.
+
+---
+
+## Architecture Overview
 
 ```text
 PSG-NEXUS/
-│
-├── frontend/                     # 🌐 PRESENTATION LAYER (Laxman B)
-│   ├── index.html                # PSG Tech portal with embedded PSG Nexus AI
-│   ├── about.html                # About PSG Tech subpage
-│   ├── programmes.html           # Academic programmes subpage
-│   ├── faculty.html              # Faculty directory subpage
-│   ├── placements.html           # Placement overview subpage
-│   ├── css/
-│   │   ├── chatbot.css           # Isolated styles for floating chat & animations
-│   │   └── ...                   # Replicated site stylesheets (bootstrap, main, etc.)
-│   ├── js/
-│   │   ├── chatbot.js            # Chatbot client controller & API communicator
-│   │   └── ...                   # Replicated site scripts (vendor, owl, etc.)
-│   ├── images/                   # College logos, banners, and photo galleries
-│   ├── fonts/                    # Replicated web fonts & icon libraries
-│   ├── files/                    # Official college forms, notices, and PDFs
-│   └── [subpages]                # abtcllg.php, admission.php, hostel, placements, etc.
-│
-├── backend/                      # ⚙️ BUSINESS LOGIC & AI LAYER (Mohamed Abdul Basith)
-│   ├── app.js                    # Express app factory, CORS, static routes & middleware
-│   ├── server.js                 # Server listener & startup lifecycle
-│   ├── routes/
-│   │   └── chatRoutes.js         # API endpoints: POST /api/chat, GET /api/health
-│   ├── controllers/
-│   │   └── chatController.js     # Query validation, greeting checks, context assembly
-│   └── services/
-│       ├── geminiService.js      # Gemini text generation with multi-model fallback
-│       └── embeddingService.js   # Official Google SDK 768-dim vector generator
-│
-├── db/                           # 🗄️ DATA & SEARCH ENGINE (Karthikeyan S)
-│   ├── connection.js             # MongoDB Atlas / local connection manager
-│   ├── searchService.js          # Atlas $vectorSearch (768d) & local semantic search
-│   ├── data/
-│   │   └── knowledge_chunks.json # Cached knowledge base chunks (offline fallback)
-│   └── scripts/                  # Data ingestion & database maintenance utilities
-│       ├── demo-rag.js           # CLI demonstration runner for the RAG pipeline
-│       ├── ingest-local-pages.js # Extracts, chunks & embeds local website pages
-│       └── clean-database.js     # Safely cleans collections & resets cache
-│
-├── .env                          # Environment variables (API keys, URIs, PORT)
-├── .env.example                  # Template configuration for team members
-├── .gitignore                    # Git rules (excludes node_modules, .env, *.log)
-├── package.json                  # Dependencies & npm scripts
-└── server.js                     # Root launcher (executes backend/server.js)
+├── backend/
+│   ├── app.js                     # Express 5 app, Helmet, CORS, asset & route wiring
+│   ├── server.js                  # Startup validation, DB pool init, graceful shutdown
+│   ├── config/{env,modelConfig}.js
+│   ├── routes/{chat,conversation,feedback,admin}Routes.js
+│   ├── controllers/{chat,conversation,feedback,document}Controller.js
+│   ├── services/                  # Orchestrator, RAG, validation, Gemini, memory, i18n
+│   ├── middleware/                # Auth, RBAC, rate limits, validation, error handler
+│   └── utils/                     # Structured redacted logger, typed errors, formatters
+├── db/
+│   ├── connection.js              # Singleton MongoDB Atlas -> Local -> Cache pool
+│   ├── searchService.js           # Hybrid vector + lexical + RRF search
+│   ├── schemas/knowledgeSchemas.js
+│   ├── repositories/              # Knowledge (staging/rollback), conversations, feedback
+│   ├── ingestion/                 # Extractors (HTML/PDF/DOCX/TXT/URL), chunker, pipeline
+│   ├── data/                      # Offline vector cache & local dev snapshot
+│   └── scripts/                   # CLI tools (safe incremental ingest, inspect, etc.)
+├── frontend/
+│   ├── index.html                 # Replicated portal homepage (external chatbot bundle)
+│   ├── css/chatbot.css
+│   └── js/{chat-api,conversation-manager,chatbot}.js
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   ├── rag/                       # Retrieval tests + 200-question eval runner
+│   ├── security/
+│   └── e2e/
+└── docs/                          # Full engineering, audit, security & integration docs
 ```
 
 ---
 
-## 🚀 Key Features
+## Quick Start
 
-1. **Clean 3-Tier Architecture:**  
-   Distinct separation between `frontend/`, `backend/`, and `db/` ensures modularity, high maintainability, and clear ownership.
-
-2. **Complete Offline PSG Tech Web Replica:**  
-   Accurate multi-page replica of `www.psgtech.edu` with full navigation for Admissions, Hostels, Placements, Academic Programmes, and Regulations.
-
-3. **Embedded AI Assistant (PSG Nexus):**  
-   - Modern glassmorphism floating chat modal with responsive animations, quick prompt chips, and conversation reset.
-   - Answers questions on admissions, hostels, syllabus, fees, and placements.
-   - Shows transparent citations and source links for every response.
-
-4. **Hybrid RAG Knowledge Engine:**  
-   - Knowledge chunks embedded using **Gemini `gemini-embedding-001` (768 dimensions)**.
-   - Multi-tier retrieval:
-     1. **MongoDB Atlas `$vectorSearch`** on `vector_index` (768 dimensions).
-     2. **Local Semantic Cosine Similarity** fallback (`db/data/knowledge_chunks.json`).
-     3. **Keyword relevance matching** fallback for 100% uptime.
-   - Conversational generation powered by **Gemini 3.1 Flash Lite** with automatic fallback to **Gemini 3.5 Flash** and **Gemini 3.8 Flash**.
-
----
-
-## 🛠️ Quick Start Guide
-
-### 1. Prerequisites
-- **Node.js** v18+ (tested on v22)
-- **npm** v9+
-- A valid **Google Gemini API Key** (set in `.env`)
-
-### 2. Configuration (`.env`)
-Create or verify your `.env` file at the root:
-```env
-PORT=5000
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-3.1-flash-lite
-MONGO_URI=mongodb+srv://karthiadmin:karthi2005@psgchatbotcluster.y3bqzag.mongodb.net/psg_chatbot
-MONGODB_COLLECTION=website_chunks
-VECTOR_INDEX_NAME=vector_index
-```
-
-### 3. Start the Application
-From the project root:
-```bash
-npm start
-```
-
-Open your browser at:
-```
-http://localhost:5000/
-```
-Click the floating shield icon in the bottom-right corner to interact with **PSG Nexus**!
+1. **Install dependencies** (Node.js `v18+`, tested on `v22.17.0`):
+   ```bash
+   npm install
+   ```
+2. **Configure environment:** Copy `.env.example` to `.env` and populate `GEMINI_API_KEY`, `MONGO_URI`, `SESSION_SECRET`, and `ADMIN_API_KEY`. Never commit `.env` or place secrets in documentation.
+3. **Run automated checks:**
+   ```bash
+   npm test
+   npm run eval:rag
+   ```
+4. **Dry-run incremental ingestion (safe, read-only):**
+   ```bash
+   node db/scripts/ingest-local-pages.js --dry-run --no-embed
+   ```
+5. **Start the server:**
+   ```bash
+   npm start
+   ```
+   Open `http://localhost:5000/` for the portal + chatbot widget. Administrative operations remain available via protected `/api/admin/*` endpoints (see [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md)).
 
 ---
 
-## 🧪 Available Scripts
+## Documentation Index
 
-| Command | Action |
-| :--- | :--- |
-| `npm start` | Starts the unified server on `http://localhost:5000` |
-| `npm run dev` | Starts the server with `--watch` for automatic reloads |
-| `node db/scripts/demo-rag.js` | Runs a CLI test of the RAG pipeline with sample questions |
-| `npm run crawl` | Re-crawls and embeds all local pages into the database |
-| `npm run clean:db` | Clears all knowledge chunks from the database |
+- [Project Audit](docs/PROJECT_AUDIT.md)
+- [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [RAG Pipeline](docs/RAG_PIPELINE.md)
+- [Knowledge Ingestion](docs/KNOWLEDGE_INGESTION.md)
+- [API Documentation](docs/API_DOCUMENTATION.md)
+- [Database Schema](docs/DATABASE_SCHEMA.md)
+- [Security Guide](docs/SECURITY.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Admin Guide](docs/ADMIN_GUIDE.md)
+- [Testing & RAG Evaluation](docs/TESTING.md)
+- [Official Website Integration Guide](docs/WEBSITE_INTEGRATION.md)
+- [Production Readiness Report](docs/PRODUCTION_READINESS_REPORT.md)

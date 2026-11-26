@@ -1,12 +1,16 @@
-// backend/routes/chatRoutes.js - API Route Definitions
+// backend/routes/chatRoutes.js - Public Chat, Liveness & Readiness Routes
 const express = require('express');
 const router = express.Router();
-const { handleChat, handleHealth } = require('../controllers/chatController');
+const { handleChat, handleHealth, handleReady } = require('../controllers/chatController');
+const { chatLimiter } = require('../middleware/rateLimiter');
+const { resolvePublicSession } = require('../middleware/authenticate');
+const { validateChatRequest } = require('../middleware/validateRequest');
 
-// Chat Query Endpoint
-router.post('/chat', handleChat);
+// Public Chat Query Endpoint
+router.post('/chat', chatLimiter, resolvePublicSession, validateChatRequest, handleChat);
 
-// Health Check Endpoint
+// Liveness & Readiness Checks
 router.get('/health', handleHealth);
+router.get('/ready', handleReady);
 
 module.exports = router;

@@ -1,0 +1,30 @@
+name: PSG NEXUS CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm audit --omit=dev
+      - name: Run unit, integration, RAG & security tests (offline-safe)
+        env:
+          NODE_ENV: test
+          SESSION_SECRET: ci-test-session-secret-0123456789abcdef
+        run: |
+          npm run test:unit
+          npm run test:integration
+          npm run test:rag
+          npm run test:security
+      - name: Run 200-question RAG evaluation benchmark
+        run: npm run eval:rag

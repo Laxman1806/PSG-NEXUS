@@ -1,50 +1,34 @@
-require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
-const { MongoClient } = require('mongodb');
+const { connectDB, closeDB } = require('../connection');
 
-async function cleanDatabase() {
-    console.log('🧹 Clearing PSG Nexus Database...');
+async function dropEntireDatabase() {
+    const db = await connectDB();
 
-    // 1. Clear Local MongoDB
+    if (!db) {
+        console.error('Could not connect to MongoDB Atlas.');
+        process.exitCode = 1;
+        return;
+    }
+
     try {
-        const localClient = new MongoClient('mongodb://127.0.0.1:27017', { serverSelectionTimeoutMS: 3000 });
-        await localClient.connect();
-        const localDb = localClient.db('psg_chatbot');
-        const res = await localDb.collection('website_chunks').deleteMany({});
-        console.log(`✅ Cleared local MongoDB (psg_chatbot.website_chunks): Removed ${res.deletedCount} documents.`);
-        await localClient.close();
-    } catch (err) {
-        console.warn('⚠️ Local MongoDB note:', err.message);
-    }
-
-    // 2. Clear MongoDB Atlas if connected
-    if (process.env.MONGO_URI) {
-        try {
-            const atlasClient = new MongoClient(process.env.MONGO_URI, { serverSelectionTimeoutMS: 4000 });
-            await atlasClient.connect();
-            const atlasDb = atlasClient.db('psg_chatbot');
-            const res = await atlasDb.collection('website_chunks').deleteMany({});
-            console.log(`✅ Cleared MongoDB Atlas (psg_chatbot.website_chunks): Removed ${res.deletedCount} documents.`);
-            await atlasClient.close();
-        } catch (err) {
-            console.warn('⚠️ MongoDB Atlas note:', err.message);
+        // Prevent accidentally deleting a different database.
+        if (db.databaseName !== 'psg_chatbot') {
+            throw new Error(
+                `Wrong database connected: ${db.databaseName}. Expected psg_chatbot.`
+            );
         }
-    }
 
-    // 3. Reset local cache file
-    const cachePath = path.join(__dirname, '..', 'data', 'knowledge_chunks.json');
-    if (fs.existsSync(cachePath)) {
-        fs.writeFileSync(cachePath, JSON.stringify([], null, 2), 'utf8');
-        console.log('✅ Cleared data/knowledge_chunks.json (reset to empty array).');
-    }
+        console.log('Connected to:', db.databaseName);
+        console.log('Deleting the entire psg_chatbot database...');
 
-    console.log('\n🎯 Database is now completely empty!');
-    console.log('👉 To crawl and populate with website pages whenever needed, run:');
-    console.log('   npm run crawl\n');
+        await db.dropDatabase();
+
+        console.log('Successfully deleted the psg_chatbot database.');
+    } finally {
+        await closeDB();
+    }
 }
 
-cleanDatabase().catch(err => {
-    console.error('Error cleaning database:', err);
-    process.exit(1);
+dropEntireDatabase().catch((error) => {
+    console.error('Database deletion failed:', error.message);
+    process.exitCode = 1;
 });
