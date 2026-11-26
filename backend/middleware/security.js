@@ -9,6 +9,18 @@ function securityHeaders(req, res, next) {
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+    // Build connect-src: always allow self; add localhost origins in dev, configured origin in prod
+    const isProduction = process.env.NODE_ENV === 'production';
+    const siteUrl = process.env.SITE_URL || '';
+    const connectSrcParts = ["'self'"];
+    if (!isProduction) {
+        connectSrcParts.push('http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000');
+    }
+    if (siteUrl) {
+        connectSrcParts.push(siteUrl);
+    }
+
     res.setHeader(
         'Content-Security-Policy',
         [
@@ -17,7 +29,7 @@ function securityHeaders(req, res, next) {
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
             "font-src 'self' https://fonts.gstatic.com data:",
             "img-src 'self' data: https:",
-            "connect-src 'self' http://localhost:5000 http://127.0.0.1:5000 http://localhost:3000",
+            `connect-src ${connectSrcParts.join(' ')}`,
             "frame-ancestors 'self'",
             "base-uri 'self'",
             "object-src 'none'",

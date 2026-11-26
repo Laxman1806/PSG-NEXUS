@@ -230,6 +230,22 @@ async function handleChat(req, res) {
         // 2. Retrieve most relevant context chunks across all PSG Tech pages
         const relevantChunks = await searchWebsite(userQuery);
 
+        if (!Array.isArray(relevantChunks)) {
+    throw new Error("Invalid response from Atlas search service.");
+}
+
+if (relevantChunks.length === 0) {
+    const noInfo =
+        "I couldn't find this information on the PSG Tech website.";
+
+    return res.json({
+        reply: noInfo,
+        response: noInfo,
+        sources: [],
+        navigation: navigation
+    });
+}
+
         let contextText = "";
         let sources = [];
 
@@ -291,17 +307,63 @@ async function handleChat(req, res) {
 }
 
 function handleHealth(req, res) {
-    const db = getDB();
-    res.json({
-        status: 'online',
-        database: db ? 'connected' : 'local-semantic-cache-mode',
-        knowledgeBase: 'verified chunks with 768d embeddings',
-        navigation: 'enabled (staff profiles, syllabus, admissions, placements, hostels, coe)',
-        models: {
-            embedding: 'gemini-embedding-001',
-            chat: process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite (with fallback)'
-        }
+    return res.status(200).json({
+        status: "online",
+        application: "PSG NEXUS",
+        databaseMode: "MongoDB Atlas only"
     });
 }
+/**
+ * Readiness endpoint: reports actual DB status, API key presence, and fallback status.
+ * Used by deployment platforms and monitoring systems to assess service readiness.
+ */
+async function handleReady(req, res) {
+    try {
+        const db = getDB();
 
-module.exports = { handleChat, handleHealth, sanitizeInternalPath, sanitizeNavigation };
+        // Verify that Atlas is responding.
+        await db.command({ ping: 1 });
+
+        const collection = db.collection(
+            process.env.MONGODB_COLLECTION || "website_chunks"
+        );
+
+        const chunkCount = await collection.countDocuments();
+
+        const hasGeminiKey = Boolean(
+            process.env.GEMINI_API_KEY &&
+            process.env.GEMINI_API_KEY.length > 10
+        );
+
+        if (chunkCount === 0 || !hasGeminiKey) {
+            return res.status(503).json({
+                ready: false,
+                database: "mongodb-atlas-connected",
+                chunks: chunkCount,
+                ai: hasGeminiKey ? "configured" : "missing",
+                message: "Application dependencies are not fully ready."
+            });
+        }
+
+        return res.status(200).json({
+            ready: true,
+            database: "mongodb-atlas-connected",
+            collection: process.env.MONGODB_COLLECTION || "website_chunks",
+            chunks: chunkCount,
+            ai: "configured",
+            retrieval: "MongoDB Atlas Vector Search only"
+        });
+
+    } catch (error) {
+        console.error("Readiness check failed:", error.message);
+
+        return res.status(503).json({
+            ready: false,
+            database: "unavailable",
+            retrieval: "unavailable",
+            message: "Required application services are unavailable."
+        });
+    }
+}
+
+module.exports = { handleChat, handleHealth, handleReady, sanitizeInternalPath, sanitizeNavigation };

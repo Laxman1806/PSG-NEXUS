@@ -1,0 +1,54 @@
+# render.yaml — PSG-NEXUS Render Blueprint
+# Deploy on Render: https://render.com
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: psg-nexus
+    runtime: node
+    region: singapore      # closest to India; change to ohio/frankfurt if needed
+    plan: free             # upgrade to starter ($7/mo) for always-on
+    buildCommand: npm install
+    startCommand: npm start
+
+    # Health check: Render pings this path after deployment to confirm service is up
+    healthCheckPath: /api/health
+
+    # Environment variables — set sensitive values in Render dashboard (sync: false)
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      # PORT is automatically provided by Render — do not set a fixed value
+      # - key: PORT   ← Render injects this automatically
+
+      # --- Required secrets (set via Render Dashboard → Environment → Add Secret) ---
+      - key: MONGO_URI
+        sync: false           # set in Render Dashboard, never stored in this file
+
+      - key: GEMINI_API_KEY
+        sync: false           # set in Render Dashboard, never stored in this file
+
+      # --- Optional tuning (safe to commit, no credentials) ---
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash-lite   # or gemini-2.0-flash; adjust per quota
+
+      - key: MONGODB_COLLECTION
+        value: website_chunks
+
+      - key: VECTOR_INDEX_NAME
+        value: vector_index
+
+      # SITE_URL: set to your Render public URL after first deploy to fix CSP connect-src
+      # Example: https://psg-nexus.onrender.com
+      - key: SITE_URL
+        sync: false           # set in Render Dashboard after first deploy
+
+      # ALLOWED_ORIGINS: comma-separated list of allowed CORS origins
+      # Example: https://psg-nexus.onrender.com
+      - key: ALLOWED_ORIGINS
+        sync: false           # set in Render Dashboard after first deploy
+
+      # CHAT_RATE_LIMIT_MAX: max chat requests per IP per minute (default 60)
+      - key: CHAT_RATE_LIMIT_MAX
+        value: "30"           # stricter in production
