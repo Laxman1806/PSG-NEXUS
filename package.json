@@ -11,6 +11,7 @@
     "dev": "node --watch server.js",
     "crawl": "node db/scripts/ingest-local-pages.js",
     "ingest": "node db/scripts/ingest-local-pages.js",
+    "refresh:knowledge": "node db/scripts/refresh-knowledge.js",
     "clean:db": "node db/scripts/clean-database.js",
     "reset:db": "node db/scripts/clean-database.js",
     "test": "node --test --test-concurrency=1 tests/unit/*.test.js tests/integration/*.test.js tests/security/*.test.js tests/rag/*.test.js tests/e2e/*.test.js",

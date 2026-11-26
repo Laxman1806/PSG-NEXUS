@@ -99,4 +99,18 @@ describe('Stage 4: Hybrid Retrieval, RRF Fusion & Reranking', () => {
         assert.ok(rerankedHits >= baselineHits, `Reranked (${rerankedHits}) should be >= baseline (${baselineHits})`);
         assert.ok(rerankedHits >= 4, `Expected at least 4/5 Recall@5, got ${rerankedHits}/5`);
     });
+
+    it('retrieves exact structured HoD, MCA, and Dean evidence without entity mismatch', async () => {
+        const hodMca = await retrieveEvidence('hod of computer application', { skipEmbedding: true, limit: 5 });
+        const hodText = hodMca.evidence.map((e) => e.content).join('\n');
+        assert.ok(hodText.includes('Computer Applications (MCA) — Head of Department (HoD): Dr.Ilayaraja N'));
+
+        const mcaShort = await retrieveEvidence('who is the hod of mca', { skipEmbedding: true, limit: 5 });
+        const mcaJoined = mcaShort.evidence.map((e) => e.content).join('\n');
+        assert.ok(/ilayaraja/i.test(mcaJoined));
+
+        const deanRes = await retrieveEvidence('who is the dean academic and email', { skipEmbedding: true, limit: 5 });
+        const deanJoined = deanRes.evidence.map((e) => e.content).join('\n');
+        assert.ok(deanJoined.includes('Dr J V Ramasamy'));
+    });
 });

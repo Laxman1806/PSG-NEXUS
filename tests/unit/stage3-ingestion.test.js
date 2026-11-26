@@ -141,4 +141,36 @@ describe('Stage 3: Multi-Format Extraction, Chunking & Safe Versioned Ingestion'
         assert.ok(delayMs >= 59000 && delayMs <= 61000);
         assert.ok(estimateTokens('PSG College of Technology hostel rules') >= 10);
     });
+
+    it('extracts structured HoD directory cards, concise Dean pages, and department-grouped faculty tables accurately', () => {
+        const headsHtml = fs.readFileSync(
+            path.resolve(__dirname, '../../frontend/psgtech_offline_replica/www.psgtech.edu/Heads.php/index.html'),
+            'utf8'
+        );
+        const headsDoc = extractHtmlDocument(headsHtml, { relativePath: 'Heads.php/index.html' });
+        assert.equal(headsDoc.skipped, false);
+        assert.ok(headsDoc.rawText.includes('- Department: Computer Applications (MCA) — Head of Department (HoD): Dr.Ilayaraja N'));
+        assert.ok(headsDoc.rawText.includes('- Department: Mechanical Engineering (MEC) — Head of Department (HoD): Dr.Kannan K'));
+        assert.ok(headsDoc.rawText.includes('- Department: PSG Institute of Management — Head of Department (HoD): Dr. Srividya V'));
+
+        const deanHtml = fs.readFileSync(
+            path.resolve(__dirname, '../../frontend/psgtech_offline_replica/www.psgtech.edu/Dean-Academic.php/index.html'),
+            'utf8'
+        );
+        const deanDoc = extractHtmlDocument(deanHtml, { relativePath: 'Dean-Academic.php/index.html' });
+        assert.equal(deanDoc.skipped, false);
+        assert.ok(deanDoc.rawText.includes('Dr J V Ramasamy'));
+        assert.ok(deanDoc.rawText.includes('dean.acad@psgtech.ac.in'));
+        assert.ok(chunkExtractedDocument(deanDoc).length >= 1);
+
+        const facHtml = fs.readFileSync(
+            path.resolve(__dirname, '../../frontend/psgtech_offline_replica/www.psgtech.edu/facultyDetails.php/index.html'),
+            'utf8'
+        );
+        const facDoc = extractHtmlDocument(facHtml, { relativePath: 'facultyDetails.php/index.html' });
+        const facChunks = chunkExtractedDocument(facDoc);
+        const mcaChunk = facChunks.find((c) => /Computer Applications/i.test(c.sectionHeading || ''));
+        assert.ok(mcaChunk, 'Expected dedicated Department of Computer Applications faculty chunk');
+        assert.ok(mcaChunk.content.includes('Dr. ILAYARAJA N'));
+    });
 });

@@ -327,7 +327,7 @@ async function runIncrementalIngestion(options = {}) {
                     sourceUrl: extracted.sourceUrl,
                     sourceType: extracted.sourceType,
                     category,
-                    department: extracted.department || null,
+                    department: rc.department || extracted.department || null,
                     academicYear,
                     publishedAt: extracted.publishedAt || null,
                     language: 'en',
@@ -379,7 +379,7 @@ async function runIncrementalIngestion(options = {}) {
         return report;
     }
 
-    const existingEmbedMap = embed ? await buildExistingEmbeddingMap() : new Map();
+    const existingEmbedMap = await buildExistingEmbeddingMap();
     await knowledgeRepo.recordIngestionRun({ ...report, status: 'staging' });
 
     // Commit in checkpointed batches (~36 chunks per checkpoint) so progress is never lost
@@ -392,32 +392,32 @@ async function runIncrementalIngestion(options = {}) {
         const allChunks = units.flatMap((u) => u.chunks);
         const chunksNeedingEmbed = [];
 
-        if (embed) {
-            for (const c of allChunks) {
-                const cachedVec = existingEmbedMap.get(sha256(c.content.trim()));
-                if (cachedVec) {
-                    c.embedding = cachedVec;
-                    report.reusedEmbeddingsCount++;
-                } else {
-                    chunksNeedingEmbed.push(c);
-                }
+        for (const c of allChunks) {
+            const cachedVec = existingEmbedMap.get(sha256(c.content.trim()));
+            if (cachedVec) {
+                c.embedding = cachedVec;
+                if (!c.embeddingModel) c.embeddingModel = EMBEDDING_CONFIG.model;
+                if (!c.embeddingDimensions) c.embeddingDimensions = EMBEDDING_CONFIG.dimensions;
+                report.reusedEmbeddingsCount++;
+            } else if (embed) {
+                chunksNeedingEmbed.push(c);
             }
+        }
 
-            if (chunksNeedingEmbed.length > 0) {
-                const embedResults = await generateEmbeddingsBatch(
-                    chunksNeedingEmbed.map((c) => c.content),
-                    { batchSize: 18, maxTokensPerMin: 24000 }
-                );
-                for (let i = 0; i < chunksNeedingEmbed.length; i++) {
-                    if (embedResults[i].ok) {
-                        chunksNeedingEmbed[i].embedding = embedResults[i].vector;
-                        report.newlyEmbeddedCount++;
-                    } else {
-                        report.failedDocuments.push({
-                            source: chunksNeedingEmbed[i].sourceUrl,
-                            reason: `embedding-failed-chunk-${chunksNeedingEmbed[i].chunkIndex}: ${embedResults[i].error}`
-                        });
-                    }
+        if (embed && chunksNeedingEmbed.length > 0) {
+            const embedResults = await generateEmbeddingsBatch(
+                chunksNeedingEmbed.map((c) => c.content),
+                { batchSize: 18, maxTokensPerMin: 24000 }
+            );
+            for (let i = 0; i < chunksNeedingEmbed.length; i++) {
+                if (embedResults[i].ok) {
+                    chunksNeedingEmbed[i].embedding = embedResults[i].vector;
+                    report.newlyEmbeddedCount++;
+                } else {
+                    report.failedDocuments.push({
+                        source: chunksNeedingEmbed[i].sourceUrl,
+                        reason: `embedding-failed-chunk-${chunksNeedingEmbed[i].chunkIndex}: ${embedResults[i].error}`
+                    });
                 }
             }
         }

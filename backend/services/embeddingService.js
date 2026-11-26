@@ -8,6 +8,30 @@ const logger = require('../utils/logger');
 let genAIClient = null;
 let activeRequests = 0;
 const waitQueue = [];
+let dailyQuotaBlockedUntil = 0;
+
+function resetEmbeddingQuotaCooldown() {
+    dailyQuotaBlockedUntil = 0;
+}
+
+function isDailyQuotaError(err) {
+    const msg = String(err?.message || '');
+    if (/PerDay|EmbedContentRequestsPerDay/i.test(msg)) return true;
+    const hintedMs = parseRawRetryDelayMs(err);
+    return hintedMs !== null && hintedMs > 120000;
+}
+
+function parseRawRetryDelayMs(err) {
+    const msg = String(err?.message || '');
+    const secMatch = msg.match(/retry in\s+([\d.]+)s/i) || msg.match(/"retryDelay"\s*:\s*"(\d+)s"/i);
+    if (secMatch) {
+        const seconds = Number.parseFloat(secMatch[1]);
+        if (Number.isFinite(seconds) && seconds >= 0) {
+            return Math.ceil(seconds * 1000);
+        }
+    }
+    return null;
+}
 
 function getGenAI() {
     if (!genAIClient) {
@@ -81,6 +105,10 @@ async function generateEmbedding(text, options = {}) {
         throw new Error('Cannot generate embedding for empty text.');
     }
 
+    if (!options.bypassCooldown && Date.now() < dailyQuotaBlockedUntil) {
+        throw new ExternalServiceError('Gemini embedding daily quota cooldown active; using lexical retrieval fallback.');
+    }
+
     const timeoutMs = options.timeoutMs || config.gemini.embeddingTimeoutMs;
     const maxAttempts = options.maxAttempts || (options.respectRetryAfter ? 5 : 3);
     const modelName = options.model || EMBEDDING_CONFIG.model;
@@ -116,6 +144,11 @@ async function generateEmbedding(text, options = {}) {
             return values;
         } catch (err) {
             lastError = err;
+            if (isDailyQuotaError(err)) {
+                dailyQuotaBlockedUntil = Date.now() + 60 * 1000;
+                logger.warn('Gemini embedding daily quota exhausted; failing over without retry', { error: err });
+                break;
+            }
             if (attempt < maxAttempts && isRetryableError(err)) {
                 const hintedDelay = options.respectRetryAfter ? parseRetryDelayMs(err) : null;
                 const baseDelay = hintedDelay || (400 * Math.pow(2, attempt - 1) + Math.floor(Math.random() * 250));
@@ -198,6 +231,11 @@ async function generateEmbeddingsBatch(texts, options = {}) {
                 throw new Error('Unexpected batchEmbedContents response length');
             } catch (err) {
                 lastErr = err;
+                if (isDailyQuotaError(err)) {
+                    dailyQuotaBlockedUntil = Date.now() + 60 * 1000;
+                    logger.warn('Batch embedding stopped: Gemini daily quota exhausted');
+                    break;
+                }
                 if (attempt < maxAttempts && isRetryableError(err)) {
                     const hinted = parseRetryDelayMs(err) || 15000 * attempt;
                     logger.warn('Batch embedding rate-limited/retried; waiting for quota refill', {
@@ -227,6 +265,11 @@ async function generateEmbeddingsBatch(texts, options = {}) {
                     results[start + i] = { ok: false, error: 'Invalid embedding vector dimensions' };
                 }
             }
+        } else if (Date.now() < dailyQuotaBlockedUntil || isDailyQuotaError(lastErr)) {
+            for (let i = start; i < texts.length; i++) {
+                results[i] = { ok: false, error: lastErr?.message || 'Daily embedding quota exhausted' };
+            }
+            break;
         } else {
             // Fallback per-item with retry-after waiting so one oversized/bad item doesn't fail whole batch
             for (let i = 0; i < slice.length; i++) {
@@ -253,5 +296,7 @@ module.exports = {
     generateEmbeddingsBatch,
     parseRetryDelayMs,
     estimateTokens,
+    isDailyQuotaError,
+    resetEmbeddingQuotaCooldown,
     EMBEDDING_CONFIG
 };

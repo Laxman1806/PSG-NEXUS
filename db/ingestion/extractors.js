@@ -23,6 +23,12 @@ function normalizeWhitespace(text) {
         .trim();
 }
 
+function stripNewsTickerNoise(text) {
+    return String(text || '')
+        .replace(/^News:\s*Registration for Redo Courses.*?ISO certified 9001:2015\s*/is, '')
+        .trim();
+}
+
 function isAssetWrapperHtml(relPath) {
     return ASSET_PATH_REGEX.test(String(relPath || '').replace(/\\/g, '/'));
 }
@@ -68,72 +74,182 @@ function extractHtmlDocument(htmlContent, { relativePath = '', urlPrefix = '', s
 
     const sections = [];
     let currentHeading = title;
+    let currentDepartment = null;
     let buffer = [];
+    const processedNodes = new Set();
+
+    function markProcessed(el) {
+        processedNodes.add(el);
+        $(el).find('*').each((_, child) => processedNodes.add(child));
+    }
 
     function flushSection() {
         const text = normalizeWhitespace(buffer.join('\n'));
         if (text.length > 0) {
-            sections.push({ heading: currentHeading, text });
+            sections.push({
+                heading: currentHeading,
+                department: currentDepartment,
+                text
+            });
         }
         buffer = [];
     }
 
-    // Walk block-level elements in reading order to preserve heading hierarchy and tables
-    mainRoot.find('h1, h2, h3, h4, p, li, table').each((_, el) => {
-        const tag = el.tagName?.toLowerCase();
-        // Skip nested list items/paragraphs inside tables since tables are formatted below
-        if (tag !== 'table' && $(el).parents('table').length > 0) return;
+    // Walk blocks in reading order to preserve cards, profile boxes, headings, and multi-department tables
+    mainRoot
+        .find('h1, h2, h3, h4, h5, h6, .well, .tg-shortcodetextbox, .tab-pane, p, li, dt, dd, blockquote, table')
+        .each((_, el) => {
+            if (processedNodes.has(el)) return;
+            const tag = el.tagName?.toLowerCase();
+            const $el = $(el);
 
-        if (tag === 'h1' || tag === 'h2' || tag === 'h3' || tag === 'h4') {
-            const headingText = normalizeWhitespace($(el).text());
-            if (headingText && headingText.length < 200) {
-                flushSection();
-                currentHeading = headingText;
+            // Skip elements nested inside tables (table extractor formats rows atomically)
+            if (tag !== 'table' && $el.parents('table').length > 0) return;
+
+            // 1. Directory Cards (e.g., Heads.php: .well with .briefProfile/.department_div or h4/h5 + p)
+            if ($el.hasClass('well')) {
+                const nameEl = $el.find('.briefProfile, h4, h5, h3').first();
+                const deptEl = $el.find('.department_div').first();
+                const fallbackDeptEl = deptEl.length ? deptEl : $el.find('p').filter((___, p) => normalizeWhitespace($(p).text()).length > 0).first();
+                const name = normalizeWhitespace(nameEl.text());
+                const deptName = normalizeWhitespace(fallbackDeptEl.text());
+                const deptCode = normalizeWhitespace(deptEl.attr('id') || '');
+                if (name && deptName && name !== deptName) {
+                    const codePart = deptCode ? ` (${deptCode})` : '';
+                    const roleLabel = /heads\.php/i.test(relativePath || sourceUrl || '') || /head of/i.test(currentHeading || '')
+                        ? 'Head of Department (HoD)'
+                        : (currentHeading || 'Role');
+                    buffer.push(`- Department: ${deptName}${codePart} — ${roleLabel}: ${name}`);
+                    markProcessed(el);
+                    return;
+                }
+                return;
             }
-            return;
-        }
 
-        if (tag === 'table') {
-            const rows = [];
-            $(el).find('tr').each((__, tr) => {
-                const cells = $(tr)
-                    .find('th, td')
-                    .map((___, cell) => normalizeWhitespace($(cell).text()))
-                    .get()
-                    .filter(Boolean);
-                if (cells.length > 0) rows.push(cells.join(' | '));
-            });
-            if (rows.length > 0) {
-                buffer.push(rows.join('\n'));
+            // 2. Leadership / Profile boxes (e.g., Dean-*, Secretary, VicePrincipal, Principal, Trustees)
+            if ($el.hasClass('tg-shortcodetextbox')) {
+                const lines = [];
+                $el.find('h1, h2, h3, h4, h5, h6, p, span, a').each((__, child) => {
+                    // Only take leaf text nodes or direct headings/paragraphs to avoid nesting duplicates
+                    const $child = $(child);
+                    if ($child.children('h1,h2,h3,h4,h5,h6,p').length > 0) return;
+                    if (child.tagName?.toLowerCase() === 'a' && $child.find('span').length > 0) return;
+                    const t = normalizeWhitespace($child.text());
+                    if (t && !lines.includes(t)) lines.push(t);
+                });
+                const combined = lines.join(' — ') || normalizeWhitespace($el.text());
+                if (combined) buffer.push(combined);
+                markProcessed(el);
+                return;
             }
-            return;
-        }
 
-        const txt = normalizeWhitespace($(el).text());
-        if (txt) {
-            buffer.push(tag === 'li' ? `- ${txt}` : txt);
-        }
-    });
+            // 3. Historical / Tabbed bio panes (e.g., Principal / Managing Trustees past tenures)
+            if ($el.hasClass('tab-pane')) {
+                const text = normalizeWhitespace($el.text());
+                if (text) buffer.push(text);
+                markProcessed(el);
+                return;
+            }
+
+            // Skip .well / headings containers that just wrap sub-blocks unless caught above
+            if ($el.hasClass('well')) return;
+
+            if (tag === 'h1' || tag === 'h2' || tag === 'h3' || tag === 'h4' || tag === 'h5' || tag === 'h6') {
+                const headingText = normalizeWhitespace($el.text());
+                if (headingText && headingText.length < 200) {
+                    flushSection();
+                    currentHeading = headingText;
+                }
+                return;
+            }
+
+            if (tag === 'table') {
+                let colHeaders = [];
+                let photoColIdx = -1;
+                let tableHasDeptHeadings = false;
+
+                $el.find('tr').each((__, tr) => {
+                    const $tr = $(tr);
+                    if ($tr.hasClass('department-heading')) {
+                        tableHasDeptHeadings = true;
+                        flushSection();
+                        const deptHeading = normalizeWhitespace($tr.text());
+                        if (deptHeading) {
+                            currentHeading = deptHeading;
+                            currentDepartment = deptHeading.replace(/^Department\s+of\s+/i, '').trim();
+                        }
+                        return;
+                    }
+
+                    if ($tr.hasClass('category-heading')) {
+                        const catText = normalizeWhitespace($tr.text());
+                        if (catText) buffer.push(`Category: ${catText}`);
+                        return;
+                    }
+
+                    const ths = $tr.find('th');
+                    if ($tr.hasClass('column-heading') || (ths.length > 1 && $tr.find('td').length === 0)) {
+                        colHeaders = ths.map((___, th) => normalizeWhitespace($(th).text())).get();
+                        photoColIdx = colHeaders.findIndex((h) => /^photo$/i.test(h));
+                        return;
+                    }
+
+                    const rawCells = $tr.find('th, td').map((___, cell) => normalizeWhitespace($(cell).text())).get();
+                    const filteredCells = rawCells.filter((_, idx) => idx !== photoColIdx).filter(Boolean);
+                    if (filteredCells.length === 0) return;
+
+                    // Format faculty rows cleanly when structured S.No / AU-FIN / AICTE / Name / Designation
+                    const nameIdx = colHeaders.findIndex((h) => /faculty name/i.test(h));
+                    const desigIdx = colHeaders.findIndex((h) => /designation/i.test(h));
+                    if (nameIdx >= 0 && desigIdx >= 0 && rawCells[nameIdx]) {
+                        const sno = rawCells[0] || '';
+                        const name = rawCells[nameIdx];
+                        const desig = rawCells[desigIdx] || '';
+                        const extra = [];
+                        if (rawCells[1] && rawCells[1] !== 'NA') extra.push(`AU-FIN: ${rawCells[1]}`);
+                        if (rawCells[2] && rawCells[2] !== 'NA') extra.push(`AICTE: ${rawCells[2]}`);
+                        const suffix = extra.length > 0 ? ` (${extra.join(', ')})` : '';
+                        buffer.push(`${sno ? `${sno}. ` : ''}${name} — ${desig}${suffix}`);
+                    } else {
+                        buffer.push(filteredCells.join(' | '));
+                    }
+                });
+
+                if (tableHasDeptHeadings) {
+                    flushSection();
+                    currentDepartment = null;
+                }
+                markProcessed(el);
+                return;
+            }
+
+            const txt = normalizeWhitespace($el.text());
+            if (txt) {
+                buffer.push(tag === 'li' ? `- ${txt}` : txt);
+            }
+        });
     flushSection();
 
-    // Fallback to raw mainRoot text if page uses non-standard divs instead of p/li/h*
+    // Fallback to raw mainRoot text if page uses non-standard divs instead of structured tags
     if (sections.length === 0) {
-        const fallbackText = normalizeWhitespace(mainRoot.text());
+        const fallbackText = stripNewsTickerNoise(normalizeWhitespace(mainRoot.text()));
         if (fallbackText) {
-            sections.push({ heading: title, text: fallbackText });
+            sections.push({ heading: title, department: null, text: fallbackText });
         }
     }
 
-    const fullText = normalizeWhitespace(
-        sections.map((s) => (s.heading && s.heading !== title ? `${s.heading}\n${s.text}` : s.text)).join('\n\n')
+    const fullText = stripNewsTickerNoise(
+        normalizeWhitespace(
+            sections.map((s) => (s.heading && s.heading !== title ? `${s.heading}\n${s.text}` : s.text)).join('\n\n')
+        )
     );
 
     if (
         rawPageTitle.includes('404') ||
         fullText.includes('404 Not Found') ||
-        fullText.length < 150
+        fullText.length < 40
     ) {
-        return { skipped: true, reason: fullText.length < 150 ? 'insufficient-content' : '404-page' };
+        return { skipped: true, reason: fullText.length < 40 ? 'insufficient-content' : '404-page' };
     }
 
     const resolvedUrl = sourceUrl || normalizeHtmlRoute(relativePath, urlPrefix);
@@ -314,6 +430,7 @@ module.exports = {
     isAssetWrapperHtml,
     normalizeHtmlRoute,
     normalizeWhitespace,
+    stripNewsTickerNoise,
     extractHtmlDocument,
     extractPdfDocument,
     extractDocxDocument,

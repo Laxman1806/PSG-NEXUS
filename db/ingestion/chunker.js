@@ -2,13 +2,13 @@
 const { KNOWLEDGE_CATEGORIES } = require('../schemas/knowledgeSchemas');
 
 const CHUNK_PROFILES = Object.freeze({
-    html: { maxWords: 320, overlap: 50, minChars: 80 },
-    pdf: { maxWords: 300, overlap: 45, minChars: 60 },
-    docx: { maxWords: 320, overlap: 50, minChars: 60 },
-    txt: { maxWords: 320, overlap: 50, minChars: 50 },
-    notice: { maxWords: 500, overlap: 40, minChars: 40 },
-    regulation: { maxWords: 280, overlap: 60, minChars: 60 },
-    url: { maxWords: 320, overlap: 50, minChars: 80 }
+    html: { maxWords: 320, overlap: 50, minChars: 35 },
+    pdf: { maxWords: 300, overlap: 45, minChars: 40 },
+    docx: { maxWords: 320, overlap: 50, minChars: 40 },
+    txt: { maxWords: 320, overlap: 50, minChars: 35 },
+    notice: { maxWords: 500, overlap: 40, minChars: 35 },
+    regulation: { maxWords: 280, overlap: 60, minChars: 40 },
+    url: { maxWords: 320, overlap: 50, minChars: 35 }
 });
 
 const CATEGORY_RULES = [
@@ -27,7 +27,7 @@ const CATEGORY_RULES = [
     { pattern: /(alumni)/i, category: 'alumni' },
     { pattern: /(mousgloblink|international)/i, category: 'international_relations' },
     { pattern: /(cont\.php|contact|help-desk|enquiry)/i, category: 'contact_directory' },
-    { pattern: /(principal|dean|management|founders|trustees|secretary|viceprincipal|gcct|statutory|undertaking|disclosure|nirf|nba|approval)/i, category: 'administration' },
+    { pattern: /(principal|viceprincipal|dean|management|founders|trustees|secretary|gcct|statutory|undertaking|disclosure|nirf|nba|approval)/i, category: 'administration' },
     { pattern: /(parentzone)/i, category: 'student_services' },
     { pattern: /(notice|announcement|circular|brochure)/i, category: 'college_notices' }
 ];
@@ -64,13 +64,68 @@ function inferIsHistorical(academicYear, title = '', sourceUrl = '') {
 }
 
 function splitWordWindow(text, { maxWords, overlap, minChars }) {
-    const words = String(text || '').split(/\s+/).filter(Boolean);
-    if (words.length === 0) return [];
-    if (words.length <= maxWords) {
-        const single = words.join(' ');
-        return single.length >= minChars ? [single] : [];
+    const raw = String(text || '').trim();
+    if (!raw) return [];
+
+    const countWords = (s) => s.split(/\s+/).filter(Boolean).length;
+    if (countWords(raw) <= maxWords) {
+        return raw.length >= minChars ? [raw] : [];
     }
 
+    // Preserve line structure when splitting lists, directory cards, and table rows
+    const lines = raw.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+    if (lines.length > 1) {
+        const chunks = [];
+        let buf = [];
+        let bufWords = 0;
+
+        for (const line of lines) {
+            const lw = countWords(line);
+            if (lw > maxWords) {
+                if (buf.length > 0) {
+                    const joined = buf.join('\n');
+                    if (joined.length >= minChars) chunks.push(joined);
+                    buf = [];
+                    bufWords = 0;
+                }
+                const words = line.split(/\s+/).filter(Boolean);
+                const step = Math.max(1, maxWords - overlap);
+                for (let i = 0; i < words.length; i += step) {
+                    const slice = words.slice(i, i + maxWords).join(' ');
+                    if (slice.length >= minChars) chunks.push(slice);
+                    if (i + maxWords >= words.length) break;
+                }
+                continue;
+            }
+
+            if (bufWords + lw > maxWords && buf.length > 0) {
+                const joined = buf.join('\n');
+                if (joined.length >= minChars) chunks.push(joined);
+                // Keep trailing overlap lines up to overlap word budget
+                const carry = [];
+                let carryWords = 0;
+                for (let j = buf.length - 1; j >= 0 && carryWords < overlap; j--) {
+                    const cw = countWords(buf[j]);
+                    if (carryWords + cw > maxWords * 0.45 && carry.length > 0) break;
+                    carry.unshift(buf[j]);
+                    carryWords += cw;
+                }
+                buf = carry;
+                bufWords = carryWords;
+            }
+
+            buf.push(line);
+            bufWords += lw;
+        }
+
+        if (buf.length > 0) {
+            const joined = buf.join('\n');
+            if (joined.length >= minChars) chunks.push(joined);
+        }
+        if (chunks.length > 0) return chunks;
+    }
+
+    const words = raw.split(/\s+/).filter(Boolean);
     const chunks = [];
     const step = Math.max(1, maxWords - overlap);
     for (let i = 0; i < words.length; i += step) {
@@ -142,7 +197,8 @@ function chunkExtractedDocument(extractedDoc, customConfig = {}) {
                 chunks.push({
                     content: c,
                     pageNumber: null,
-                    sectionHeading: section.heading || extractedDoc.title
+                    sectionHeading: section.heading || extractedDoc.title,
+                    department: section.department || null
                 });
             }
         }

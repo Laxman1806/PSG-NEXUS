@@ -26,8 +26,24 @@ const SYNONYM_EXPANSIONS = {
     naac: ['nba', 'accreditation', 'quality'],
     tancet: ['mca', 'mba', 'admission', 'tanca'],
     ceeta: ['admission', 'tanca', 'gate', 'me', 'mtech'],
-    hod: ['head', 'departments', 'heads'],
-    hods: ['head', 'departments', 'heads'],
+    hod: ['head', 'department', 'departments', 'heads'],
+    hods: ['head', 'department', 'departments', 'heads'],
+    mca: ['computer', 'applications', 'pg'],
+    mba: ['management', 'sciences', 'psgim'],
+    cse: ['computer', 'science', 'engineering'],
+    ece: ['electronics', 'communication', 'engineering'],
+    eee: ['electrical', 'electronics', 'engineering'],
+    ice: ['instrumentation', 'control', 'engineering'],
+    it: ['information', 'technology'],
+    mech: ['mechanical', 'engineering'],
+    mechanical: ['mech', 'mec'],
+    civil: ['civil', 'engineering'],
+    biotech: ['biotechnology'],
+    biomedical: ['biomedical', 'bme'],
+    dean: ['dean', 'academic', 'administration', 'autonomous'],
+    secretary: ['secretary', 'administration'],
+    trustee: ['managing', 'trustee', 'trustees', 'founders'],
+    vice: ['vice principal', 'women welfare'],
     staff: ['faculty', 'professor', 'lecturer', 'department'],
     faculty: ['staff', 'professor', 'department'],
     hostel: ['accommodation', 'mess', 'warden', 'curfew', 'residential'],
@@ -151,6 +167,14 @@ function searchLexicalOverPool(query, pool, filters = {}, limit = 15) {
     const filteredPool = pool.filter((raw) => matchesMetadataFilters(raw, filters));
     if (filteredPool.length === 0) return [];
 
+    function hasTerm(hay, kw) {
+        if (!hay || !kw) return false;
+        if (hay.includes(kw)) return true;
+        if (kw.endsWith('s') && kw.length >= 4 && hay.includes(kw.slice(0, -1))) return true;
+        if (!kw.endsWith('s') && kw.length >= 4 && hay.includes(`${kw}s`)) return true;
+        return false;
+    }
+
     // Compute inverse document frequency (IDF) across pool so generic terms don't drown out specific entities
     const N = filteredPool.length;
     const idf = {};
@@ -158,7 +182,7 @@ function searchLexicalOverPool(query, pool, filters = {}, limit = 15) {
         let df = 0;
         for (const raw of filteredPool) {
             const hay = `${raw.title || ''} ${raw.sectionHeading || ''} ${raw.content || ''}`.toLowerCase();
-            if (hay.includes(kw)) df++;
+            if (hasTerm(hay, kw)) df++;
         }
         idf[kw] = Math.log(1 + (N - df + 0.5) / (df + 0.5));
     }
@@ -173,16 +197,18 @@ function searchLexicalOverPool(query, pool, filters = {}, limit = 15) {
         let score = 0;
         for (const kw of baseKeywords) {
             const weight = Math.max(0.2, idf[kw] || 1);
-            if (titleLower.includes(kw)) score += 4.0 * weight;
-            if (headingLower.includes(kw)) score += 3.0 * weight;
-            if (urlLower.includes(kw)) score += 2.5 * weight;
-            if (contentLower.includes(kw)) score += 1.5 * weight;
+            if (hasTerm(titleLower, kw)) score += 4.0 * weight;
+            if (hasTerm(headingLower, kw)) score += 3.0 * weight;
+            if (hasTerm(urlLower, kw)) score += 2.5 * weight;
+            if (hasTerm(contentLower, kw)) score += 1.5 * weight;
         }
         for (const kw of expanded) {
             if (!baseKeywords.includes(kw)) {
                 const weight = Math.max(0.2, idf[kw] || 1);
-                if (titleLower.includes(kw)) score += 1.8 * weight;
-                if (contentLower.includes(kw)) score += 0.8 * weight;
+                if (hasTerm(titleLower, kw)) score += 1.8 * weight;
+                if (hasTerm(headingLower, kw)) score += 1.5 * weight;
+                if (hasTerm(urlLower, kw)) score += 1.6 * weight;
+                if (hasTerm(contentLower, kw)) score += 0.8 * weight;
             }
         }
 
@@ -198,7 +224,18 @@ function searchLexicalOverPool(query, pool, filters = {}, limit = 15) {
     }
 
     scored.sort((a, b) => b.lexicalScore - a.lexicalScore);
-    return scored.slice(0, limit);
+
+    // Deduplicate overlapping chunks across pools before limiting so diverse sources survive
+    const deduped = [];
+    const seen = new Set();
+    for (const item of scored) {
+        const sig = `${item.sourceUrl}::${String(item.content || '').slice(0, 120).toLowerCase().replace(/\s+/g, ' ')}`;
+        if (seen.has(sig)) continue;
+        seen.add(sig);
+        deduped.push(item);
+        if (deduped.length >= limit) break;
+    }
+    return deduped;
 }
 
 function searchByKeywords(question, chunks = getLocalChunks(), limit = 5, filters = {}) {

@@ -27,6 +27,14 @@ function isHistoricalQuery(query) {
     return /\b(201\d|202[0-3]|previous|old|past|archived?|history|earlier regulation)\b/i.test(String(query || ''));
 }
 
+function tokenMatchesHaystack(token, haystackLower) {
+    if (!token || !haystackLower) return false;
+    if (haystackLower.includes(token)) return true;
+    if (token.endsWith('s') && token.length >= 4 && haystackLower.includes(token.slice(0, -1))) return true;
+    if (!token.endsWith('s') && token.length >= 4 && haystackLower.includes(`${token}s`)) return true;
+    return false;
+}
+
 function computeLexicalCoverage(queryKeywords, candidate) {
     if (queryKeywords.length === 0) return 0;
     const titleLower = String(candidate.title || '').toLowerCase();
@@ -36,9 +44,13 @@ function computeLexicalCoverage(queryKeywords, candidate) {
 
     let weightedMatches = 0;
     for (const kw of queryKeywords) {
-        if (titleLower.includes(kw) || headingLower.includes(kw) || urlLower.includes(kw)) {
+        if (
+            tokenMatchesHaystack(kw, titleLower) ||
+            tokenMatchesHaystack(kw, headingLower) ||
+            tokenMatchesHaystack(kw, urlLower)
+        ) {
             weightedMatches += 1.3;
-        } else if (contentLower.includes(kw)) {
+        } else if (tokenMatchesHaystack(kw, contentLower)) {
             weightedMatches += 1.0;
         }
     }
@@ -64,18 +76,21 @@ function rerankCandidates(query, candidates, options = {}) {
         const historicalPenalty = cand.isHistorical && !allowHistorical ? -0.18 : 0;
 
         // Penalize localhost:3000 legacy broken URLs when clean paths exist
-        const legacyLocalUrlPenalty = String(cand.sourceUrl || cand.url || '').includes('localhost:3000') ? -0.05 : 0;
+        const legacyLocalUrlPenalty = String(cand.sourceUrl || cand.url || '').includes('localhost:3000') ? -0.14 : 0;
 
         // Avoid niche Foreign National/OCI page crowding out general domestic admissions unless query asks for FN/OCI/NRI
         const isNicheOciPage = String(cand.sourceUrl || cand.url || '').toLowerCase().includes('fn_oci');
         const asksOci = /\b(fn|oci|nri|foreign)\b/i.test(String(query || ''));
-        const nichePenalty = isNicheOciPage && !asksOci ? -0.08 : 0;
+        const nichePenalty = isNicheOciPage && !asksOci ? -0.14 : 0;
 
-        // Exact title/URL match boost weighted by how many specific query keywords match
+        // Exact title/heading/URL match boost weighted by how many specific query keywords match
         const titleLower = String(cand.title || '').toLowerCase();
+        const headingLower = String(cand.sectionHeading || '').toLowerCase();
         const urlLower = String(cand.sourceUrl || cand.url || '').toLowerCase();
-        const titleMatches = queryKeywords.filter((kw) => kw.length >= 3 && (titleLower.includes(kw) || urlLower.includes(kw))).length;
-        const entityBoost = Math.min(0.18, titleMatches * 0.08);
+        const titleMatches = queryKeywords.filter(
+            (kw) => kw.length >= 3 && (tokenMatchesHaystack(kw, titleLower) || tokenMatchesHaystack(kw, headingLower) || tokenMatchesHaystack(kw, urlLower))
+        ).length;
+        const entityBoost = Math.min(0.22, titleMatches * 0.08);
 
         const rerankScore = Number(
             (
@@ -99,7 +114,21 @@ function rerankCandidates(query, candidates, options = {}) {
     });
 
     reranked.sort((a, b) => b.rerankScore - a.rerankScore);
-    return reranked.slice(0, maxResults);
+
+    // Apply soft per-URL diversity so one multi-part page does not crowd out other distinct sources
+    const seenPerUrl = new Map();
+    const diversified = reranked.map((item) => {
+        const key = String(item.sourceUrl || item.url || '/');
+        const count = seenPerUrl.get(key) || 0;
+        seenPerUrl.set(key, count + 1);
+        const dupPenalty = count === 0 ? 0 : count === 1 ? -0.07 : -0.18;
+        if (dupPenalty === 0) return item;
+        const adjusted = Number((item.rerankScore + dupPenalty).toFixed(4));
+        return { ...item, rerankScore: adjusted, score: adjusted };
+    });
+
+    diversified.sort((a, b) => b.rerankScore - a.rerankScore);
+    return diversified.slice(0, maxResults);
 }
 
 module.exports = {
