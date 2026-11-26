@@ -42,29 +42,41 @@ function securityHeaders(req, res, next) {
 /**
  * Builds CORS options restricting cross-origin access to explicitly allowed local or configured origins.
  */
+
+/**
+ * Builds environment-aware CORS options.
+ * Production allows only explicitly configured origins.
+ */
 function createCorsOptions() {
-    const port = process.env.PORT || 5000;
-    const defaultOrigins = [
-        `http://localhost:${port}`,
-        `http://127.0.0.1:${port}`,
-        'http://localhost:5000',
-        'http://127.0.0.1:5000',
-        'http://localhost:3000',
-        'http://127.0.0.1:3000'
-    ];
+    const isProduction = process.env.NODE_ENV === 'production';
+
     const envOrigins = (process.env.ALLOWED_ORIGINS || '')
         .split(',')
-        .map((o) => o.trim())
+        .map((origin) => origin.trim())
         .filter(Boolean);
-    const allowedOrigins = new Set([...defaultOrigins, ...envOrigins]);
+
+    const defaultOrigins = isProduction
+        ? []
+        : [
+            `http://localhost:${process.env.PORT || 5000}`,
+            'http://localhost:5000',
+            'http://127.0.0.1:5000',
+            'http://localhost:3000',
+            'http://127.0.0.1:3000'
+        ];
+
+    const allowedOrigins = new Set([
+        ...defaultOrigins,
+        ...envOrigins
+    ]);
 
     return {
         origin(origin, callback) {
-            // Allow same-origin / non-browser clients (no Origin header) and allowlisted origins
             if (!origin || allowedOrigins.has(origin)) {
                 return callback(null, true);
             }
-            return callback(null, false);
+
+            return callback(new Error('Origin not allowed by CORS.'));
         },
         methods: ['GET', 'POST', 'OPTIONS'],
         allowedHeaders: ['Content-Type']

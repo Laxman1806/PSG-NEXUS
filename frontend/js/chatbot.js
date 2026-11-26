@@ -127,15 +127,17 @@ How can I help you today? You can ask a question or tell me which page you would
     }
 
     // Determine API endpoint dynamically
-    function getApiEndpoints() {
-        const endpoints = [];
-        if (window.location.protocol.startsWith('http')) {
-            endpoints.push(`${window.location.origin}/api/chat`);
-        }
-        endpoints.push('http://localhost:5000/api/chat');
-        endpoints.push('http://localhost:3000/api/chat');
-        return [...new Set(endpoints)];
+    
+// Determine API endpoint dynamically
+function getApiEndpoints() {
+    if (!window.location.protocol.startsWith('http')) {
+        console.error('PSG NEXUS requires an HTTP/HTTPS server.');
+        return [];
     }
+
+    return [`${window.location.origin}/api/chat`];
+}
+
 
     // Check if the current page already matches the target URL
     function isCurrentPage(targetUrl) {
